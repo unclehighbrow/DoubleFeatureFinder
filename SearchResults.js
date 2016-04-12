@@ -13,6 +13,7 @@ var {
   ScrollView,
   TextInput
 } = React;
+var Poster = require('./Poster');
 
 class SearchResults extends Component {
   constructor(props) {
@@ -42,18 +43,20 @@ class SearchResults extends Component {
   }
 
   renderRow(rowData, sectionId, rowId) {
-    var text;
+    var text, image;
     if (this.movieMode()) {
       text = this.props.listings.movies[rowData].name;
+      image = (<Poster movieId={rowData}></Poster>);
     } else {
       text = this.props.listings.theatres[rowData].name;
+      image = (<View/>);
     }
     return (
       <TouchableHighlight onPress={() => this.rowPressed(rowData)}
       underlayColor='#dddddd'>
         <View>
           <View style={styles.rowContainer}>
-            <Text style={styles.thumb}>Image</Text>
+            {image}
             <View style={styles.textContainer}>
               <Text style={styles.title} numberOfLines={1}>{text}</Text>
             </View>
@@ -142,11 +145,6 @@ class SearchResults extends Component {
 }
 
 var styles = StyleSheet.create({
-  thumb: {
-    width: 80,
-    height: 80,
-    marginRight: 10
-  },
   textContainer: {
     flex: 2
   },
