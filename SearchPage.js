@@ -15,8 +15,8 @@ var {
 
 class SearchPage extends Component {
 
-  _handleResponse(response) {
-    this.setState({isLoading: false, message: ''});
+  handleResponse(response) {
+    this.setState({isLoading: false});
     this.props.navigator.push({
       title: 'Results',
       component: SearchResults,
@@ -28,8 +28,8 @@ class SearchPage extends Component {
     this.setState({ isLoading: true });
     fetch('http://dubfeatfind.appspot.com/?j=1&zipcode=' + this.state.zipcode)
       .then(response => response.json())
-      .then(json => this._handleResponse(json))
-      .catch(error => this.setState({isLoading: false, message: 'there was an error'}));
+      .then(json => this.handleResponse(json))
+      .catch(error => this.setState({isLoading: false, message: 'There was an error.'}));
   }
 
   onSearchTextChanged(event) {
@@ -39,7 +39,7 @@ class SearchPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      zipcode: '12060',
+      zipcode: '11201',
       isLoading: false,
       message: 'Never sneak into movies!'
     };
@@ -53,6 +53,7 @@ class SearchPage extends Component {
 				  style={styles.searchInput}
           value={this.state.zipcode}
           onChange={this.onSearchTextChanged.bind(this)}
+          keyboardType='numeric'
 				  placeholder='ZIP'/>
 			  <TouchableHighlight style={styles.button}
             onPress={this.onSearchPressed.bind(this)}

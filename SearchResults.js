@@ -10,7 +10,8 @@ var {
   Text,
   Component,
   SegmentedControlIOS,
-  ScrollView
+  ScrollView,
+  TextInput
 } = React;
 
 class SearchResults extends Component {
@@ -25,7 +26,10 @@ class SearchResults extends Component {
     this.state = {
       selectedIndex: 0,
       movieDataSource: movieDataSource,
-      theatreDataSource: theatreDataSource
+      theatreDataSource: theatreDataSource,
+      movieSearchText: '',
+      theatreSearchText: '',
+      searchText: ''
     };
   }
 
@@ -33,9 +37,13 @@ class SearchResults extends Component {
     // next
   }
 
+  movieMode() {
+    return this.state.selectedIndex == 0;
+  }
+
   renderRow(rowData, sectionId, rowId) {
     var text;
-    if (this.state.selectedIndex == 0) {
+    if (this.movieMode()) {
       text = this.props.listings.movies[rowData].name;
     } else {
       text = this.props.listings.theatres[rowData].name;
@@ -58,31 +66,76 @@ class SearchResults extends Component {
 
   onSectionHeaderChange(event) {
     var selectedIndex = event.nativeEvent.selectedSegmentIndex;
+    var searchText = this.movieMode() ? this.state.theatreSearchText : this.state.movieSearchText;
     this.setState({
-      selectedIndex: selectedIndex
+      selectedIndex: selectedIndex,
+      searchText: searchText
     });
   }
 
   renderSectionHeader(rowData, sectionID, rowID, highlightRow) {
     return (
       <View style={styles.sectionHeaderContainer}>
-      <SegmentedControlIOS
-        style={styles.sectionHeader}
-        values={['Movies', 'Theaters']}
-        selectedIndex={this.state.selectedIndex}
-        onChange={this.onSectionHeaderChange.bind(this)}
-      />
+        <SegmentedControlIOS
+          style={styles.sectionHeader}
+          values={['Movies', 'Theaters']}
+          selectedIndex={this.state.selectedIndex}
+          onChange={this.onSectionHeaderChange.bind(this)}
+        />
       </View>
     );
   }
 
+  onSearchTextChanged(event) {
+    var dataSource = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1.guid !== r2.guid
+    });
+    if (this.movieMode()) {
+      this.setState({
+        movieDataSource: dataSource.cloneWithRows(
+          Object.keys(this.props.listings.movies).filter(
+            id => this.props.listings.movies[id].name.toLowerCase().includes(event.nativeEvent.text.toLowerCase())
+          )
+        ),
+        searchText: event.nativeEvent.text,
+        movieSearchText: event.nativeEvent.text
+      });
+    } else {
+      this.setState({
+        theatreDataSource: dataSource.cloneWithRows(
+          Object.keys(this.props.listings.theatres).filter(
+            id => this.props.listings.theatres[id].name.toLowerCase().includes(event.nativeEvent.text.toLowerCase())
+          )
+        ),
+        searchText: event.nativeEvent.text,
+        theatreSearchText: event.nativeEvent.text
+      });
+    }
+  }
+
+  renderHeader() {
+    var placeholder = this.movieMode() ? 'Search Movies' : 'Search Theaters';
+    return (
+      <TextInput
+  		  style={styles.searchInput}
+        onChange={this.onSearchTextChanged.bind(this)}
+  		  placeholder={placeholder}
+        autoCorrect={false}
+        clearButtonMode='while-editing'
+        autoCapitalize='none'
+        value={this.state.searchText}
+      />
+    );
+  }
+
   render() {
-    var dataSource = this.state.selectedIndex == 0 ? this.state.movieDataSource : this.state.theatreDataSource;
+    var dataSource = this.movieMode() ? this.state.movieDataSource : this.state.theatreDataSource;
     return (
         <ListView
           dataSource={dataSource}
           renderRow={this.renderRow.bind(this)}
           renderSectionHeader={this.renderSectionHeader.bind(this)}
+          renderHeader={this.renderHeader.bind(this)}
         />
     );
   }
@@ -121,6 +174,17 @@ var styles = StyleSheet.create({
   },
   sectionHeader: {
     backgroundColor: 'white'
+  },
+  searchInput: {
+    height: 35,
+    padding: 5,
+    marginRight: 12,
+    marginLeft: 12,
+    marginTop: 10,
+    fontSize: 12,
+    borderWidth: 1,
+    borderRadius: 12,
+    color: 'gray'
   }
 });
 
