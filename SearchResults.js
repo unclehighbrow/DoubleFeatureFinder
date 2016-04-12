@@ -23,14 +23,13 @@ class SearchResults extends Component {
       rowHasChanged: (r1, r2) => r1.guid !== r2.guid
     }).cloneWithRows(Object.keys(this.props.listings.theatres));
     this.state = {
-      dataSource: movieDataSource,
       selectedIndex: 0,
       movieDataSource: movieDataSource,
       theatreDataSource: theatreDataSource
     };
   }
 
-  rowPressed(theatreId) {
+  rowPressed(id) {
     // next
   }
 
@@ -59,10 +58,8 @@ class SearchResults extends Component {
 
   onSectionHeaderChange(event) {
     var selectedIndex = event.nativeEvent.selectedSegmentIndex;
-    var ds = selectedIndex == 0 ? this.state.movieDataSource : this.state.theatreDataSource;
     this.setState({
-      selectedIndex: selectedIndex,
-      dataSource: ds
+      selectedIndex: selectedIndex
     });
   }
 
@@ -80,9 +77,10 @@ class SearchResults extends Component {
   }
 
   render() {
+    var dataSource = this.state.selectedIndex == 0 ? this.state.movieDataSource : this.state.theatreDataSource;
     return (
         <ListView
-          dataSource={this.state.dataSource}
+          dataSource={dataSource}
           renderRow={this.renderRow.bind(this)}
           renderSectionHeader={this.renderSectionHeader.bind(this)}
         />
