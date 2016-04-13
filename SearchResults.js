@@ -14,16 +14,18 @@ var {
   TextInput
 } = React;
 var Poster = require('./Poster');
+var Showtimes = require('./Showtimes');
+var styles = require('./Styles');
 
 class SearchResults extends Component {
   constructor(props) {
     super(props);
     var movieDataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1.guid !== r2.guid
-    }).cloneWithRows(Object.keys(this.props.listings.movies));
+    }).cloneWithRows(Object.keys(this.props.movies).sort((a,b) => this.props.movies[a].name.localeCompare(this.props.movies[b].name)));
     var theatreDataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1.guid !== r2.guid
-    }).cloneWithRows(Object.keys(this.props.listings.theatres));
+    }).cloneWithRows(Object.keys(this.props.theatres));
     this.state = {
       selectedIndex: 0,
       movieDataSource: movieDataSource,
@@ -35,11 +37,63 @@ class SearchResults extends Component {
   }
 
   rowPressed(id) {
-    // next
+    if (this.props.id) {
+      var showtimes, movieId, theatreId;
+      if (!this.movieMode()) { // TODO: this seems like it should be opposite, but who am I to judge
+        showtimes = this.props.listings.theatres[id].m[this.props.id];
+        theatreId = id;
+        movieId = this.props.id;
+      } else {
+        showtimes = this.props.listings.theatres[this.props.id].m[id];
+        theatreId = this.props.id;
+        movieId = id;
+      }
+      this.props.navigator.push({
+        title: 'Showtimes',
+        component: Showtimes,
+        passProps: {
+          showtimes: showtimes,
+          listings: this.props.listings,
+          movieId: movieId,
+          theatreId: theatreId
+        }
+      });
+    } else {
+      var theatres = {};
+      var movies = {};
+      if (this.movieMode()) {
+        for (var theatreId in this.props.theatres) {
+          if (this.props.theatres[theatreId].m[id]) {
+            theatres[theatreId] = this.props.theatres[theatreId];
+          }
+        }
+        theatres = theatres;
+      } else {
+        for (var movieId in this.props.theatres[id].m) {
+          movies[movieId] = this.props.movies[movieId];
+        }
+        movies = movies;
+      }
+      this.props.navigator.push({
+        title: 'Choose ' + (this.movieMode() ? 'Theater' : 'Movie'),
+        component: SearchResults,
+        passProps: {
+          listings: this.props.listings,
+          movies: movies,
+          theatres: theatres,
+          id: id,
+          movieMode : !this.movieMode()
+        }
+      });
+    }
   }
 
   movieMode() {
-    return this.state.selectedIndex == 0;
+    if (this.props.movieMode === undefined) {
+      return this.state.selectedIndex == 0;
+    } else {
+      return this.props.movieMode;
+    }
   }
 
   renderRow(rowData, sectionId, rowId) {
@@ -77,16 +131,20 @@ class SearchResults extends Component {
   }
 
   renderSectionHeader(rowData, sectionID, rowID, highlightRow) {
-    return (
-      <View style={styles.sectionHeaderContainer}>
-        <SegmentedControlIOS
-          style={styles.sectionHeader}
-          values={['Movies', 'Theaters']}
-          selectedIndex={this.state.selectedIndex}
-          onChange={this.onSectionHeaderChange.bind(this)}
-        />
-      </View>
-    );
+    if (!this.props.id) {
+      return (
+        <View style={styles.sectionHeaderContainer}>
+          <SegmentedControlIOS
+            style={styles.sectionHeader}
+            values={['Movies', 'Theaters']}
+            selectedIndex={this.state.selectedIndex}
+            onChange={this.onSectionHeaderChange.bind(this)}
+          />
+        </View>
+      );
+    } else {
+      return <View/>;
+    }
   }
 
   onSearchTextChanged(event) {
@@ -96,8 +154,8 @@ class SearchResults extends Component {
     if (this.movieMode()) {
       this.setState({
         movieDataSource: dataSource.cloneWithRows(
-          Object.keys(this.props.listings.movies).filter(
-            id => this.props.listings.movies[id].name.toLowerCase().includes(event.nativeEvent.text.toLowerCase())
+          Object.keys(this.props.movies).filter(
+            id => this.props.movies[id].name.toLowerCase().includes(event.nativeEvent.text.toLowerCase())
           )
         ),
         searchText: event.nativeEvent.text,
@@ -106,8 +164,8 @@ class SearchResults extends Component {
     } else {
       this.setState({
         theatreDataSource: dataSource.cloneWithRows(
-          Object.keys(this.props.listings.theatres).filter(
-            id => this.props.listings.theatres[id].name.toLowerCase().includes(event.nativeEvent.text.toLowerCase())
+          Object.keys(this.props.theatres).filter(
+            id => this.props.theatres[id].name.toLowerCase().includes(event.nativeEvent.text.toLowerCase())
           )
         ),
         searchText: event.nativeEvent.text,
@@ -143,47 +201,5 @@ class SearchResults extends Component {
     );
   }
 }
-
-var styles = StyleSheet.create({
-  textContainer: {
-    flex: 2
-  },
-  separator: {
-    height: 1,
-    backgroundColor: '#dddddd'
-  },
-  price: {
-    fontSize: 25,
-    fontWeight: 'bold',
-    color: '#48bbec',
-  },
-  title: {
-    fontSize: 20,
-    color: '#656565'
-  },
-  rowContainer: {
-    flexDirection: 'row',
-    padding: 10
-  },
-  sectionHeaderContainer: {
-    marginRight: 12,
-    marginLeft: 12,
-    paddingTop: 12,
-  },
-  sectionHeader: {
-    backgroundColor: 'white'
-  },
-  searchInput: {
-    height: 35,
-    padding: 5,
-    marginRight: 12,
-    marginLeft: 12,
-    marginTop: 10,
-    fontSize: 12,
-    borderWidth: 1,
-    borderRadius: 12,
-    color: 'gray'
-  }
-});
 
 module.exports = SearchResults;

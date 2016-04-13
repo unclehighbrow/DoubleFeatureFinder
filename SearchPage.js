@@ -20,7 +20,11 @@ class SearchPage extends Component {
     this.props.navigator.push({
       title: 'Results',
       component: SearchResults,
-      passProps: { listings: response }
+      passProps: {
+        listings: response,
+        movies: response.movies,
+        theatres: response.theatres
+      }
     });
   }
 
