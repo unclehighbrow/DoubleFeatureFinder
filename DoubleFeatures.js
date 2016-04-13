@@ -28,7 +28,6 @@ class DoubleFeatures extends Component {
     if (this.props.listings.theatres[theatreId].m[movieId][showtime]['a']) {
       all = all.concat(this.props.listings.theatres[theatreId].m[movieId][showtime]['a']);
     }
-    console.dir(all);
     var dataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1.guid !== r2.guid
     }).cloneWithRows(all);
@@ -38,7 +37,6 @@ class DoubleFeatures extends Component {
   }
 
   renderRow(rowData, sectionId, rowId) {
-    console.dir(rowData);
     return (
       <TouchableHighlight onPress={() => this.rowPressed(rowData)}
       underlayColor='#dddddd'>
