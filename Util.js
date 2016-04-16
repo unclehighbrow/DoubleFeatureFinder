@@ -19,7 +19,11 @@ var Util = React.createClass({
       if (minutes.length == 1) {
         minutes += '0';
       }
-      return '' + Math.floor(mins / 60) + ':' + minutes + ' ' + meridian;
+      var hours = Math.floor(mins / 60);
+      if (hours == 0) {
+        hours = 12;
+      }
+      return '' + hours + ':' + minutes + ' ' + meridian;
     },
   },
   render() {}

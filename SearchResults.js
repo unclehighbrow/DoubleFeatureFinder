@@ -194,6 +194,7 @@ class SearchResults extends Component {
     return (
         <ListView
           dataSource={dataSource}
+          keyboardShouldPersistTaps={true}
           renderRow={this.renderRow.bind(this)}
           renderSectionHeader={this.renderSectionHeader.bind(this)}
           renderHeader={this.renderHeader.bind(this)}
