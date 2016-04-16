@@ -46,5 +46,19 @@ module.exports = StyleSheet.create({
     width: 80,
     height: 80,
     marginRight: 10
+  },
+  mainMovie: {
+    fontSize: 20,
+    color: 'dodgerblue',
+  },
+  row: {
+    flexDirection: 'row'
+  },
+  timeLeft: {
+    flex: 1
+  },
+  titleRight: {
+    flex: 3
   }
+
 });

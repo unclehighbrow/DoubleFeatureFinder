@@ -37,13 +37,19 @@ class DoubleFeatures extends Component {
   }
 
   renderRow(rowData, sectionId, rowId) {
+    var titleStyle = rowData[0] == this.props.movieId ? styles.mainMovie : styles.title;
     return (
-      <TouchableHighlight onPress={() => this.rowPressed(rowData)}
-      underlayColor='#dddddd'>
+      <TouchableHighlight
+      underlayColor='#dddddd' backgroundColor='{backgroundColor}'>
         <View>
           <View style={styles.rowContainer}>
-            <View style={styles.textContainer}>
-              <Text style={styles.title} numberOfLines={1}>{this.props.listings.movies[rowData[0]].name} {Util.minsToTime(rowData[1])}</Text>
+            <View style={[styles.textContainer, styles.row]}>
+              <Text style={[titleStyle, styles.timeLeft]} numberOfLines={1} >
+                {Util.minsToTime(rowData[1])}
+              </Text>
+              <Text style={[titleStyle, styles.titleRight]} numberOfLines={1}>
+                {this.props.listings.movies[rowData[0]].name}
+              </Text>
             </View>
           </View>
           <View style={styles.separator} />
