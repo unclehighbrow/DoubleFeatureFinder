@@ -41,13 +41,22 @@ class Showtimes extends Component {
   }
 
   renderRow(rowData, sectionId, rowId) {
+    var before = this.props.listings.theatres[this.props.theatreId].m[this.props.movieId][rowData]['b'];
+    var beforeLength = before ? before.length : 0;
+    var after = this.props.listings.theatres[this.props.theatreId].m[this.props.movieId][rowData]['a'];
+    var afterLength = after ? after.length : 0;
     return (
       <TouchableHighlight onPress={() => this.rowPressed(rowData)}
       underlayColor='#dddddd'>
         <View>
           <View style={styles.rowContainer}>
-            <View style={styles.textContainer}>
-              <Text style={styles.title} numberOfLines={1}>{Util.minsToTime(rowData)}</Text>
+            <View style={[styles.textContainer, styles.row]}>
+              <Text style={[styles.title, styles.titleLeft]} numberOfLines={1}>
+                {Util.minsToTime(rowData)}
+              </Text>
+              <Text style={[styles.title, styles.otherMoviesRight]} numberOfLines={1}>
+                ({beforeLength}/{afterLength})
+              </Text>
             </View>
           </View>
           <View style={styles.separator} />

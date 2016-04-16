@@ -58,7 +58,12 @@ module.exports = StyleSheet.create({
     flex: 1
   },
   titleRight: {
+    flex: 2
+  },
+  titleLeft: {
     flex: 3
+  },
+  otherMoviesRight: {
+    flex: 1
   }
-
 });
