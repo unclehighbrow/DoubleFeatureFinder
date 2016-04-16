@@ -23,8 +23,8 @@ module.exports = StyleSheet.create({
     padding: 10
   },
   sectionHeaderContainer: {
-    marginRight: 12,
-    marginLeft: 12,
+    marginRight: 6,
+    marginLeft: 6,
     paddingTop: 12,
   },
   sectionHeader: {
@@ -33,12 +33,13 @@ module.exports = StyleSheet.create({
   searchInput: {
     height: 35,
     padding: 5,
-    marginRight: 12,
-    marginLeft: 12,
+    paddingLeft: 12,
+    marginRight: 6,
+    marginLeft: 6,
     marginTop: 10,
     fontSize: 12,
     borderWidth: 1,
-    borderRadius: 12,
+    borderRadius: 16,
     color: 'gray'
   },
   thumb: {

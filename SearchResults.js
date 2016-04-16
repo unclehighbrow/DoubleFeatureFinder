@@ -25,14 +25,15 @@ class SearchResults extends Component {
     }).cloneWithRows(Object.keys(this.props.movies).sort((a,b) => this.props.movies[a].name.localeCompare(this.props.movies[b].name)));
     var theatreDataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1.guid !== r2.guid
-    }).cloneWithRows(Object.keys(this.props.theatres));
+    }).cloneWithRows(Object.keys(this.props.theatres).sort((a,b) => this.props.theatres[a].name.localeCompare(this.props.theatres[b].name)));
     this.state = {
       selectedIndex: 0,
       movieDataSource: movieDataSource,
       theatreDataSource: theatreDataSource,
       movieSearchText: '',
       theatreSearchText: '',
-      searchText: ''
+      searchText: '',
+      noResults: false
     };
   }
 
@@ -98,7 +99,10 @@ class SearchResults extends Component {
 
   renderRow(rowData, sectionId, rowId) {
     var text, image;
-    if (this.movieMode()) {
+    if (this.state.noResults) {
+      text = rowData;
+      image = (<View/>);
+    } else if (this.movieMode()) {
       text = this.props.listings.movies[rowData].name;
       image = (<Poster movieId={rowData}></Poster>);
     } else {
@@ -151,27 +155,27 @@ class SearchResults extends Component {
     var dataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1.guid !== r2.guid
     });
+    var results;
     if (this.movieMode()) {
+      results = Object.keys(this.props.movies).filter(
+        id => this.props.movies[id].name.toLowerCase().includes(event.nativeEvent.text.toLowerCase())
+      ).sort((a,b) => this.props.movies[a].name.localeCompare(this.props.movies[b].name));
       this.setState({
-        movieDataSource: dataSource.cloneWithRows(
-          Object.keys(this.props.movies).filter(
-            id => this.props.movies[id].name.toLowerCase().includes(event.nativeEvent.text.toLowerCase())
-          )
-        ),
+        movieDataSource: dataSource.cloneWithRows(results),
         searchText: event.nativeEvent.text,
         movieSearchText: event.nativeEvent.text
       });
     } else {
+      results = Object.keys(this.props.theatres).filter(
+        id => this.props.theatres[id].name.toLowerCase().includes(event.nativeEvent.text.toLowerCase())
+      ).sort((a,b) => this.props.theatres[a].name.localeCompare(this.props.theatres[b].name));
       this.setState({
-        theatreDataSource: dataSource.cloneWithRows(
-          Object.keys(this.props.theatres).filter(
-            id => this.props.theatres[id].name.toLowerCase().includes(event.nativeEvent.text.toLowerCase())
-          )
-        ),
+        theatreDataSource: dataSource.cloneWithRows(results),
         searchText: event.nativeEvent.text,
         theatreSearchText: event.nativeEvent.text
       });
     }
+    this.setState({ noResults: results.length == 0 });
   }
 
   renderHeader() {
@@ -190,7 +194,14 @@ class SearchResults extends Component {
   }
 
   render() {
-    var dataSource = this.movieMode() ? this.state.movieDataSource : this.state.theatreDataSource;
+    var dataSource;
+    if (this.state.noResults) {
+      dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.guid !== r2.guid }).cloneWithRows(['No results']);
+    } else if (this.movieMode()) {
+      dataSource = this.state.movieDataSource;
+    } else {
+      dataSource = this.state.theatreDataSource;
+    }
     return (
         <ListView
           dataSource={dataSource}
@@ -198,6 +209,7 @@ class SearchResults extends Component {
           renderRow={this.renderRow.bind(this)}
           renderSectionHeader={this.renderSectionHeader.bind(this)}
           renderHeader={this.renderHeader.bind(this)}
+          enableEmptySections={true}
         />
     );
   }

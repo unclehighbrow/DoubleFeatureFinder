@@ -53,6 +53,7 @@ class SearchPage extends Component {
     var spinner = this.state.isLoading ? (<ActivityIndicatorIOS size='large' style={styles.spinner} />) : (<View/>);
     return (
       <View style={styles.container}>
+        <Text style={styles.message}>Enter your zip to find double features</Text>
 			  <TextInput
 				  style={styles.searchInput}
           value={this.state.zipcode}
@@ -71,17 +72,20 @@ class SearchPage extends Component {
   }
 }
 
+var mainColor = '#222222';
 var styles = StyleSheet.create({
   message: {
-    marginTop: 30,
+    marginTop: 10,
     fontSize: 18,
     textAlign: 'center',
-    color: '#656565'
+    color: mainColor
   },
   container: {
     padding: 30,
     marginTop: 65,
     alignItems: 'center',
+    backgroundColor: 'ghostwhite',
+    flex: 1
   },
 	buttonText: {
 	  fontSize: 18,
@@ -89,13 +93,11 @@ var styles = StyleSheet.create({
 	  alignSelf: 'center'
 	},
 	button: {
-	  height: 36,
+	  height: 40,
     alignSelf: 'center',
-    width: 80,
-	  flex: 1,
-	  flexDirection: 'row',
-	  backgroundColor: '#333399',
-	  borderColor: '#333399',
+    width: 70,
+	  backgroundColor: mainColor,
+	  borderColor: mainColor,
 	  borderWidth: 1,
 	  borderRadius: 8,
     marginTop: 20,
@@ -108,9 +110,10 @@ var styles = StyleSheet.create({
     marginLeft: 5,
 	  fontSize: 100,
 	  borderWidth: 1,
-	  borderColor: '#333399',
+	  borderColor: mainColor,
 	  borderRadius: 8,
-	  color: '#333399'
+	  color: mainColor,
+    marginTop : 20
 	},
   spinner: {
     marginTop: 20
