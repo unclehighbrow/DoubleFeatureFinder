@@ -16,6 +16,40 @@ var {
 
 class SearchPage extends Component {
 
+  componentDidMount() {
+    this.setState({
+      isLoading: true,
+      message: 'Getting your position...'
+    });    
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.findZip(position.coords.latitude, position.coords.longitude);
+      },
+      (error) => alert(error.message),
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+    );
+  }
+
+  findZip(lat, lon) {
+    fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lon)
+      .then(response => response.json())
+      .then(json => {
+        if (json && json.results && json.results[0].address_components) {
+          var addressComponents = json.results[0].address_components;
+          for (var i = 0; i < addressComponents.length; i++) {
+            if (addressComponents[i].types[0] == 'postal_code') {
+              this.setState({
+                  zipcode: addressComponents[i].short_name,
+                  isLoading: false,
+                  message: 'Never sneak into movies!'
+              });
+            }
+          }
+        }
+      })
+      .catch(error => {});
+  }
+
   handleResponse(response) {
     this.setState({isLoading: false, message: 'Never sneak into movies!'});
     this.props.navigator.push({
@@ -47,7 +81,7 @@ class SearchPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      zipcode: '11201',
+      zipcode: '',
       isLoading: false,
       message: 'Never sneak into movies!'
     };
