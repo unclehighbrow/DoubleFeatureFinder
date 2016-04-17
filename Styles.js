@@ -85,7 +85,7 @@ module.exports = StyleSheet.create({
     alignSelf: 'center'
   },
   notSelectedButton: {
-    backgroundColor: 'white'
+    backgroundColor: '#EEEEEE'
   },
   notSelectedText: {
     color: 'dodgerblue'
