@@ -29,6 +29,7 @@ class Showtimes extends Component {
 
   rowPressed(showtime) {
     this.props.navigator.push({
+      id: 'DoubleFeatures',
       title: 'Double Features',
       component: DoubleFeatures,
       passProps: {

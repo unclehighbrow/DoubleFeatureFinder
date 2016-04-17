@@ -65,5 +65,23 @@ module.exports = StyleSheet.create({
   },
   otherMoviesRight: {
     flex: 1
+  },
+  button: {
+    height: 40,
+    alignSelf: 'center',
+    width: 70,
+    backgroundColor: 'dodgerblue',
+    borderColor: 'dodgerblue',
+    borderWidth: 1,
+    borderRadius: 8,
+    marginLeft: 30,
+    marginRight: 30,
+    justifyContent: 'center',
+    flex: 1
+  },
+  buttonText: {
+    fontSize: 12,
+    color: 'white',
+    alignSelf: 'center'
   }
 });

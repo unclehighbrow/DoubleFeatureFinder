@@ -1,51 +1,72 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
+'use strict';
 
-import React, {
-  AppRegistry,
-  Component,
-  StyleSheet,
+var React = require('react-native');
+var {
   Text,
-  View
-} from 'react-native';
+  Navigator,
+  AppRegistry
+} = React;
+var SearchPage = require('./SearchPage');
+var SearchResults = require('./SearchResults');
+var Showtimes = require('./Showtimes');
+var DoubleFeatures = require('./DoubleFeatures');
 
-class DoubleFeatureFinder extends Component {
+
+class DoubleFeatureFinder extends React.Component {
+  renderScene(route, navigator) {
+    switch (route.id) {
+      case 'DoubleFeatures': return (
+        <DoubleFeatures
+          navigator={navigator}
+          showtime={route.passProps.showtime}
+          listings={route.passProps.listings}
+          movieId={route.passProps.movieId}
+          theatreId={route.passProps.theatreId}
+        />
+      );
+      case 'Showtimes': return (
+        <Showtimes
+          navigator={navigator}
+          showtimes={route.passProps.showtimes}
+          listings={route.passProps.listings}
+          movieId={route.passProps.movieId}
+          theatreId={route.passProps.theatreId}
+        />
+      );
+      case 'SearchResults': return (
+        <SearchResults
+          navigator={navigator}
+          listings={route.passProps.listings}
+          movies={route.passProps.movies}
+          theatres={route.passProps.theatres}
+          id={route.passProps.id}
+          movieMode={route.passProps.movieMode}
+        />
+      );
+      default: return (
+        <SearchPage
+          navigator={navigator}
+          name='Enter Zip'
+        />
+      );
+    }
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
+      <Navigator
+        style={styles.container}
+        initialRoute={{name: 'Enter Zip', index: 0}}
+        renderScene={this.renderScene}
+      />
     );
   }
 }
 
-const styles = StyleSheet.create({
+var styles = React.StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+    flex: 1
+  }
 });
 
 AppRegistry.registerComponent('DoubleFeatureFinder', () => DoubleFeatureFinder);

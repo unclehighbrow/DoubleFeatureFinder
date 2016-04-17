@@ -11,11 +11,16 @@ var {
   Component,
   SegmentedControlIOS,
   ScrollView,
-  TextInput
+  TextInput,
+  Platform,
+  Dimensions
 } = React;
 var Poster = require('./Poster');
 var Showtimes = require('./Showtimes');
 var styles = require('./Styles');
+var AndroidSegmented = require('react-native-segmented-android');
+var deviceWidth = Dimensions.get('window').width;
+var deviceHeight = Dimensions.get('window').height;
 
 class SearchResults extends Component {
   constructor(props) {
@@ -51,6 +56,7 @@ class SearchResults extends Component {
       }
       this.props.navigator.push({
         title: 'Showtimes',
+        id: 'Showtimes',
         component: Showtimes,
         passProps: {
           showtimes: showtimes,
@@ -76,6 +82,7 @@ class SearchResults extends Component {
         movies = movies;
       }
       this.props.navigator.push({
+        id: 'SearchResults',
         title: 'Choose ' + (this.movieMode() ? 'Theater' : 'Movie'),
         component: SearchResults,
         passProps: {
@@ -134,18 +141,42 @@ class SearchResults extends Component {
     });
   }
 
+  onSectionHeaderChangeAndroid(event) {
+    this.setState({
+      selectedIndex: (this.state.selectedIndex == 0 ? 1 : 0)
+    });
+  }
+
   renderSectionHeader(rowData, sectionID, rowID, highlightRow) {
     if (!this.props.id) {
-      return (
-        <View style={styles.sectionHeaderContainer}>
-          <SegmentedControlIOS
-            style={styles.sectionHeader}
-            values={['Movies', 'Theaters']}
-            selectedIndex={this.state.selectedIndex}
-            onChange={this.onSectionHeaderChange.bind(this)}
-          />
-        </View>
-      );
+      if (Platform.OS === 'android') {
+        return (
+          <View style={[styles.sectionHeaderContainer, styles.rowContainer]}>
+            <TouchableHighlight style={styles.button}
+                onPress={this.onSectionHeaderChangeAndroid.bind(this)}
+                underlayColor='#666688'>
+              <Text style={styles.buttonText}>Movies</Text>
+            </TouchableHighlight>
+            <TouchableHighlight style={styles.button}
+                onPress={this.onSectionHeaderChangeAndroid.bind(this)}
+                underlayColor='#666688'>
+              <Text style={styles.buttonText}>Theaters</Text>
+            </TouchableHighlight>
+          </View>
+        );
+      } else {
+        return (
+          <View style={styles.sectionHeaderContainer}>
+            <SegmentedControlIOS
+              style={styles.sectionHeader}
+              values={['Movies', 'Theaters']}
+              selectedIndex={this.state.selectedIndex}
+              onChange={this.onSectionHeaderChange.bind(this)}
+            />
+          </View>
+        );
+      }
+
     } else {
       return <View/>;
     }

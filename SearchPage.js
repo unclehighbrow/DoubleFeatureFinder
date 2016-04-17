@@ -10,14 +10,16 @@ var {
   TouchableHighlight,
   ActivityIndicatorIOS,
   Image,
-  Component
+  Component,
+  Platform
 } = React;
 
 class SearchPage extends Component {
 
   handleResponse(response) {
-    this.setState({isLoading: false});
+    this.setState({isLoading: false, message: 'Never sneak into movies!'});
     this.props.navigator.push({
+      id: 'SearchResults',
       title: 'Results',
       component: SearchResults,
       passProps: {
@@ -29,7 +31,7 @@ class SearchPage extends Component {
   }
 
   onSearchPressed() {
-    this.setState({ isLoading: true });
+    this.setState({ isLoading: true, message: 'Please wait...' });
     fetch('http://dubfeatfind.appspot.com/?j=1&zipcode=' + this.state.zipcode)
       .then(response => response.json())
       .then(json => this.handleResponse(json))
@@ -106,9 +108,9 @@ var styles = StyleSheet.create({
 	searchInput: {
 	  height: 100,
 	  padding: 4,
-	  marginRight: 5,
-    marginLeft: 5,
-	  fontSize: 100,
+    marginRight: Platform.OS === 'android' ? 40: 5,
+    marginLeft: Platform.OS === 'android' ? 40: 5,
+    fontSize: Platform.OS === 'android' ? 80 : 100,
 	  borderWidth: 1,
 	  borderColor: mainColor,
 	  borderRadius: 8,
