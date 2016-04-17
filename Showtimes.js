@@ -52,11 +52,14 @@ class Showtimes extends Component {
         <View>
           <View style={styles.rowContainer}>
             <View style={[styles.textContainer, styles.row]}>
-              <Text style={[styles.title, styles.titleLeft]} numberOfLines={1}>
+              <Text style={[styles.title, styles.left]} numberOfLines={1}>
+                {beforeLength}
+              </Text>
+              <Text style={[styles.title, styles.center, styles.mainMovie]} numberOfLines={1}>
                 {Util.minsToTime(rowData)}
               </Text>
-              <Text style={[styles.title, styles.otherMoviesRight]} numberOfLines={1}>
-                ({beforeLength}/{afterLength})
+              <Text style={[styles.title, styles.right]} numberOfLines={1}>
+                {afterLength}
               </Text>
             </View>
           </View>
@@ -66,11 +69,30 @@ class Showtimes extends Component {
     );
   }
 
+  renderHeader() {
+    return (
+      <View style={styles.rowContainer}>
+        <View style={[styles.textContainer, styles.row]}>
+          <Text style={styles.left} numberOfLines={1}>
+            Before
+          </Text>
+          <Text style={styles.center} numberOfLines={1}>
+            Showtime
+          </Text>
+          <Text style={styles.right} numberOfLines={1}>
+            After
+          </Text>
+        </View>
+      </View>
+    );
+  }
+
   render() {
     return (
       <ListView
         dataSource={this.state.dataSource}
         renderRow={this.renderRow.bind(this)}
+        renderHeader={this.renderHeader.bind(this)}
       />
     );
   }

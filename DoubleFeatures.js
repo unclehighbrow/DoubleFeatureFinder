@@ -44,7 +44,7 @@ class DoubleFeatures extends Component {
         <View>
           <View style={styles.rowContainer}>
             <View style={[styles.textContainer, styles.row]}>
-              <Text style={[titleStyle, styles.timeLeft]} numberOfLines={1} >
+              <Text style={[titleStyle, styles.left]} numberOfLines={1} >
                 {Util.minsToTime(rowData[1])}
               </Text>
               <Text style={[titleStyle, styles.titleRight]} numberOfLines={1}>

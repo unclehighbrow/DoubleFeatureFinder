@@ -60,12 +60,6 @@ module.exports = StyleSheet.create({
   titleRight: {
     flex: 2
   },
-  titleLeft: {
-    flex: 3
-  },
-  otherMoviesRight: {
-    flex: 1
-  },
   button: {
     height: 40,
     alignSelf: 'center',
@@ -89,5 +83,16 @@ module.exports = StyleSheet.create({
   },
   notSelectedText: {
     color: 'dodgerblue'
+  },
+  left: {
+    flex: 1
+  },
+  center: {
+    flex: 3,
+    textAlign: 'center'
+  },
+  right: {
+    textAlign: 'right',
+    flex: 1
   }
 });
