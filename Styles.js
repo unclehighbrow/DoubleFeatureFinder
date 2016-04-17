@@ -83,5 +83,11 @@ module.exports = StyleSheet.create({
     fontSize: 12,
     color: 'white',
     alignSelf: 'center'
+  },
+  notSelectedButton: {
+    backgroundColor: 'white'
+  },
+  notSelectedText: {
+    color: 'dodgerblue'
   }
 });

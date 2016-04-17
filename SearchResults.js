@@ -158,15 +158,15 @@ class SearchResults extends Component {
       if (Platform.OS === 'android') {
         return (
           <View style={[styles.sectionHeaderContainer, styles.rowContainer]}>
-            <TouchableHighlight style={styles.button}
+            <TouchableHighlight style={[styles.button, !this.movieMode() ? styles.notSelectedButton : {}]}
                 onPress={this.onSectionHeaderMovie.bind(this)}
                 underlayColor='#666688'>
-              <Text style={styles.buttonText}>Movies</Text>
+              <Text style={[styles.buttonText, !this.movieMode() ? styles.notSelectedText : {} ]}>Movies</Text>
             </TouchableHighlight>
-            <TouchableHighlight style={styles.button}
+            <TouchableHighlight style={[styles.button, this.movieMode() ? styles.notSelectedButton : {}]}
                 onPress={this.onSectionHeaderTheatre.bind(this)}
                 underlayColor='#666688'>
-              <Text style={styles.buttonText}>Theaters</Text>
+              <Text style={[styles.buttonText, this.movieMode() ? styles.notSelectedText : {} ]}>Theaters</Text>
             </TouchableHighlight>
           </View>
         );
