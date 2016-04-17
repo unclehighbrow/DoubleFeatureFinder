@@ -20,12 +20,15 @@ class SearchPage extends Component {
     this.setState({
       isLoading: true,
       message: 'Getting your position...'
-    });    
+    });
     navigator.geolocation.getCurrentPosition(
       (position) => {
         this.findZip(position.coords.latitude, position.coords.longitude);
       },
-      (error) => alert(error.message),
+      (error) => {
+        isLoading: false,
+        message: 'Never sneak into movies!'
+      },
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
     );
   }
