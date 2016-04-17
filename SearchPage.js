@@ -31,11 +31,13 @@ class SearchPage extends Component {
   }
 
   onSearchPressed() {
-    this.setState({ isLoading: true, message: 'Please wait...' });
-    fetch('http://dubfeatfind.appspot.com/?j=1&zipcode=' + this.state.zipcode)
-      .then(response => response.json())
-      .then(json => this.handleResponse(json))
-      .catch(error => this.setState({isLoading: false, message: 'There was an error.'}));
+    if (!this.state.isLoading) {
+      this.setState({ isLoading: true, message: 'Please wait...' });
+      fetch('http://dubfeatfind.appspot.com/?j=1&zipcode=' + this.state.zipcode)
+        .then(response => response.json())
+        .then(json => this.handleResponse(json))
+        .catch(error => this.setState({isLoading: false, message: 'There was an error.'}));
+    }
   }
 
   onSearchTextChanged(event) {
