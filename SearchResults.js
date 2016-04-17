@@ -141,9 +141,15 @@ class SearchResults extends Component {
     });
   }
 
-  onSectionHeaderChangeAndroid(event) {
+  onSectionHeaderMovie(event) {
     this.setState({
-      selectedIndex: (this.state.selectedIndex == 0 ? 1 : 0)
+      selectedIndex: 0
+    });
+  }
+
+  onSectionHeaderTheatre(event) {
+    this.setState({
+      selectedIndex: 1
     });
   }
 
@@ -153,12 +159,12 @@ class SearchResults extends Component {
         return (
           <View style={[styles.sectionHeaderContainer, styles.rowContainer]}>
             <TouchableHighlight style={styles.button}
-                onPress={this.onSectionHeaderChangeAndroid.bind(this)}
+                onPress={this.onSectionHeaderMovie.bind(this)}
                 underlayColor='#666688'>
               <Text style={styles.buttonText}>Movies</Text>
             </TouchableHighlight>
             <TouchableHighlight style={styles.button}
-                onPress={this.onSectionHeaderChangeAndroid.bind(this)}
+                onPress={this.onSectionHeaderTheatre.bind(this)}
                 underlayColor='#666688'>
               <Text style={styles.buttonText}>Theaters</Text>
             </TouchableHighlight>

@@ -4,12 +4,48 @@ var React = require('react-native');
 var {
   Text,
   Navigator,
-  AppRegistry
+  AppRegistry,
+  View,
+  TouchableOpacity,
+  StyleSheet
 } = React;
 var SearchPage = require('./SearchPage');
 var SearchResults = require('./SearchResults');
 var Showtimes = require('./Showtimes');
 var DoubleFeatures = require('./DoubleFeatures');
+var NavigationBarRouteMapper = {
+  LeftButton: function(route, navigator, index, navState) {
+    if (index === 0) {
+      return null;
+    }
+
+    var previousRoute = navState.routeStack[index - 1];
+    return (
+      <TouchableOpacity
+        onPress={() => navigator.pop()}
+        style={styles.navBarLeftButton}>
+        <Text style={[styles.navBarText, styles.navBarButtonText]}>
+          Back
+        </Text>
+      </TouchableOpacity>
+    );
+  },
+
+  RightButton: function(route, navigator, index, navState) {
+    return (
+      <View />
+    );
+  },
+
+  Title: function(route, navigator, index, navState) {
+    return (
+      <Text style={[styles.navBarText, styles.navBarTitleText]}>
+        {route.title}
+      </Text>
+    );
+  },
+
+};
 
 
 class DoubleFeatureFinder extends React.Component {
@@ -46,7 +82,7 @@ class DoubleFeatureFinder extends React.Component {
       default: return (
         <SearchPage
           navigator={navigator}
-          name='Enter Zip'
+          name=''
         />
       );
     }
@@ -56,8 +92,9 @@ class DoubleFeatureFinder extends React.Component {
     return (
       <Navigator
         style={styles.container}
-        initialRoute={{name: 'Enter Zip', index: 0}}
+        initialRoute={{name: '', index: 0}}
         renderScene={this.renderScene}
+        navigationBar={<Navigator.NavigationBar routeMapper={ NavigationBarRouteMapper } />}
       />
     );
   }
@@ -65,8 +102,52 @@ class DoubleFeatureFinder extends React.Component {
 
 var styles = React.StyleSheet.create({
   container: {
-    flex: 1
-  }
+    flex: 1,
+    paddingTop: 40
+  },
+  messageText: {
+    fontSize: 17,
+    fontWeight: '500',
+    padding: 15,
+    marginTop: 50,
+    marginLeft: 15,
+  },
+  button: {
+    backgroundColor: 'white',
+    padding: 15,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: '#CDCDCD',
+  },
+  buttonText: {
+    fontSize: 17,
+    fontWeight: '500',
+  },
+  navBar: {
+    backgroundColor: 'white',
+  },
+  navBarText: {
+    fontSize: 16,
+    marginVertical: 10,
+  },
+  navBarTitleText: {
+    color: '#373E4D',
+    fontWeight: '500'
+  },
+  navBarLeftButton: {
+    paddingLeft: 10,
+    flex: 0
+  },
+  navBarRightButton: {
+    paddingRight: 10,
+  },
+  navBarButtonText: {
+    color: '#5890FF',
+  },
+  scene: {
+    flex: 1,
+    paddingTop: 20,
+    backgroundColor: '#EAEAEA',
+  },
 });
 
 AppRegistry.registerComponent('DoubleFeatureFinder', () => DoubleFeatureFinder);
