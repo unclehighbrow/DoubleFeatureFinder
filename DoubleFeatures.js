@@ -24,10 +24,12 @@ class DoubleFeatures extends Component {
     if (this.props.listings.theatres[theatreId].m[movieId][showtime]['b']) {
       all = all.concat(this.props.listings.theatres[theatreId].m[movieId][showtime]['b']);
     }
-    all.push(new Array(movieId,showtime));
+    all.push([movieId,showtime]);
     if (this.props.listings.theatres[theatreId].m[movieId][showtime]['a']) {
       all = all.concat(this.props.listings.theatres[theatreId].m[movieId][showtime]['a']);
     }
+    console.log(JSON.stringify(all));
+    all = all.sort((a,b) => parseInt(a[1]) > parseInt(b[1])); // TODO: this doesn't always sort correctly and it's fucking bullshit
     var dataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1.guid !== r2.guid
     }).cloneWithRows(all);

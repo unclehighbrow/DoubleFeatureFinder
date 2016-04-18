@@ -26,8 +26,10 @@ class SearchPage extends Component {
         this.findZip(position.coords.latitude, position.coords.longitude);
       },
       (error) => {
-        isLoading: false,
-        message: 'Never sneak into movies!'
+        this.setState({
+          isLoading: false,
+          message: 'Never sneak into movies!'
+        });
       },
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
     );
@@ -100,7 +102,7 @@ class SearchPage extends Component {
           value={this.state.zipcode}
           onChange={this.onSearchTextChanged.bind(this)}
           keyboardType='numeric'
-				  placeholder='ZIP'/>
+				  placeholder='zip'/>
 			  <TouchableHighlight style={styles.button}
             onPress={this.onSearchPressed.bind(this)}
 			      underlayColor='#666688'>
