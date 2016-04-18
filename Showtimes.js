@@ -21,7 +21,7 @@ class Showtimes extends Component {
     super(props);
     var dataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1.guid !== r2.guid
-    }).cloneWithRows(Object.keys(this.props.showtimes).sort((a,b) => parseInt(a) > parseInt(b)));
+    }).cloneWithRows(Object.keys(this.props.showtimes).sort((a,b) => parseInt(a) > parseInt(b) ? 1 : -1));
     this.state = {
       dataSource: dataSource
     }
