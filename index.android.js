@@ -95,6 +95,7 @@ class DoubleFeatureFinder extends React.Component {
         initialRoute={{name: '', index: 0}}
         renderScene={this.renderScene}
         navigationBar={<Navigator.NavigationBar routeMapper={ NavigationBarRouteMapper } />}
+        configureScene={(route, routeStack) => Navigator.SceneConfigs.FloatFromBottomAndroid}
       />
     );
   }

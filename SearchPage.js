@@ -14,6 +14,8 @@ var {
   Platform
 } = React;
 
+var catchphrase = (<Text>Never <Text style={{fontStyle: 'italic'}}>sneak</Text> into movies!</Text>);
+
 class SearchPage extends Component {
 
   componentDidMount() {
@@ -28,7 +30,7 @@ class SearchPage extends Component {
       (error) => {
         this.setState({
           isLoading: false,
-          message: 'Never sneak into movies!'
+          message: catchphrase
         });
       },
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
@@ -46,7 +48,7 @@ class SearchPage extends Component {
               this.setState({
                   zipcode: addressComponents[i].short_name,
                   isLoading: false,
-                  message: 'Never sneak into movies!'
+                  message: catchphrase
               });
             }
           }
@@ -56,7 +58,7 @@ class SearchPage extends Component {
   }
 
   handleResponse(response) {
-    this.setState({isLoading: false, message: 'Never sneak into movies!'});
+    this.setState({isLoading: false, message: catchphrase});
     this.props.navigator.push({
       id: 'SearchResults',
       title: 'Results',
@@ -88,7 +90,7 @@ class SearchPage extends Component {
     this.state = {
       zipcode: '',
       isLoading: false,
-      message: 'Never sneak into movies!'
+      message: catchphrase
     };
   }
 
