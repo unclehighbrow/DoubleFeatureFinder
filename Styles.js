@@ -47,9 +47,13 @@ module.exports = StyleSheet.create({
     height: 80,
     marginRight: 10
   },
-  mainMovie: {
+  showtimes: {
     fontSize: 20,
     color: 'dodgerblue',
+  },
+  theShowtime: {
+    fontSize: 20,
+    fontWeight: '500'
   },
   row: {
     flexDirection: 'row'

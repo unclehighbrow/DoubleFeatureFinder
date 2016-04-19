@@ -29,7 +29,7 @@ class DoubleFeatures extends Component {
       all = all.concat(this.props.listings.theatres[theatreId].m[movieId][showtime]['a']);
     }
     console.log(JSON.stringify(all));
-    all = all.sort((a,b) => a[1] > b[1] ? 1 : -1); 
+    all = all.sort((a,b) => a[1] > b[1] ? 1 : -1);
     var dataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1.guid !== r2.guid
     }).cloneWithRows(all);
@@ -39,7 +39,7 @@ class DoubleFeatures extends Component {
   }
 
   renderRow(rowData, sectionId, rowId) {
-    var titleStyle = rowData[0] == this.props.movieId ? styles.mainMovie : styles.title;
+    var titleStyle = rowData[0] == this.props.movieId ? styles.theShowtime : styles.title;
     return (
       <TouchableHighlight
       underlayColor='#dddddd' backgroundColor='{backgroundColor}'>
@@ -60,11 +60,20 @@ class DoubleFeatures extends Component {
     );
   }
 
+  renderHeader() {
+    return (
+      <View style={{backgroundColor: 'dodgerblue', padding: 20}}>
+        <Text style={{color:'white', fontSize: 20}}>Here's your double features. Enjoy your day at the movies!</Text>
+      </View>
+    );
+  }
+
   render() {
     return (
       <ListView
         dataSource={this.state.dataSource}
         renderRow={this.renderRow.bind(this)}
+        renderHeader={this.renderHeader.bind(this)}
       />
     );
   }

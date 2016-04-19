@@ -25,7 +25,7 @@ var NavigationBarRouteMapper = {
       <TouchableOpacity
         onPress={() => navigator.pop()}
         style={styles.navBarLeftButton}>
-        <Image source={require('./arrow.png')} resizeMode={'contain'} style={{marginTop: 10}} />
+        <Image source={require('./arrow.png')} resizeMode={'contain'} />
       </TouchableOpacity>
     );
   },
@@ -38,7 +38,7 @@ var NavigationBarRouteMapper = {
 
   Title: function(route, navigator, index, navState) {
     return (
-      <Text style={[styles.navBarText, styles.navBarTitleText]}>
+      <Text style={styles.navBarTitleText}>
         {route.title}
       </Text>
     );
@@ -93,7 +93,7 @@ class DoubleFeatureFinder extends React.Component {
         style={styles.container}
         initialRoute={{name: '', index: 0}}
         renderScene={this.renderScene}
-        navigationBar={<Navigator.NavigationBar routeMapper={ NavigationBarRouteMapper } />}
+        navigationBar={<Navigator.NavigationBar style={{backgroundColor: 'dodgerblue'}} routeMapper={ NavigationBarRouteMapper } />}
         configureScene={(route, routeStack) => Navigator.SceneConfigs.FloatFromBottomAndroid}
       />
     );
@@ -127,7 +127,8 @@ class DoubleFeatureFinder extends React.Component {
 var styles = React.StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 40
+    paddingTop: 50,
+    backgroundColor: '#EAEAEA',
   },
   messageText: {
     fontSize: 17,
@@ -146,31 +147,14 @@ var styles = React.StyleSheet.create({
     fontSize: 17,
     fontWeight: '500',
   },
-  navBar: {
-    backgroundColor: 'white',
-  },
-  navBarText: {
-    fontSize: 16,
-    marginVertical: 10,
-  },
   navBarTitleText: {
-    color: '#373E4D',
-    fontWeight: '500'
+    color: 'white',
+    fontWeight: '500',
+    marginTop: 18
   },
   navBarLeftButton: {
     paddingLeft: 10,
-    flex: 0
-  },
-  navBarRightButton: {
-    paddingRight: 10,
-  },
-  navBarButtonText: {
-    color: '#5890FF',
-  },
-  scene: {
-    flex: 1,
-    paddingTop: 20,
-    backgroundColor: '#EAEAEA',
+    marginTop: 15
   },
 });
 

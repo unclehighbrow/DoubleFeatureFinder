@@ -30,7 +30,7 @@ class Showtimes extends Component {
   rowPressed(showtime) {
     this.props.navigator.push({
       id: 'DoubleFeatures',
-      title: 'Double Features',
+      title: '',
       component: DoubleFeatures,
       passProps: {
         showtime: showtime,
@@ -55,7 +55,7 @@ class Showtimes extends Component {
               <Text style={[styles.title, styles.left]} numberOfLines={1}>
                 {beforeLength}
               </Text>
-              <Text style={[styles.title, styles.center, styles.mainMovie]} numberOfLines={1}>
+              <Text style={[styles.title, styles.center, styles.showtimes]} numberOfLines={1}>
                 {Util.minsToTime(rowData)}
               </Text>
               <Text style={[styles.title, styles.right]} numberOfLines={1}>
