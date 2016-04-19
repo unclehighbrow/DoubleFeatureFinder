@@ -7,7 +7,8 @@ var {
   AppRegistry,
   View,
   TouchableOpacity,
-  StyleSheet
+  StyleSheet,
+  Image
 } = React;
 var SearchPage = require('./SearchPage');
 var SearchResults = require('./SearchResults');
@@ -24,9 +25,7 @@ var NavigationBarRouteMapper = {
       <TouchableOpacity
         onPress={() => navigator.pop()}
         style={styles.navBarLeftButton}>
-        <Text style={[styles.navBarText, styles.navBarButtonText]}>
-          Back
-        </Text>
+        <Image source={require('./arrow.png')} resizeMode={'contain'} style={{marginTop: 10}} />
       </TouchableOpacity>
     );
   },
