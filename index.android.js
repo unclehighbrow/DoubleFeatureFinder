@@ -100,6 +100,30 @@ class DoubleFeatureFinder extends React.Component {
   }
 }
 
+// class DoubleFeatureFinder extends React.Component {
+//   renderScene(route, navigator) {
+//     var Component = route.component;
+//     return (
+//       <Component
+//         route={route}
+//         navigator={navigator}
+//         />
+//     );
+//   }
+//
+//   render() {
+//     return (
+//       <Navigator
+//         sceneStyle={{flex: 1, backgroundColor: 'white'}}
+//         ref="navigator"
+//         renderScene={this.renderScene}
+//         configureScene={() => Navigator.SceneConfigs.FloatFromBottom}
+//         initialRoute={{ component: SearchPage }}
+//       />      
+//     );
+//   }
+// }
+
 var styles = React.StyleSheet.create({
   container: {
     flex: 1,
