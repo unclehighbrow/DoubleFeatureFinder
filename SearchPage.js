@@ -77,7 +77,12 @@ class SearchPage extends Component {
       fetch('http://dubfeatfind.appspot.com/?j=1&zipcode=' + this.state.zipcode)
         .then(response => response.json())
         .then(json => this.handleResponse(json))
-        .catch(error => this.setState({isLoading: false, message: 'There was an error.'}));
+        .catch(error => {
+          console.log('error:' + error);
+          this.setState({
+            isLoading: false, message: 'There was an error.'
+          })
+        });
     }
   }
 
