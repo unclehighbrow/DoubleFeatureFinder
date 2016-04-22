@@ -46,6 +46,14 @@ var NavigationBarRouteMapper = {
 
 };
 
+var navigator;
+React.BackAndroid.addEventListener('hardwareBackPress', () => {
+    if (navigator && navigator.getCurrentRoutes().length > 1) {
+        navigator.pop();
+        return true;
+    }
+    return false;
+});
 
 class DoubleFeatureFinder extends React.Component {
   renderScene(route, navigator) {
@@ -90,6 +98,7 @@ class DoubleFeatureFinder extends React.Component {
   render() {
     return (
       <Navigator
+        ref={(nav) => { navigator = nav; }}
         style={styles.container}
         initialRoute={{name: '', index: 0}}
         renderScene={this.renderScene}
