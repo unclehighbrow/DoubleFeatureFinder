@@ -46,9 +46,14 @@ class DoubleFeatures extends Component {
         <View>
           <View style={styles.rowContainer}>
             <View style={[styles.textContainer, styles.row]}>
-              <Text style={[titleStyle, styles.left]} numberOfLines={1} >
-                {Util.minsToTime(rowData[1])}
-              </Text>
+              <View style={[styles.left, {flexDirection: 'column'}]}>
+                <Text style={[titleStyle]} numberOfLines={1} >
+                  {Util.minsToTime(rowData[1])}
+                </Text>
+                <Text style={{color:'darkgrey'}}>
+                  to {Util.minsToTime(parseInt(rowData[1]) + parseInt(this.props.listings.movies[rowData[0]].duration, 10))}
+                </Text>
+              </View>
               <Text style={[titleStyle, styles.titleRight]} numberOfLines={1}>
                 {this.props.listings.movies[rowData[0]].name}
               </Text>
