@@ -20,8 +20,9 @@ class SearchPage extends Component {
 
   componentDidMount() {
     this.setState({
-      isLoading: true,
-      message: 'Getting your position...'
+      isLoading: false,
+      message: 'Getting your position...',
+      isLocating: true
     });
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -29,7 +30,7 @@ class SearchPage extends Component {
       },
       (error) => {
         this.setState({
-          isLoading: false,
+          isLocating: false,
           message: catchphrase
         });
       },
@@ -47,7 +48,7 @@ class SearchPage extends Component {
             if (addressComponents[i].types[0] == 'postal_code') {
               this.setState({
                   zipcode: addressComponents[i].short_name,
-                  isLoading: false,
+                  isLocating: false,
                   message: catchphrase
               });
             }
@@ -95,7 +96,8 @@ class SearchPage extends Component {
     this.state = {
       zipcode: '',
       isLoading: false,
-      message: catchphrase
+      message: catchphrase,
+      isLocating: false
     };
   }
 
