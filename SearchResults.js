@@ -18,19 +18,19 @@ var {
 var Poster = require('./Poster');
 var Showtimes = require('./Showtimes');
 var styles = require('./Styles');
-var AndroidSegmented = require('react-native-segmented-android');
 var deviceWidth = Dimensions.get('window').width;
 var deviceHeight = Dimensions.get('window').height;
+var ScrollableTabView = require('react-native-scrollable-tab-view');
 
 class SearchResults extends Component {
   constructor(props) {
     super(props);
     var movieDataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1.guid !== r2.guid
-    }).cloneWithRows(Object.keys(this.props.movies).sort((a,b) => this.props.movies[a].name.localeCompare(this.props.movies[b].name)));
+    }).cloneWithRows([''].concat(Object.keys(this.props.movies).sort((a,b) => this.props.movies[a].name.localeCompare(this.props.movies[b].name))));
     var theatreDataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1.guid !== r2.guid
-    }).cloneWithRows(Object.keys(this.props.theatres).sort((a,b) => this.props.theatres[a].name.localeCompare(this.props.theatres[b].name)));
+    }).cloneWithRows([''].concat(Object.keys(this.props.theatres).sort((a,b) => this.props.theatres[a].name.localeCompare(this.props.theatres[b].name))));
     this.state = {
       selectedIndex: 0,
       movieDataSource: movieDataSource,
@@ -105,6 +105,21 @@ class SearchResults extends Component {
   }
 
   renderRow(rowData, sectionId, rowId) {
+    if (rowId == 0) {
+      var placeholder = this.movieMode() ? 'Search Movies' : 'Search Theaters';
+      return (
+        <TextInput
+          style={styles.searchInput}
+          onChange={this.onSearchTextChanged.bind(this)}
+          placeholder={placeholder}
+          placeholderTextColor={'#999'}
+          autoCorrect={false}
+          clearButtonMode='while-editing'
+          autoCapitalize='none'
+          value={this.state.searchText}
+        />
+      );
+    }
     var text, image;
     if (this.state.noResults) {
       text = rowData;
@@ -141,34 +156,53 @@ class SearchResults extends Component {
     });
   }
 
-  onSectionHeaderMovie(event) {
+  onTabHeaderChange(event) {
+    var selectedIndex = event.i;
+    var searchText = this.movieMode() ? this.state.theatreSearchText : this.state.movieSearchText;
     this.setState({
-      selectedIndex: 0
+      selectedIndex: selectedIndex,
+      searchText: searchText
     });
   }
 
-  onSectionHeaderTheatre(event) {
-    this.setState({
-      selectedIndex: 1
-    });
-  }
+  // onSectionHeaderMovie(event) {
+  //   this.setState({
+  //     selectedIndex: 0
+  //   });
+  // }
+  // onSectionHeaderTheatre(event) {
+  //   this.setState({
+  //     selectedIndex: 1
+  //   });
+  // }
 
   renderSectionHeader(rowData, sectionID, rowID, highlightRow) {
     if (!this.props.id) {
       if (Platform.OS === 'android') {
         return (
-          <View style={[styles.sectionHeaderContainer, styles.rowContainer]}>
-            <TouchableHighlight style={[styles.button, !this.movieMode() ? styles.notSelectedButton : {}]}
-                onPress={this.onSectionHeaderMovie.bind(this)}
-                underlayColor='#666688'>
-              <Text style={[styles.buttonText, !this.movieMode() ? styles.notSelectedText : {} ]}>Movies</Text>
-            </TouchableHighlight>
-            <TouchableHighlight style={[styles.button, this.movieMode() ? styles.notSelectedButton : {}]}
-                onPress={this.onSectionHeaderTheatre.bind(this)}
-                underlayColor='#666688'>
-              <Text style={[styles.buttonText, this.movieMode() ? styles.notSelectedText : {} ]}>Theaters</Text>
-            </TouchableHighlight>
-          </View>
+          <ScrollableTabView
+            onChangeTab={this.onTabHeaderChange.bind(this)}
+            tabBarBackgroundColor={'deepskyblue'}
+            tabBarActiveTextColor={'white'}
+            tabBarInactiveTextColor={'gainsboro'}
+            tabBarUnderlineColor={'gainsboro'}
+            style={{paddingTop: 10, backgroundColor:'deepskyblue'}}
+            >
+            <View tabLabel="Movies" />
+            <View tabLabel="Theatres" />
+          </ScrollableTabView>
+          // <View style={[styles.sectionHeaderContainer, styles.rowContainer]}>
+          //   <TouchableHighlight style={[styles.button, !this.movieMode() ? styles.notSelectedButton : {}]}
+          //       onPress={this.onSectionHeaderMovie.bind(this)}
+          //       underlayColor='#666688'>
+          //     <Text style={[styles.buttonText, !this.movieMode() ? styles.notSelectedText : {} ]}>Movies</Text>
+          //   </TouchableHighlight>
+          //   <TouchableHighlight style={[styles.button, this.movieMode() ? styles.notSelectedButton : {}]}
+          //       onPress={this.onSectionHeaderTheatre.bind(this)}
+          //       underlayColor='#666688'>
+          //     <Text style={[styles.buttonText, this.movieMode() ? styles.notSelectedText : {} ]}>Theaters</Text>
+          //   </TouchableHighlight>
+          // </View>
         );
       } else {
         return (
@@ -194,46 +228,31 @@ class SearchResults extends Component {
     });
     var results;
     if (this.movieMode()) {
-      results = Object.keys(this.props.movies).filter(
+      results = [''].concat(Object.keys(this.props.movies).filter(
         id => this.props.movies[id].name.toLowerCase().includes(event.nativeEvent.text.toLowerCase())
-      ).sort((a,b) => this.props.movies[a].name.localeCompare(this.props.movies[b].name));
+      ).sort((a,b) => this.props.movies[a].name.localeCompare(this.props.movies[b].name)));
       this.setState({
         movieDataSource: dataSource.cloneWithRows(results),
         searchText: event.nativeEvent.text,
         movieSearchText: event.nativeEvent.text
       });
     } else {
-      results = Object.keys(this.props.theatres).filter(
+      results = [''].concat(Object.keys(this.props.theatres).filter(
         id => this.props.theatres[id].name.toLowerCase().includes(event.nativeEvent.text.toLowerCase())
-      ).sort((a,b) => this.props.theatres[a].name.localeCompare(this.props.theatres[b].name));
+      ).sort((a,b) => this.props.theatres[a].name.localeCompare(this.props.theatres[b].name)));
       this.setState({
         theatreDataSource: dataSource.cloneWithRows(results),
         searchText: event.nativeEvent.text,
         theatreSearchText: event.nativeEvent.text
       });
     }
-    this.setState({ noResults: results.length == 0 });
-  }
-
-  renderHeader() {
-    var placeholder = this.movieMode() ? 'Search Movies' : 'Search Theaters';
-    return (
-      <TextInput
-  		  style={styles.searchInput}
-        onChange={this.onSearchTextChanged.bind(this)}
-  		  placeholder={placeholder}
-        autoCorrect={false}
-        clearButtonMode='while-editing'
-        autoCapitalize='none'
-        value={this.state.searchText}
-      />
-    );
+    this.setState({ noResults: results.length <= 1 });
   }
 
   render() {
     var dataSource;
     if (this.state.noResults) {
-      dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.guid !== r2.guid }).cloneWithRows(['No results']);
+      dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.guid !== r2.guid }).cloneWithRows(['', 'No results']);
     } else if (this.movieMode()) {
       dataSource = this.state.movieDataSource;
     } else {
@@ -245,7 +264,6 @@ class SearchResults extends Component {
           keyboardShouldPersistTaps={true}
           renderRow={this.renderRow.bind(this)}
           renderSectionHeader={this.renderSectionHeader.bind(this)}
-          renderHeader={this.renderHeader.bind(this)}
           enableEmptySections={true}
         />
     );

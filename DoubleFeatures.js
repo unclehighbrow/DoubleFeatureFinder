@@ -28,7 +28,6 @@ class DoubleFeatures extends Component {
     if (this.props.listings.theatres[theatreId].m[movieId][showtime]['a']) {
       all = all.concat(this.props.listings.theatres[theatreId].m[movieId][showtime]['a']);
     }
-    console.log(JSON.stringify(all));
     all = all.sort((a,b) => a[1] > b[1] ? 1 : -1);
     var dataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1.guid !== r2.guid

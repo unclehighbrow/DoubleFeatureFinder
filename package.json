@@ -8,6 +8,6 @@
   "dependencies": {
     "react": "^0.14.8",
     "react-native": "^0.23.1",
-    "react-native-segmented-android": "^1.0.4"
+    "react-native-scrollable-tab-view": "^0.4.1"
   }
 }
