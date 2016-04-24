@@ -158,12 +158,13 @@ var styles = StyleSheet.create({
 	  padding: 4,
     marginRight: Platform.OS === 'android' ? 40: 5,
     marginLeft: Platform.OS === 'android' ? 40: 5,
-    fontSize: Platform.OS === 'android' ? 80 : 100,
+    fontSize: Platform.OS === 'android' ? 80 : 90,
 	  borderWidth: 1,
 	  borderColor: mainColor,
 	  borderRadius: 8,
 	  color: mainColor,
-    marginTop : 20
+    marginTop : 20,
+    textAlign: 'center',
 	},
   spinner: {
     marginTop: 20
