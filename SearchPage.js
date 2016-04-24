@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var SearchResults = require('./SearchResults');
+var Global = require('./Global');
 var {
   StyleSheet,
   Text,
@@ -35,6 +36,7 @@ class SearchPage extends Component {
         this.findZip(position.coords.latitude, position.coords.longitude);
       },
       (error) => {
+        Global.manual = true;
         this.setState({
           isLocating: false,
           message: catchphrase
@@ -63,15 +65,23 @@ class SearchPage extends Component {
             }
           }
         }
+        this.setState({
+          isLocating: false,
+          message: catchphrase
+        });
+        if (this.state.zipcode && this.state.country) {
+          this.onSearchPressed();
+        }
       })
       .catch(error => {});
-    this.setState({
-      isLocating: false,
-      message: catchphrase
-    });
   }
 
   handleResponse(response) {
+    if (Object.keys(response.movies).length < 1) {
+      Global.manual = true;
+      this.setState({isLoading: false, message: 'There was an error.'});
+      return;
+    }
     this.setState({isLoading: false, message: catchphrase});
     this.props.navigator.push({
       id: 'SearchResults',
@@ -96,6 +106,7 @@ class SearchPage extends Component {
           .then(json => this.handleResponse(json))
           .catch(error => {
             console.log('error:' + error);
+            Global.manual = true;
             this.setState({
               isLoading: false, message: 'There was an error.'
             })
@@ -114,13 +125,21 @@ class SearchPage extends Component {
       zipcode: '',
       isLoading: false,
       message: catchphrase,
-      isLocating: false,
+      isLocating: true,
       country: 'US',
       pickingCountry: false
     };
   }
 
   render() {
+    if (!Global.manual) {
+      return (
+        <View style={[styles.container, {justifyContent: 'center'}]}>
+          <Text style={[styles.message, {paddingTop: 40}]}>{this.state.message}</Text>
+          <ActivityIndicatorIOS size='large' style={[styles.spinner]} />
+        </View>
+      );
+    }
     var spinner = this.state.isLoading ? (<ActivityIndicatorIOS size='large' style={styles.spinner} />) : (<View/>);
     var country;
     if (this.state.pickingCountry) {
@@ -153,8 +172,7 @@ class SearchPage extends Component {
     }
     return (
       <View style={styles.container}>
-        <Text style={styles.message}>Enter your zip to find double features</Text>
-        <View style={{flexDirection: 'row', marginTop: 20, marginBottom: 30}}>
+        <View style={{flexDirection: 'row', marginTop: 100, marginBottom: 30}}>
   			  <TextInput
   				  style={styles.searchInput}
             value={this.state.zipcode}

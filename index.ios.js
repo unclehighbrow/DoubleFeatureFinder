@@ -15,7 +15,7 @@ class DoubleFeatureFinder extends React.Component {
       <NavigatorIOS
         style={styles.container}
         initialRoute={{
-          title: 'Enter Zip',
+          title: 'Double Feature Finder',
           component: SearchPage,
         }}/>
     );

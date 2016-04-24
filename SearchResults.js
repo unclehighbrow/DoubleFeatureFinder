@@ -18,6 +18,7 @@ var {
 var Poster = require('./Poster');
 var Showtimes = require('./Showtimes');
 var styles = require('./Styles');
+var Global = require('./Global');
 var deviceWidth = Dimensions.get('window').width;
 var deviceHeight = Dimensions.get('window').height;
 var ScrollableTabView = require('react-native-scrollable-tab-view');
@@ -40,6 +41,7 @@ class SearchResults extends Component {
       searchText: '',
       noResults: false
     };
+    Global.manual = true;
   }
 
   rowPressed(id) {
