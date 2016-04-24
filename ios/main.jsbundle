@@ -67763,9 +67763,6 @@ theatres:response.theatres}});}},{key:'onSearchPressed',value:function onSearchP
 
 {var _this4=this;
 if(!this.state.isLoading){
-if(!this.state.zipcode.match(/^\d{5}$/)){
-this.setState({message:"That's not a valid zipcode."});}else 
-{
 this.setState({isLoading:true,message:'Please wait...'});
 fetch('http://dubfeatfind.appspot.com/?j=1&zipcode='+this.state.zipcode+'&country='+this.state.country).
 then(function(response){return response.json();}).
@@ -67774,8 +67771,7 @@ catch(function(error){
 console.log('error:'+error);
 Global.manual=true;
 _this4.setState({
-isLoading:false,message:'There was an error.'});});}}}},{key:'onSearchTextChanged',value:function onSearchTextChanged(
-
+isLoading:false,message:'There was an error.'});});}}},{key:'onSearchTextChanged',value:function onSearchTextChanged(
 
 
 
