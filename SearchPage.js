@@ -14,10 +14,15 @@ var {
   Component,
   Platform,
   Picker,
-  PickerIOS
+  PickerIOS,
+  Dimensions
 } = React;
 
 var catchphrase = (<Text>Never <Text style={{fontStyle: 'italic'}}>sneak</Text> into movies!</Text>);
+var deviceWidth = Dimensions.get('window').width;
+var deviceHeight = Dimensions.get('window').height;
+var small = deviceWidth < 40;
+var countries = ['AR', 'AU', 'CA', 'CL', 'DE', 'ES', 'FR', 'IT', 'MX', 'NZ', 'PT', 'UK', 'US'];
 
 class SearchPage extends Component {
 
@@ -59,11 +64,17 @@ class SearchPage extends Component {
               });
             }
             if (addressComponents[i].types.includes('country')) {
-              this.setState({
-                  country: addressComponents[i].short_name,
-              });
+              var country = addressComponents[i].short_name;
+              if (countries.includes(country)) {
+                this.setState({
+                  country: country,
+                });
+              }
             }
           }
+        }
+        if (!this.state.country || !this.state.zipcode) {
+          Global.manual = true;
         }
         this.setState({
           isLocating: false,
@@ -127,7 +138,6 @@ class SearchPage extends Component {
       message: catchphrase,
       isLocating: true,
       country: 'US',
-      pickingCountry: false
     };
   }
 
@@ -139,41 +149,8 @@ class SearchPage extends Component {
           <ActivityIndicatorIOS size='large' style={[styles.spinner]} />
         </View>
       );
-      // <Text style={[styles.message, {paddingTop: 40}]}
-      //   onPress={() => {Global.manual = true; this.setState({isLocating: false, mesage: catchphrase})}}>
-      //     cancel
-      // </Text>
     }
     var spinner = this.state.isLoading ? (<ActivityIndicatorIOS size='large' style={styles.spinner} />) : (<View/>);
-    var country;
-    if (this.state.pickingCountry) {
-      country = (
-        <PickerIOS
-          style={styles.picker}
-          selectedValue={this.state.country}
-          onValueChange={(c) => this.setState({country: c})}>
-          <PickerIOS.Item label='Argentina' value='AR' />
-          <PickerIOS.Item label='Australia' value='AU' />
-          <PickerIOS.Item label='Canada' value='CA' />
-          <PickerIOS.Item label='Chile' value='CL' />
-          <PickerIOS.Item label='Germany' value='DE' />
-          <PickerIOS.Item label='Spain' value='ES' />
-          <PickerIOS.Item label='France' value='FR' />
-          <PickerIOS.Item label='Italy' value='IT' />
-          <PickerIOS.Item label='Mexico' value='MX' />
-          <PickerIOS.Item label='New Zealand' value='NZ' />
-          <PickerIOS.Item label='Portugal' value='PT' />
-          <PickerIOS.Item label='UK' value='UK' />
-          <PickerIOS.Item label='US' value='US' />
-        </PickerIOS>
-      );
-    } else {
-      country = (
-        <View style={{width:140, alignSelf: 'center', alignItems: 'center'}}>
-          <Text style={{fontSize: 58}} onPress={() => this.setState({pickingCountry: true})}>{this.state.country}</Text>
-        </View>
-      );
-    }
     return (
       <View style={styles.container}>
         <View style={{flexDirection: 'row', marginTop: 100, marginBottom: 30}}>
@@ -183,7 +160,24 @@ class SearchPage extends Component {
             onChange={this.onSearchTextChanged.bind(this)}
             keyboardType='numeric'
   				  placeholder='zip' />
-          {country}
+          <Picker
+            style={styles.picker}
+            selectedValue={this.state.country}
+            onValueChange={(c) => this.setState({country: c})}>
+            <Picker.Item label='Argentina' value='AR' />
+            <Picker.Item label='Australia' value='AU' />
+            <Picker.Item label='Canada' value='CA' />
+            <Picker.Item label='Chile' value='CL' />
+            <Picker.Item label='Germany' value='DE' />
+            <Picker.Item label='Spain' value='ES' />
+            <Picker.Item label='France' value='FR' />
+            <Picker.Item label='Italy' value='IT' />
+            <Picker.Item label='Mexico' value='MX' />
+            <Picker.Item label='New Zealand' value='NZ' />
+            <Picker.Item label='Portugal' value='PT' />
+            <Picker.Item label='UK' value='UK' />
+            <Picker.Item label='US' value='US' />
+          </Picker>
         </View>
         <TouchableHighlight style={styles.button}
             onPress={this.onSearchPressed.bind(this)}
