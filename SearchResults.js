@@ -185,7 +185,7 @@ class SearchResults extends Component {
             tabBarBackgroundColor={'deepskyblue'}
             tabBarActiveTextColor={'white'}
             tabBarInactiveTextColor={'gainsboro'}
-            tabBarUnderlineColor={'gainsboro'}
+            tabBarUnderlineColor={'lightblue'}
             style={{paddingTop: 10, backgroundColor:'deepskyblue'}}
             >
             <View tabLabel="Movies" />

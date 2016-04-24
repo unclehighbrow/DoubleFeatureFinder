@@ -99,7 +99,7 @@ class DoubleFeatureFinder extends React.Component {
     return (
       <Navigator
         ref={(nav) => { navigator = nav; }}
-        style={styles.container}
+        style={[styles.container, {backgroundColor:'white'}]}
         initialRoute={{name: '', index: 0}}
         renderScene={this.renderScene}
         navigationBar={<Navigator.NavigationBar style={{backgroundColor: 'dodgerblue'}} routeMapper={ NavigationBarRouteMapper } />}
