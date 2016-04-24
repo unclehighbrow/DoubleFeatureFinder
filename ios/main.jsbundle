@@ -1335,7 +1335,7 @@ Text=
 
 
 React.Text;var NavigatorIOS=React.NavigatorIOS;var AppRegistry=React.AppRegistry;
-var SearchPage=require(543 /* ./SearchPage */);var 
+var SearchPage=require(533 /* ./SearchPage */);var 
 
 
 DoubleFeatureFinder=function(_React$Component){babelHelpers.inherits(DoubleFeatureFinder,_React$Component);function DoubleFeatureFinder(){babelHelpers.classCallCheck(this,DoubleFeatureFinder);return babelHelpers.possibleConstructorReturn(this,Object.getPrototypeOf(DoubleFeatureFinder).apply(this,arguments));}babelHelpers.createClass(DoubleFeatureFinder,[{key:'render',value:function render()
@@ -1344,7 +1344,7 @@ return (
 React.createElement(NavigatorIOS,{
 style:styles.container,
 initialRoute:{
-title:'Enter Zip',
+title:'Double Feature Finder',
 component:SearchPage}}));}}]);return DoubleFeatureFinder;}(React.Component);
 
 
@@ -63955,7 +63955,7 @@ React.Image;var Platform=React.Platform;var StyleSheet=React.StyleSheet;var Touc
 
 var NavigationHeaderBackButton=function(props){return (
 React.createElement(TouchableOpacity,{style:styles.buttonContainer,onPress:function(){return props.onNavigate(NavigationRootContainer.getBackAction());}},
-React.createElement(Image,{style:styles.button,source:require(544 /* ./assets/back-icon.png */)})));};
+React.createElement(Image,{style:styles.button,source:require(545 /* ./assets/back-icon.png */)})));};
 
 
 
@@ -63980,7 +63980,7 @@ resizeMode:'contain'}});
 
 module.exports=NavigationContainer.create(NavigationHeaderBackButton);
 });
-__d(544 /* react-native/Libraries/CustomComponents/NavigationExperimental/assets/back-icon.png */, function(global, require, module, exports) {module.exports = require(333 /* react-native/Libraries/Image/AssetRegistry */).registerAsset({"__packager_asset":true,"fileSystemLocation":"/Users/will/Dropbox/code/react/DoubleFeatureFinder/node_modules/react-native/Libraries/CustomComponents/NavigationExperimental/assets","httpServerLocation":"/assets/node_modules/react-native/Libraries/CustomComponents/NavigationExperimental/assets","width":24,"height":24,"scales":[1,1.5,2,3,4],"files":["/Users/will/Dropbox/code/react/DoubleFeatureFinder/node_modules/react-native/Libraries/CustomComponents/NavigationExperimental/assets/back-icon@1x.ios.png","/Users/will/Dropbox/code/react/DoubleFeatureFinder/node_modules/react-native/Libraries/CustomComponents/NavigationExperimental/assets/back-icon@1.5x.ios.png","/Users/will/Dropbox/code/react/DoubleFeatureFinder/node_modules/react-native/Libraries/CustomComponents/NavigationExperimental/assets/back-icon@2x.ios.png","/Users/will/Dropbox/code/react/DoubleFeatureFinder/node_modules/react-native/Libraries/CustomComponents/NavigationExperimental/assets/back-icon@3x.ios.png","/Users/will/Dropbox/code/react/DoubleFeatureFinder/node_modules/react-native/Libraries/CustomComponents/NavigationExperimental/assets/back-icon@4x.ios.png"],"hash":"d83362ee7305478759aff6ad504afbc1","name":"back-icon","type":"png"});
+__d(545 /* react-native/Libraries/CustomComponents/NavigationExperimental/assets/back-icon.png */, function(global, require, module, exports) {module.exports = require(333 /* react-native/Libraries/Image/AssetRegistry */).registerAsset({"__packager_asset":true,"fileSystemLocation":"/Users/will/Dropbox/code/react/DoubleFeatureFinder/node_modules/react-native/Libraries/CustomComponents/NavigationExperimental/assets","httpServerLocation":"/assets/node_modules/react-native/Libraries/CustomComponents/NavigationExperimental/assets","width":24,"height":24,"scales":[1,1.5,2,3,4],"files":["/Users/will/Dropbox/code/react/DoubleFeatureFinder/node_modules/react-native/Libraries/CustomComponents/NavigationExperimental/assets/back-icon@1x.ios.png","/Users/will/Dropbox/code/react/DoubleFeatureFinder/node_modules/react-native/Libraries/CustomComponents/NavigationExperimental/assets/back-icon@1.5x.ios.png","/Users/will/Dropbox/code/react/DoubleFeatureFinder/node_modules/react-native/Libraries/CustomComponents/NavigationExperimental/assets/back-icon@2x.ios.png","/Users/will/Dropbox/code/react/DoubleFeatureFinder/node_modules/react-native/Libraries/CustomComponents/NavigationExperimental/assets/back-icon@3x.ios.png","/Users/will/Dropbox/code/react/DoubleFeatureFinder/node_modules/react-native/Libraries/CustomComponents/NavigationExperimental/assets/back-icon@4x.ios.png"],"hash":"d83362ee7305478759aff6ad504afbc1","name":"back-icon","type":"png"});
 });
 __d(501 /* NavigationLegacyNavigator */, function(global, require, module, exports) {'use strict';
 
@@ -67656,10 +67656,11 @@ return ReactMount.getNodeFromInstance(componentOrElement);}
 
 module.exports=findDOMNode;
 });
-__d(543 /* DoubleFeatureFinder/SearchPage.js */, function(global, require, module, exports) {'use strict';
+__d(533 /* DoubleFeatureFinder/SearchPage.js */, function(global, require, module, exports) {'use strict';
 
 var React=require(11 /* react-native */);
-var SearchResults=require(533 /* ./SearchResults */);var 
+var SearchResults=require(534 /* ./SearchResults */);
+var Global=require(540 /* ./Global */);var 
 
 StyleSheet=
 
@@ -67672,9 +67673,11 @@ StyleSheet=
 
 
 
-React.StyleSheet;var Text=React.Text;var TextInput=React.TextInput;var View=React.View;var TouchableHighlight=React.TouchableHighlight;var ActivityIndicatorIOS=React.ActivityIndicatorIOS;var Image=React.Image;var Component=React.Component;var Platform=React.Platform;var Picker=React.Picker;var PickerIOS=React.PickerIOS;
 
-var catchphrase=React.createElement(Text,null,'Never ',React.createElement(Text,{style:{fontStyle:'italic'}},'sneak'),' into movies!');var 
+React.StyleSheet;var Text=React.Text;var TextInput=React.TextInput;var View=React.View;var TouchableHighlight=React.TouchableHighlight;var ActivityIndicatorIOS=React.ActivityIndicatorIOS;var Image=React.Image;var Component=React.Component;var Platform=React.Platform;var Picker=React.Picker;var PickerIOS=React.PickerIOS;var Dimensions=React.Dimensions;
+
+var catchphrase=React.createElement(Text,null,'Never ',React.createElement(Text,{style:{fontStyle:'italic'}},'sneak'),' into movies!');
+var countries=['AR','AU','CA','CL','DE','ES','FR','IT','MX','NZ','PT','UK','US'];var 
 
 SearchPage=function(_Component){babelHelpers.inherits(SearchPage,_Component);babelHelpers.createClass(SearchPage,[{key:'componentDidMount',value:function componentDidMount()
 
@@ -67693,6 +67696,7 @@ function(position){
 _this2.findZip(position.coords.latitude,position.coords.longitude);},
 
 function(error){
+Global.manual=true;
 _this2.setState({
 isLocating:false,
 message:catchphrase});},
@@ -67715,21 +67719,35 @@ zipcode:addressComponents[i].short_name});}
 
 
 if(addressComponents[i].types.includes('country')){
+var country=addressComponents[i].short_name;
+if(countries.includes(country)){
 _this3.setState({
-country:addressComponents[i].short_name});}}}}).
+country:country});}}}}
 
 
 
 
 
-catch(function(error){});
-this.setState({
+if(!_this3.state.country||!_this3.state.zipcode){
+Global.manual=true;}
+
+_this3.setState({
 isLocating:false,
-message:catchphrase});}},{key:'handleResponse',value:function handleResponse(
+message:catchphrase});
 
+if(_this3.state.zipcode&&_this3.state.country){
+_this3.onSearchPressed();}}).
+
+
+catch(function(error){});}},{key:'handleResponse',value:function handleResponse(
 
 
 response){
+if(Object.keys(response.movies).length<1){
+Global.manual=true;
+this.setState({isLoading:false,message:'There was an error.'});
+return;}
+
 this.setState({isLoading:false,message:catchphrase});
 this.props.navigator.push({
 id:'SearchResults',
@@ -67754,6 +67772,7 @@ then(function(response){return response.json();}).
 then(function(json){return _this4.handleResponse(json);}).
 catch(function(error){
 console.log('error:'+error);
+Global.manual=true;
 _this4.setState({
 isLoading:false,message:'There was an error.'});});}}}},{key:'onSearchTextChanged',value:function onSearchTextChanged(
 
@@ -67772,54 +67791,48 @@ _this.state={
 zipcode:'',
 isLoading:false,
 message:catchphrase,
-isLocating:false,
-country:'US',
-pickingCountry:false};return _this;}babelHelpers.createClass(SearchPage,[{key:'render',value:function render()
+isLocating:true,
+country:'US'};return _this;}babelHelpers.createClass(SearchPage,[{key:'render',value:function render()
 
 
 
 {var _this5=this;
+if(!Global.manual){
+return (
+React.createElement(View,{style:[styles.container,{justifyContent:'center'}]},
+React.createElement(Text,{style:[styles.message,{paddingTop:40}]},this.state.message),
+React.createElement(ActivityIndicatorIOS,{size:'large',style:[styles.spinner]})));}
+
+
+
 var spinner=this.state.isLoading?React.createElement(ActivityIndicatorIOS,{size:'large',style:styles.spinner}):React.createElement(View,null);
-var country;
-if(this.state.pickingCountry){
-country=
-React.createElement(PickerIOS,{
-style:styles.picker,
-selectedValue:this.state.country,
-onValueChange:function(c){return _this5.setState({country:c});}},
-React.createElement(PickerIOS.Item,{label:'Argentina',value:'AR'}),
-React.createElement(PickerIOS.Item,{label:'Australia',value:'AU'}),
-React.createElement(PickerIOS.Item,{label:'Canada',value:'CA'}),
-React.createElement(PickerIOS.Item,{label:'Chile',value:'CL'}),
-React.createElement(PickerIOS.Item,{label:'Germany',value:'DE'}),
-React.createElement(PickerIOS.Item,{label:'Spain',value:'ES'}),
-React.createElement(PickerIOS.Item,{label:'France',value:'FR'}),
-React.createElement(PickerIOS.Item,{label:'Italy',value:'IT'}),
-React.createElement(PickerIOS.Item,{label:'Mexico',value:'MX'}),
-React.createElement(PickerIOS.Item,{label:'New Zealand',value:'NZ'}),
-React.createElement(PickerIOS.Item,{label:'Portugal',value:'PT'}),
-React.createElement(PickerIOS.Item,{label:'UK',value:'UK'}),
-React.createElement(PickerIOS.Item,{label:'US',value:'US'}));}else 
-
-
-{
-country=
-React.createElement(View,{style:{width:140,alignSelf:'center',alignItems:'center'}},
-React.createElement(Text,{style:{fontSize:58},onPress:function(){return _this5.setState({pickingCountry:true});}},this.state.country));}
-
-
-
 return (
 React.createElement(View,{style:styles.container},
-React.createElement(Text,{style:styles.message},'Enter your zip to find double features'),
-React.createElement(View,{style:{flexDirection:'row',marginTop:20,marginBottom:30}},
+React.createElement(View,{style:{flexDirection:'row',marginTop:80,marginBottom:30}},
 React.createElement(TextInput,{
 style:styles.searchInput,
 value:this.state.zipcode,
 onChange:this.onSearchTextChanged.bind(this),
-keyboardType:'numeric',
+keyboardType:'default',
 placeholder:'zip'}),
-country),
+React.createElement(Picker,{
+style:styles.picker,
+selectedValue:this.state.country,
+onValueChange:function(c){return _this5.setState({country:c});}},
+React.createElement(Picker.Item,{label:'Argentina',value:'AR'}),
+React.createElement(Picker.Item,{label:'Australia',value:'AU'}),
+React.createElement(Picker.Item,{label:'Canada',value:'CA'}),
+React.createElement(Picker.Item,{label:'Chile',value:'CL'}),
+React.createElement(Picker.Item,{label:'Germany',value:'DE'}),
+React.createElement(Picker.Item,{label:'Spain',value:'ES'}),
+React.createElement(Picker.Item,{label:'France',value:'FR'}),
+React.createElement(Picker.Item,{label:'Italy',value:'IT'}),
+React.createElement(Picker.Item,{label:'Mexico',value:'MX'}),
+React.createElement(Picker.Item,{label:'New Zealand',value:'NZ'}),
+React.createElement(Picker.Item,{label:'Portugal',value:'PT'}),
+React.createElement(Picker.Item,{label:'UK',value:'UK'}),
+React.createElement(Picker.Item,{label:'US',value:'US'}))),
+
 
 React.createElement(TouchableHighlight,{style:styles.button,
 onPress:this.onSearchPressed.bind(this),
@@ -67859,18 +67872,17 @@ backgroundColor:mainColor,
 borderColor:mainColor,
 borderWidth:1,
 borderRadius:8,
-justifyContent:'center',
-marginTop:20},
+justifyContent:'center'},
 
 searchInput:{
-height:80,
-fontSize:58,
+height:60,
+fontSize:30,
 borderWidth:1,
 borderColor:mainColor,
 borderRadius:5,
 color:mainColor,
 textAlign:'center',
-width:190,
+width:100,
 marginRight:20,
 flex:4,
 alignSelf:'center'},
@@ -67887,7 +67899,7 @@ marginTop:20}});
 
 module.exports=SearchPage;
 });
-__d(533 /* DoubleFeatureFinder/SearchResults.js */, function(global, require, module, exports) {'use strict';
+__d(534 /* DoubleFeatureFinder/SearchResults.js */, function(global, require, module, exports) {'use strict';
 
 var React=require(11 /* react-native */);var 
 
@@ -67904,12 +67916,11 @@ StyleSheet=
 
 
 React.StyleSheet;var Image=React.Image;var View=React.View;var TouchableHighlight=React.TouchableHighlight;var ListView=React.ListView;var Text=React.Text;var Component=React.Component;var SegmentedControlIOS=React.SegmentedControlIOS;var ScrollView=React.ScrollView;var TextInput=React.TextInput;var Platform=React.Platform;var Dimensions=React.Dimensions;
-var Poster=require(534 /* ./Poster */);
-var Showtimes=require(536 /* ./Showtimes */);
-var styles=require(535 /* ./Styles */);
-var deviceWidth=Dimensions.get('window').width;
-var deviceHeight=Dimensions.get('window').height;
-var ScrollableTabView=require(539 /* react-native-scrollable-tab-view */);var 
+var Poster=require(535 /* ./Poster */);
+var Showtimes=require(537 /* ./Showtimes */);
+var styles=require(536 /* ./Styles */);
+var Global=require(540 /* ./Global */);
+var ScrollableTabView=require(541 /* react-native-scrollable-tab-view */);var 
 
 SearchResults=function(_Component){babelHelpers.inherits(SearchResults,_Component);
 function SearchResults(props){babelHelpers.classCallCheck(this,SearchResults);var _this=babelHelpers.possibleConstructorReturn(this,Object.getPrototypeOf(SearchResults).call(this,
@@ -67927,8 +67938,9 @@ theatreDataSource:theatreDataSource,
 movieSearchText:'',
 theatreSearchText:'',
 searchText:'',
-noResults:false};return _this;}babelHelpers.createClass(SearchResults,[{key:'rowPressed',value:function rowPressed(
+noResults:false};
 
+Global.manual=true;return _this;}babelHelpers.createClass(SearchResults,[{key:'rowPressed',value:function rowPressed(
 
 
 id){
@@ -68074,7 +68086,7 @@ onChangeTab:this.onTabHeaderChange.bind(this),
 tabBarBackgroundColor:'deepskyblue',
 tabBarActiveTextColor:'white',
 tabBarInactiveTextColor:'gainsboro',
-tabBarUnderlineColor:'gainsboro',
+tabBarUnderlineColor:'lightblue',
 style:{paddingTop:10,backgroundColor:'deepskyblue'}},
 
 React.createElement(View,{tabLabel:'Movies'}),
@@ -68161,7 +68173,7 @@ enableEmptySections:true}));}}]);return SearchResults;}(Component);
 
 module.exports=SearchResults;
 });
-__d(534 /* DoubleFeatureFinder/Poster.js */, function(global, require, module, exports) {'use strict';
+__d(535 /* DoubleFeatureFinder/Poster.js */, function(global, require, module, exports) {'use strict';
 
 var React=require(11 /* react-native */);var 
 
@@ -68171,7 +68183,7 @@ StyleSheet=
 
 React.StyleSheet;var Image=React.Image;var View=React.View;var Component=React.Component;
 
-var styles=require(535 /* ./Styles */);
+var styles=require(536 /* ./Styles */);
 var images={};var 
 
 Poster=function(_Component){babelHelpers.inherits(Poster,_Component);
@@ -68227,7 +68239,7 @@ style:styles.thumb}));}}}]);return Poster;}(Component);
 
 module.exports=Poster;
 });
-__d(535 /* DoubleFeatureFinder/Styles.js */, function(global, require, module, exports) {'use strict';
+__d(536 /* DoubleFeatureFinder/Styles.js */, function(global, require, module, exports) {'use strict';
 
 var React=require(11 /* react-native */);var 
 
@@ -68328,7 +68340,7 @@ right:{
 textAlign:'right',
 flex:1}});
 });
-__d(536 /* DoubleFeatureFinder/Showtimes.js */, function(global, require, module, exports) {var React=require(11 /* react-native */);var 
+__d(537 /* DoubleFeatureFinder/Showtimes.js */, function(global, require, module, exports) {var React=require(11 /* react-native */);var 
 
 StyleSheet=
 
@@ -68341,10 +68353,10 @@ StyleSheet=
 
 React.StyleSheet;var Text=React.Text;var TextInput=React.TextInput;var View=React.View;var TouchableHighlight=React.TouchableHighlight;var ActivityIndicatorIOS=React.ActivityIndicatorIOS;var Image=React.Image;var Component=React.Component;var ListView=React.ListView;
 
-var Poster=require(534 /* ./Poster */);
-var DoubleFeatures=require(537 /* ./DoubleFeatures */);
-var Util=require(538 /* ./Util */);
-var styles=require(535 /* ./Styles */);var 
+var Poster=require(535 /* ./Poster */);
+var DoubleFeatures=require(538 /* ./DoubleFeatures */);
+var Util=require(539 /* ./Util */);
+var styles=require(536 /* ./Styles */);var 
 
 Showtimes=function(_Component){babelHelpers.inherits(Showtimes,_Component);
 function Showtimes(props){babelHelpers.classCallCheck(this,Showtimes);var _this=babelHelpers.possibleConstructorReturn(this,Object.getPrototypeOf(Showtimes).call(this,
@@ -68430,7 +68442,7 @@ renderHeader:this.renderHeader.bind(this)}));}}]);return Showtimes;}(Component);
 
 module.exports=Showtimes;
 });
-__d(537 /* DoubleFeatureFinder/DoubleFeatures.js */, function(global, require, module, exports) {var React=require(11 /* react-native */);var 
+__d(538 /* DoubleFeatureFinder/DoubleFeatures.js */, function(global, require, module, exports) {var React=require(11 /* react-native */);var 
 
 StyleSheet=
 
@@ -68443,8 +68455,8 @@ StyleSheet=
 
 React.StyleSheet;var Text=React.Text;var TextInput=React.TextInput;var View=React.View;var TouchableHighlight=React.TouchableHighlight;var ActivityIndicatorIOS=React.ActivityIndicatorIOS;var Image=React.Image;var Component=React.Component;var ListView=React.ListView;
 
-var Util=require(538 /* ./Util */);
-var styles=require(535 /* ./Styles */);var 
+var Util=require(539 /* ./Util */);
+var styles=require(536 /* ./Styles */);var 
 
 DoubleFeatures=function(_Component){babelHelpers.inherits(DoubleFeatures,_Component);
 function DoubleFeatures(props){babelHelpers.classCallCheck(this,DoubleFeatures);var _this=babelHelpers.possibleConstructorReturn(this,Object.getPrototypeOf(DoubleFeatures).call(this,
@@ -68517,7 +68529,7 @@ renderHeader:this.renderHeader.bind(this)}));}}]);return DoubleFeatures;}(Compon
 
 module.exports=DoubleFeatures;
 });
-__d(538 /* DoubleFeatureFinder/Util.js */, function(global, require, module, exports) {'use strict';
+__d(539 /* DoubleFeatureFinder/Util.js */, function(global, require, module, exports) {'use strict';
 
 var React=require(11 /* react-native */);var 
 
@@ -68550,7 +68562,10 @@ render:function(){}});
 
 module.exports=Util;
 });
-__d(539 /* react-native-scrollable-tab-view/index.js */, function(global, require, module, exports) {var React=require(11 /* react-native */);var 
+__d(540 /* DoubleFeatureFinder/Global.js */, function(global, require, module, exports) {module.exports={
+manual:false};
+});
+__d(541 /* react-native-scrollable-tab-view/index.js */, function(global, require, module, exports) {var React=require(11 /* react-native */);var 
 
 Dimensions=
 
@@ -68563,8 +68578,8 @@ Dimensions=
 
 React.Dimensions;var View=React.View;var Animated=React.Animated;var ScrollView=React.ScrollView;var Platform=React.Platform;var StyleSheet=React.StyleSheet;var ViewPagerAndroid=React.ViewPagerAndroid;var PropTypes=React.PropTypes;var InteractionManager=React.InteractionManager;
 
-var DefaultTabBar=require(540 /* ./DefaultTabBar */);
-var ScrollableTabBar=require(542 /* ./ScrollableTabBar */);
+var DefaultTabBar=require(542 /* ./DefaultTabBar */);
+var ScrollableTabBar=require(544 /* ./ScrollableTabBar */);
 
 var ScrollableTabView=React.createClass({displayName:'ScrollableTabView',
 statics:{
@@ -68787,14 +68802,14 @@ flexDirection:'column'},
 scrollableContentAndroid:{
 flex:1}});
 });
-__d(540 /* react-native-scrollable-tab-view/DefaultTabBar.js */, function(global, require, module, exports) {var React=require(11 /* react-native */);var 
+__d(542 /* react-native-scrollable-tab-view/DefaultTabBar.js */, function(global, require, module, exports) {var React=require(11 /* react-native */);var 
 
 StyleSheet=
 
 
 
 React.StyleSheet;var Text=React.Text;var View=React.View;var Animated=React.Animated;
-var Button=require(541 /* ./Button */);
+var Button=require(543 /* ./Button */);
 
 var DefaultTabBar=React.createClass({displayName:'DefaultTabBar',
 propTypes:{
@@ -68873,7 +68888,7 @@ borderBottomColor:'#ccc'}});
 
 module.exports=DefaultTabBar;
 });
-__d(541 /* react-native-scrollable-tab-view/Button.ios.js */, function(global, require, module, exports) {var React=require(11 /* react-native */);var 
+__d(543 /* react-native-scrollable-tab-view/Button.ios.js */, function(global, require, module, exports) {var React=require(11 /* react-native */);var 
 
 TouchableOpacity=
 
@@ -68887,7 +68902,7 @@ props.children);};
 
 module.exports=Button;
 });
-__d(542 /* react-native-scrollable-tab-view/ScrollableTabBar.js */, function(global, require, module, exports) {var React=require(11 /* react-native */);var 
+__d(544 /* react-native-scrollable-tab-view/ScrollableTabBar.js */, function(global, require, module, exports) {var React=require(11 /* react-native */);var 
 
 View=
 
