@@ -11,7 +11,9 @@ var {
   ActivityIndicatorIOS,
   Image,
   Component,
-  Platform
+  Platform,
+  Picker,
+  PickerIOS
 } = React;
 
 var catchphrase = (<Text>Never <Text style={{fontStyle: 'italic'}}>sneak</Text> into movies!</Text>);
@@ -24,6 +26,10 @@ class SearchPage extends Component {
       message: 'Getting your position...',
       isLocating: true
     });
+    this.findPosition();
+  }
+
+  findPosition() {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         this.findZip(position.coords.latitude, position.coords.longitude);
@@ -45,17 +51,24 @@ class SearchPage extends Component {
         if (json && json.results && json.results[0].address_components) {
           var addressComponents = json.results[0].address_components;
           for (var i = 0; i < addressComponents.length; i++) {
-            if (addressComponents[i].types[0] == 'postal_code') {
+            if (addressComponents[i].types.includes('postal_code')) {
               this.setState({
                   zipcode: addressComponents[i].short_name,
-                  isLocating: false,
-                  message: catchphrase
+              });
+            }
+            if (addressComponents[i].types.includes('country')) {
+              this.setState({
+                  country: addressComponents[i].short_name,
               });
             }
           }
         }
       })
       .catch(error => {});
+    this.setState({
+      isLocating: false,
+      message: catchphrase
+    });
   }
 
   handleResponse(response) {
@@ -78,7 +91,7 @@ class SearchPage extends Component {
         this.setState({message: "That's not a valid zipcode."});
       } else {
         this.setState({ isLoading: true, message: 'Please wait...' });
-        fetch('http://dubfeatfind.appspot.com/?j=1&zipcode=' + this.state.zipcode)
+        fetch('http://dubfeatfind.appspot.com/?j=1&zipcode=' + this.state.zipcode + '&country=' + this.state.country)
           .then(response => response.json())
           .then(json => this.handleResponse(json))
           .catch(error => {
@@ -101,22 +114,56 @@ class SearchPage extends Component {
       zipcode: '',
       isLoading: false,
       message: catchphrase,
-      isLocating: false
+      isLocating: false,
+      country: 'US',
+      pickingCountry: false
     };
   }
 
   render() {
     var spinner = this.state.isLoading ? (<ActivityIndicatorIOS size='large' style={styles.spinner} />) : (<View/>);
+    var country;
+    if (this.state.pickingCountry) {
+      country = (
+        <PickerIOS
+          style={styles.picker}
+          selectedValue={this.state.country}
+          onValueChange={(c) => this.setState({country: c})}>
+          <PickerIOS.Item label='Argentina' value='AR' />
+          <PickerIOS.Item label='Australia' value='AU' />
+          <PickerIOS.Item label='Canada' value='CA' />
+          <PickerIOS.Item label='Chile' value='CL' />
+          <PickerIOS.Item label='Germany' value='DE' />
+          <PickerIOS.Item label='Spain' value='ES' />
+          <PickerIOS.Item label='France' value='FR' />
+          <PickerIOS.Item label='Italy' value='IT' />
+          <PickerIOS.Item label='Mexico' value='MX' />
+          <PickerIOS.Item label='New Zealand' value='NZ' />
+          <PickerIOS.Item label='Portugal' value='PT' />
+          <PickerIOS.Item label='UK' value='UK' />
+          <PickerIOS.Item label='US' value='US' />
+        </PickerIOS>
+      );
+    } else {
+      country = (
+        <View style={{width:140, alignSelf: 'center', alignItems: 'center'}}>
+          <Text style={{fontSize: 58}} onPress={() => this.setState({pickingCountry: true})}>{this.state.country}</Text>
+        </View>
+      );
+    }
     return (
       <View style={styles.container}>
         <Text style={styles.message}>Enter your zip to find double features</Text>
-			  <TextInput
-				  style={styles.searchInput}
-          value={this.state.zipcode}
-          onChange={this.onSearchTextChanged.bind(this)}
-          keyboardType='numeric'
-				  placeholder='zip'/>
-			  <TouchableHighlight style={styles.button}
+        <View style={{flexDirection: 'row', marginTop: 20, marginBottom: 30}}>
+  			  <TextInput
+  				  style={styles.searchInput}
+            value={this.state.zipcode}
+            onChange={this.onSearchTextChanged.bind(this)}
+            keyboardType='numeric'
+  				  placeholder='zip' />
+          {country}
+        </View>
+        <TouchableHighlight style={styles.button}
             onPress={this.onSearchPressed.bind(this)}
 			      underlayColor='#666688'>
 			    <Text style={styles.buttonText}>Go</Text>
@@ -154,22 +201,27 @@ var styles = StyleSheet.create({
 	  borderColor: mainColor,
 	  borderWidth: 1,
 	  borderRadius: 8,
+	  justifyContent: 'center',
     marginTop: 20,
-	  justifyContent: 'center'
 	},
 	searchInput: {
-	  height: 100,
-	  padding: 4,
-    marginRight: Platform.OS === 'android' ? 40: 5,
-    marginLeft: Platform.OS === 'android' ? 40: 5,
-    fontSize: Platform.OS === 'android' ? 80 : 90,
+	  height: 80,
+    fontSize: 58,
 	  borderWidth: 1,
 	  borderColor: mainColor,
-	  borderRadius: 8,
+	  borderRadius: 5,
 	  color: mainColor,
-    marginTop : 20,
     textAlign: 'center',
+    width: 190,
+    marginRight: 20,
+    flex: 4,
+    alignSelf: 'center'
 	},
+  picker: {
+    flex: 1,
+    width: 140,
+    height: 180
+  },
   spinner: {
     marginTop: 20
   }
