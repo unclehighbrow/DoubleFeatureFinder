@@ -105,21 +105,17 @@ class SearchPage extends Component {
 
   onSearchPressed() {
     if (!this.state.isLoading) {
-      if (!this.state.zipcode.match(/^\d{5}$/)) {
-        this.setState({message: "That's not a valid zipcode."});
-      } else {
-        this.setState({ isLoading: true, message: 'Please wait...' });
-        fetch('http://dubfeatfind.appspot.com/?j=1&zipcode=' + this.state.zipcode + '&country=' + this.state.country)
-          .then(response => response.json())
-          .then(json => this.handleResponse(json))
-          .catch(error => {
-            console.log('error:' + error);
-            Global.manual = true;
-            this.setState({
-              isLoading: false, message: 'There was an error.'
-            })
-          });
-      }
+      this.setState({ isLoading: true, message: 'Please wait...' });
+      fetch('http://dubfeatfind.appspot.com/?j=1&zipcode=' + this.state.zipcode + '&country=' + this.state.country)
+        .then(response => response.json())
+        .then(json => this.handleResponse(json))
+        .catch(error => {
+          console.log('error:' + error);
+          Global.manual = true;
+          this.setState({
+            isLoading: false, message: 'There was an error.'
+          })
+        });
     }
   }
 
