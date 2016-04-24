@@ -228,7 +228,7 @@ var styles = StyleSheet.create({
   picker: {
     flex: 1,
     width: 140,
-    height: 180
+    height: 215,
   },
   spinner: {
     marginTop: 20
