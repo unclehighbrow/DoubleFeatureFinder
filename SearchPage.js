@@ -19,9 +19,6 @@ var {
 } = React;
 
 var catchphrase = (<Text>Never <Text style={{fontStyle: 'italic'}}>sneak</Text> into movies!</Text>);
-var deviceWidth = Dimensions.get('window').width;
-var deviceHeight = Dimensions.get('window').height;
-var small = deviceWidth < 500;
 var countries = ['AR', 'AU', 'CA', 'CL', 'DE', 'ES', 'FR', 'IT', 'MX', 'NZ', 'PT', 'UK', 'US'];
 
 class SearchPage extends Component {
@@ -151,12 +148,11 @@ class SearchPage extends Component {
       );
     }
     var spinner = this.state.isLoading ? (<ActivityIndicatorIOS size='large' style={styles.spinner} />) : (<View/>);
-    var searchInputStyle = small ? [styles.searchInput, styles.searchInputSmall] : styles.searchInput;
     return (
       <View style={styles.container}>
-        <View style={{flexDirection: 'row', marginTop: 100, marginBottom: 30}}>
+        <View style={{flexDirection: 'row', marginTop: 80, marginBottom: 30}}>
   			  <TextInput
-  				  style={searchInputStyle}
+  				  style={styles.searchInput}
             value={this.state.zipcode}
             onChange={this.onSearchTextChanged.bind(this)}
             keyboardType='numeric'
@@ -219,26 +215,20 @@ var styles = StyleSheet.create({
 	  borderWidth: 1,
 	  borderRadius: 8,
 	  justifyContent: 'center',
-    marginTop: 20,
 	},
 	searchInput: {
-	  height: 80,
-    fontSize: 58,
+    height: 60,
+    fontSize: 30,
 	  borderWidth: 1,
 	  borderColor: mainColor,
 	  borderRadius: 5,
 	  color: mainColor,
     textAlign: 'center',
-    width: 190,
+    width: 100,
     marginRight: 20,
     flex: 4,
     alignSelf: 'center'
 	},
-  searchInputSmall: {
-    fontSize: 30,
-    height: 50,
-    width: 100
-  },
   picker: {
     flex: 1,
     width: 140,
