@@ -1335,7 +1335,7 @@ Text=
 
 
 React.Text;var NavigatorIOS=React.NavigatorIOS;var AppRegistry=React.AppRegistry;
-var SearchPage=require(533 /* ./SearchPage */);var 
+var SearchPage=require(543 /* ./SearchPage */);var 
 
 
 DoubleFeatureFinder=function(_React$Component){babelHelpers.inherits(DoubleFeatureFinder,_React$Component);function DoubleFeatureFinder(){babelHelpers.classCallCheck(this,DoubleFeatureFinder);return babelHelpers.possibleConstructorReturn(this,Object.getPrototypeOf(DoubleFeatureFinder).apply(this,arguments));}babelHelpers.createClass(DoubleFeatureFinder,[{key:'render',value:function render()
@@ -67656,10 +67656,10 @@ return ReactMount.getNodeFromInstance(componentOrElement);}
 
 module.exports=findDOMNode;
 });
-__d(533 /* DoubleFeatureFinder/SearchPage.js */, function(global, require, module, exports) {'use strict';
+__d(543 /* DoubleFeatureFinder/SearchPage.js */, function(global, require, module, exports) {'use strict';
 
 var React=require(11 /* react-native */);
-var SearchResults=require(534 /* ./SearchResults */);var 
+var SearchResults=require(533 /* ./SearchResults */);var 
 
 StyleSheet=
 
@@ -67670,18 +67670,24 @@ StyleSheet=
 
 
 
-React.StyleSheet;var Text=React.Text;var TextInput=React.TextInput;var View=React.View;var TouchableHighlight=React.TouchableHighlight;var ActivityIndicatorIOS=React.ActivityIndicatorIOS;var Image=React.Image;var Component=React.Component;var Platform=React.Platform;
+
+
+React.StyleSheet;var Text=React.Text;var TextInput=React.TextInput;var View=React.View;var TouchableHighlight=React.TouchableHighlight;var ActivityIndicatorIOS=React.ActivityIndicatorIOS;var Image=React.Image;var Component=React.Component;var Platform=React.Platform;var Picker=React.Picker;var PickerIOS=React.PickerIOS;
 
 var catchphrase=React.createElement(Text,null,'Never ',React.createElement(Text,{style:{fontStyle:'italic'}},'sneak'),' into movies!');var 
 
 SearchPage=function(_Component){babelHelpers.inherits(SearchPage,_Component);babelHelpers.createClass(SearchPage,[{key:'componentDidMount',value:function componentDidMount()
 
-{var _this2=this;
+{
 this.setState({
 isLoading:false,
 message:'Getting your position...',
 isLocating:true});
 
+this.findPosition();}},{key:'findPosition',value:function findPosition()
+
+
+{var _this2=this;
 navigator.geolocation.getCurrentPosition(
 function(position){
 _this2.findZip(position.coords.latitude,position.coords.longitude);},
@@ -67703,17 +67709,24 @@ then(function(json){
 if(json&&json.results&&json.results[0].address_components){
 var addressComponents=json.results[0].address_components;
 for(var i=0;i<addressComponents.length;i++){
-if(addressComponents[i].types[0]=='postal_code'){
+if(addressComponents[i].types.includes('postal_code')){
 _this3.setState({
-zipcode:addressComponents[i].short_name,
+zipcode:addressComponents[i].short_name});}
+
+
+if(addressComponents[i].types.includes('country')){
+_this3.setState({
+country:addressComponents[i].short_name});}}}}).
+
+
+
+
+
+catch(function(error){});
+this.setState({
 isLocating:false,
-message:catchphrase});}}}}).
+message:catchphrase});}},{key:'handleResponse',value:function handleResponse(
 
-
-
-
-
-catch(function(error){});}},{key:'handleResponse',value:function handleResponse(
 
 
 response){
@@ -67732,14 +67745,18 @@ theatres:response.theatres}});}},{key:'onSearchPressed',value:function onSearchP
 
 {var _this4=this;
 if(!this.state.isLoading){
+if(!this.state.zipcode.match(/^\d{5}$/)){
+this.setState({message:"That's not a valid zipcode."});}else 
+{
 this.setState({isLoading:true,message:'Please wait...'});
-fetch('http://dubfeatfind.appspot.com/?j=1&zipcode='+this.state.zipcode).
+fetch('http://dubfeatfind.appspot.com/?j=1&zipcode='+this.state.zipcode+'&country='+this.state.country).
 then(function(response){return response.json();}).
 then(function(json){return _this4.handleResponse(json);}).
 catch(function(error){
 console.log('error:'+error);
 _this4.setState({
-isLoading:false,message:'There was an error.'});});}}},{key:'onSearchTextChanged',value:function onSearchTextChanged(
+isLoading:false,message:'There was an error.'});});}}}},{key:'onSearchTextChanged',value:function onSearchTextChanged(
+
 
 
 
@@ -67755,21 +67772,55 @@ _this.state={
 zipcode:'',
 isLoading:false,
 message:catchphrase,
-isLocating:false};return _this;}babelHelpers.createClass(SearchPage,[{key:'render',value:function render()
+isLocating:false,
+country:'US',
+pickingCountry:false};return _this;}babelHelpers.createClass(SearchPage,[{key:'render',value:function render()
 
+
+
+{var _this5=this;
+var spinner=this.state.isLoading?React.createElement(ActivityIndicatorIOS,{size:'large',style:styles.spinner}):React.createElement(View,null);
+var country;
+if(this.state.pickingCountry){
+country=
+React.createElement(PickerIOS,{
+style:styles.picker,
+selectedValue:this.state.country,
+onValueChange:function(c){return _this5.setState({country:c});}},
+React.createElement(PickerIOS.Item,{label:'Argentina',value:'AR'}),
+React.createElement(PickerIOS.Item,{label:'Australia',value:'AU'}),
+React.createElement(PickerIOS.Item,{label:'Canada',value:'CA'}),
+React.createElement(PickerIOS.Item,{label:'Chile',value:'CL'}),
+React.createElement(PickerIOS.Item,{label:'Germany',value:'DE'}),
+React.createElement(PickerIOS.Item,{label:'Spain',value:'ES'}),
+React.createElement(PickerIOS.Item,{label:'France',value:'FR'}),
+React.createElement(PickerIOS.Item,{label:'Italy',value:'IT'}),
+React.createElement(PickerIOS.Item,{label:'Mexico',value:'MX'}),
+React.createElement(PickerIOS.Item,{label:'New Zealand',value:'NZ'}),
+React.createElement(PickerIOS.Item,{label:'Portugal',value:'PT'}),
+React.createElement(PickerIOS.Item,{label:'UK',value:'UK'}),
+React.createElement(PickerIOS.Item,{label:'US',value:'US'}));}else 
 
 
 {
-var spinner=this.state.isLoading?React.createElement(ActivityIndicatorIOS,{size:'large',style:styles.spinner}):React.createElement(View,null);
+country=
+React.createElement(View,{style:{width:140,alignSelf:'center',alignItems:'center'}},
+React.createElement(Text,{style:{fontSize:58},onPress:function(){return _this5.setState({pickingCountry:true});}},this.state.country));}
+
+
+
 return (
 React.createElement(View,{style:styles.container},
 React.createElement(Text,{style:styles.message},'Enter your zip to find double features'),
+React.createElement(View,{style:{flexDirection:'row',marginTop:20,marginBottom:30}},
 React.createElement(TextInput,{
 style:styles.searchInput,
 value:this.state.zipcode,
 onChange:this.onSearchTextChanged.bind(this),
 keyboardType:'numeric',
 placeholder:'zip'}),
+country),
+
 React.createElement(TouchableHighlight,{style:styles.button,
 onPress:this.onSearchPressed.bind(this),
 underlayColor:'#666688'},
@@ -67808,20 +67859,26 @@ backgroundColor:mainColor,
 borderColor:mainColor,
 borderWidth:1,
 borderRadius:8,
-marginTop:20,
-justifyContent:'center'},
+justifyContent:'center',
+marginTop:20},
 
 searchInput:{
-height:100,
-padding:4,
-marginRight:Platform.OS==='android'?40:5,
-marginLeft:Platform.OS==='android'?40:5,
-fontSize:Platform.OS==='android'?80:100,
+height:80,
+fontSize:58,
 borderWidth:1,
 borderColor:mainColor,
-borderRadius:8,
+borderRadius:5,
 color:mainColor,
-marginTop:20},
+textAlign:'center',
+width:190,
+marginRight:20,
+flex:4,
+alignSelf:'center'},
+
+picker:{
+flex:1,
+width:140,
+height:180},
 
 spinner:{
 marginTop:20}});
@@ -67830,7 +67887,7 @@ marginTop:20}});
 
 module.exports=SearchPage;
 });
-__d(534 /* DoubleFeatureFinder/SearchResults.js */, function(global, require, module, exports) {'use strict';
+__d(533 /* DoubleFeatureFinder/SearchResults.js */, function(global, require, module, exports) {'use strict';
 
 var React=require(11 /* react-native */);var 
 
@@ -67847,12 +67904,12 @@ StyleSheet=
 
 
 React.StyleSheet;var Image=React.Image;var View=React.View;var TouchableHighlight=React.TouchableHighlight;var ListView=React.ListView;var Text=React.Text;var Component=React.Component;var SegmentedControlIOS=React.SegmentedControlIOS;var ScrollView=React.ScrollView;var TextInput=React.TextInput;var Platform=React.Platform;var Dimensions=React.Dimensions;
-var Poster=require(535 /* ./Poster */);
-var Showtimes=require(537 /* ./Showtimes */);
-var styles=require(536 /* ./Styles */);
+var Poster=require(534 /* ./Poster */);
+var Showtimes=require(536 /* ./Showtimes */);
+var styles=require(535 /* ./Styles */);
 var deviceWidth=Dimensions.get('window').width;
 var deviceHeight=Dimensions.get('window').height;
-var ScrollableTabView=require(540 /* react-native-scrollable-tab-view */);var 
+var ScrollableTabView=require(539 /* react-native-scrollable-tab-view */);var 
 
 SearchResults=function(_Component){babelHelpers.inherits(SearchResults,_Component);
 function SearchResults(props){babelHelpers.classCallCheck(this,SearchResults);var _this=babelHelpers.possibleConstructorReturn(this,Object.getPrototypeOf(SearchResults).call(this,
@@ -68104,7 +68161,7 @@ enableEmptySections:true}));}}]);return SearchResults;}(Component);
 
 module.exports=SearchResults;
 });
-__d(535 /* DoubleFeatureFinder/Poster.js */, function(global, require, module, exports) {'use strict';
+__d(534 /* DoubleFeatureFinder/Poster.js */, function(global, require, module, exports) {'use strict';
 
 var React=require(11 /* react-native */);var 
 
@@ -68114,7 +68171,7 @@ StyleSheet=
 
 React.StyleSheet;var Image=React.Image;var View=React.View;var Component=React.Component;
 
-var styles=require(536 /* ./Styles */);
+var styles=require(535 /* ./Styles */);
 var images={};var 
 
 Poster=function(_Component){babelHelpers.inherits(Poster,_Component);
@@ -68170,7 +68227,7 @@ style:styles.thumb}));}}}]);return Poster;}(Component);
 
 module.exports=Poster;
 });
-__d(536 /* DoubleFeatureFinder/Styles.js */, function(global, require, module, exports) {'use strict';
+__d(535 /* DoubleFeatureFinder/Styles.js */, function(global, require, module, exports) {'use strict';
 
 var React=require(11 /* react-native */);var 
 
@@ -68271,7 +68328,7 @@ right:{
 textAlign:'right',
 flex:1}});
 });
-__d(537 /* DoubleFeatureFinder/Showtimes.js */, function(global, require, module, exports) {var React=require(11 /* react-native */);var 
+__d(536 /* DoubleFeatureFinder/Showtimes.js */, function(global, require, module, exports) {var React=require(11 /* react-native */);var 
 
 StyleSheet=
 
@@ -68284,10 +68341,10 @@ StyleSheet=
 
 React.StyleSheet;var Text=React.Text;var TextInput=React.TextInput;var View=React.View;var TouchableHighlight=React.TouchableHighlight;var ActivityIndicatorIOS=React.ActivityIndicatorIOS;var Image=React.Image;var Component=React.Component;var ListView=React.ListView;
 
-var Poster=require(535 /* ./Poster */);
-var DoubleFeatures=require(538 /* ./DoubleFeatures */);
-var Util=require(539 /* ./Util */);
-var styles=require(536 /* ./Styles */);var 
+var Poster=require(534 /* ./Poster */);
+var DoubleFeatures=require(537 /* ./DoubleFeatures */);
+var Util=require(538 /* ./Util */);
+var styles=require(535 /* ./Styles */);var 
 
 Showtimes=function(_Component){babelHelpers.inherits(Showtimes,_Component);
 function Showtimes(props){babelHelpers.classCallCheck(this,Showtimes);var _this=babelHelpers.possibleConstructorReturn(this,Object.getPrototypeOf(Showtimes).call(this,
@@ -68373,7 +68430,7 @@ renderHeader:this.renderHeader.bind(this)}));}}]);return Showtimes;}(Component);
 
 module.exports=Showtimes;
 });
-__d(538 /* DoubleFeatureFinder/DoubleFeatures.js */, function(global, require, module, exports) {var React=require(11 /* react-native */);var 
+__d(537 /* DoubleFeatureFinder/DoubleFeatures.js */, function(global, require, module, exports) {var React=require(11 /* react-native */);var 
 
 StyleSheet=
 
@@ -68386,8 +68443,8 @@ StyleSheet=
 
 React.StyleSheet;var Text=React.Text;var TextInput=React.TextInput;var View=React.View;var TouchableHighlight=React.TouchableHighlight;var ActivityIndicatorIOS=React.ActivityIndicatorIOS;var Image=React.Image;var Component=React.Component;var ListView=React.ListView;
 
-var Util=require(539 /* ./Util */);
-var styles=require(536 /* ./Styles */);var 
+var Util=require(538 /* ./Util */);
+var styles=require(535 /* ./Styles */);var 
 
 DoubleFeatures=function(_Component){babelHelpers.inherits(DoubleFeatures,_Component);
 function DoubleFeatures(props){babelHelpers.classCallCheck(this,DoubleFeatures);var _this=babelHelpers.possibleConstructorReturn(this,Object.getPrototypeOf(DoubleFeatures).call(this,
@@ -68460,7 +68517,7 @@ renderHeader:this.renderHeader.bind(this)}));}}]);return DoubleFeatures;}(Compon
 
 module.exports=DoubleFeatures;
 });
-__d(539 /* DoubleFeatureFinder/Util.js */, function(global, require, module, exports) {'use strict';
+__d(538 /* DoubleFeatureFinder/Util.js */, function(global, require, module, exports) {'use strict';
 
 var React=require(11 /* react-native */);var 
 
@@ -68493,7 +68550,7 @@ render:function(){}});
 
 module.exports=Util;
 });
-__d(540 /* react-native-scrollable-tab-view/index.js */, function(global, require, module, exports) {var React=require(11 /* react-native */);var 
+__d(539 /* react-native-scrollable-tab-view/index.js */, function(global, require, module, exports) {var React=require(11 /* react-native */);var 
 
 Dimensions=
 
@@ -68506,7 +68563,7 @@ Dimensions=
 
 React.Dimensions;var View=React.View;var Animated=React.Animated;var ScrollView=React.ScrollView;var Platform=React.Platform;var StyleSheet=React.StyleSheet;var ViewPagerAndroid=React.ViewPagerAndroid;var PropTypes=React.PropTypes;var InteractionManager=React.InteractionManager;
 
-var DefaultTabBar=require(541 /* ./DefaultTabBar */);
+var DefaultTabBar=require(540 /* ./DefaultTabBar */);
 var ScrollableTabBar=require(542 /* ./ScrollableTabBar */);
 
 var ScrollableTabView=React.createClass({displayName:'ScrollableTabView',
@@ -68730,14 +68787,14 @@ flexDirection:'column'},
 scrollableContentAndroid:{
 flex:1}});
 });
-__d(541 /* react-native-scrollable-tab-view/DefaultTabBar.js */, function(global, require, module, exports) {var React=require(11 /* react-native */);var 
+__d(540 /* react-native-scrollable-tab-view/DefaultTabBar.js */, function(global, require, module, exports) {var React=require(11 /* react-native */);var 
 
 StyleSheet=
 
 
 
 React.StyleSheet;var Text=React.Text;var View=React.View;var Animated=React.Animated;
-var Button=require(543 /* ./Button */);
+var Button=require(541 /* ./Button */);
 
 var DefaultTabBar=React.createClass({displayName:'DefaultTabBar',
 propTypes:{
@@ -68816,7 +68873,7 @@ borderBottomColor:'#ccc'}});
 
 module.exports=DefaultTabBar;
 });
-__d(543 /* react-native-scrollable-tab-view/Button.ios.js */, function(global, require, module, exports) {var React=require(11 /* react-native */);var 
+__d(541 /* react-native-scrollable-tab-view/Button.ios.js */, function(global, require, module, exports) {var React=require(11 /* react-native */);var 
 
 TouchableOpacity=
 
