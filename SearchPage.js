@@ -21,7 +21,7 @@ var {
 var catchphrase = (<Text>Never <Text style={{fontStyle: 'italic'}}>sneak</Text> into movies!</Text>);
 var deviceWidth = Dimensions.get('window').width;
 var deviceHeight = Dimensions.get('window').height;
-var small = deviceWidth < 40;
+var small = deviceWidth < 500;
 var countries = ['AR', 'AU', 'CA', 'CL', 'DE', 'ES', 'FR', 'IT', 'MX', 'NZ', 'PT', 'UK', 'US'];
 
 class SearchPage extends Component {
@@ -151,11 +151,12 @@ class SearchPage extends Component {
       );
     }
     var spinner = this.state.isLoading ? (<ActivityIndicatorIOS size='large' style={styles.spinner} />) : (<View/>);
+    var searchInputStyle = small ? [styles.searchInput, styles.searchInputSmall] : styles.searchInput;
     return (
       <View style={styles.container}>
         <View style={{flexDirection: 'row', marginTop: 100, marginBottom: 30}}>
   			  <TextInput
-  				  style={styles.searchInput}
+  				  style={searchInputStyle}
             value={this.state.zipcode}
             onChange={this.onSearchTextChanged.bind(this)}
             keyboardType='numeric'
@@ -233,6 +234,11 @@ var styles = StyleSheet.create({
     flex: 4,
     alignSelf: 'center'
 	},
+  searchInputSmall: {
+    fontSize: 30,
+    height: 50,
+    width: 100
+  },
   picker: {
     flex: 1,
     width: 140,
