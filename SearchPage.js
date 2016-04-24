@@ -139,6 +139,10 @@ class SearchPage extends Component {
           <ActivityIndicatorIOS size='large' style={[styles.spinner]} />
         </View>
       );
+      // <Text style={[styles.message, {paddingTop: 40}]}
+      //   onPress={() => {Global.manual = true; this.setState({isLocating: false, mesage: catchphrase})}}>
+      //     cancel
+      // </Text>
     }
     var spinner = this.state.isLoading ? (<ActivityIndicatorIOS size='large' style={styles.spinner} />) : (<View/>);
     var country;
