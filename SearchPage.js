@@ -44,7 +44,7 @@ class SearchPage extends Component {
           message: catchphrase
         });
       },
-      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+      {enableHighAccuracy: true, timeout: 5000, maximumAge: 1000}
     );
   }
 
