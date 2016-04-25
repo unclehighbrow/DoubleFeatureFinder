@@ -67699,7 +67699,7 @@ function(error){
 Global.manual=true;
 _this2.setState({
 isLocating:false,
-message:catchphrase});},
+message:"Okay, put it in yourself."});},
 
 
 {enableHighAccuracy:true,timeout:5000,maximumAge:1000});}},{key:'findZip',value:function findZip(
