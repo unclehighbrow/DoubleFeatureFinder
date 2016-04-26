@@ -72,12 +72,15 @@ class SearchPage extends Component {
         }
         if (!this.state.country || !this.state.zipcode) {
           Global.manual = true;
-        }
-        this.setState({
-          isLocating: false,
-          message: catchphrase
-        });
-        if (this.state.zipcode && this.state.country) {
+          this.setState({
+            isLocating: false,
+            message: "Okay, put it in yourself.",
+          });
+        } else {
+          this.setState({
+            isLocating: false,
+            message: catchphrase
+          });
           this.onSearchPressed();
         }
       })
