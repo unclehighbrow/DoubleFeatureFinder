@@ -44,7 +44,7 @@ class SearchPage extends Component {
           message: "Okay, put it in yourself.",
         });
       },
-      {enableHighAccuracy: false, timeout: 5000, maximumAge: 100000}
+      {enableHighAccuracy: false, timeout: 20000, maximumAge: 100000}
     );
   }
 
@@ -154,7 +154,7 @@ class SearchPage extends Component {
   				  style={styles.searchInput}
             value={this.state.zipcode}
             onChange={this.onSearchTextChanged.bind(this)}
-            keyboardType='numeric'
+            keyboardType='numbers-and-punctuation'
   				  placeholder='zip' />
           <Picker
             style={styles.picker}
