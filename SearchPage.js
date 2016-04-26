@@ -151,7 +151,7 @@ class SearchPage extends Component {
   				  style={styles.searchInput}
             value={this.state.zipcode}
             onChange={this.onSearchTextChanged.bind(this)}
-            keyboardType='default'
+            keyboardType='numeric'
   				  placeholder='zip' />
           <Picker
             style={styles.picker}
