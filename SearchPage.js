@@ -26,7 +26,7 @@ class SearchPage extends Component {
   componentDidMount() {
     this.setState({
       isLoading: false,
-      message: 'Getting your position...',
+      message: 'Getting your location...',
       isLocating: true
     });
     this.findPosition();
@@ -44,7 +44,7 @@ class SearchPage extends Component {
           message: "Okay, put it in yourself.",
         });
       },
-      {enableHighAccuracy: true, timeout: 5000, maximumAge: 1000}
+      {enableHighAccuracy: false, timeout: 5000, maximumAge: 100000}
     );
   }
 
