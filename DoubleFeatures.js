@@ -65,11 +65,20 @@ class DoubleFeatures extends Component {
   }
 
   renderHeader() {
-    return (
-      <View style={{backgroundColor: 'dodgerblue', padding: 20}}>
-        <Text style={{color:'white', fontSize: 20}}>Here are your double features. Enjoy your day at the movies!</Text>
-      </View>
-    );
+    if (!this.props.listings.theatres[this.props.theatreId].m[this.props.movieId][this.props.showtime]['a'] &&
+        !this.props.listings.theatres[this.props.theatreId].m[this.props.movieId][this.props.showtime]['b']) {
+      return (
+        <View style={{backgroundColor: 'orangered', padding: 20}}>
+          <Text style={{color:'white', fontSize: 20}}>Looks like there are no movies that will match up. Try a movie at a bigger theater!</Text>
+        </View>
+      );
+    } else {
+      return (
+        <View style={{backgroundColor: 'dodgerblue', padding: 20}}>
+          <Text style={{color:'white', fontSize: 20}}>Here are your double features. Enjoy your day at the movies!</Text>
+        </View>
+      );
+    }
   }
 
   render() {
