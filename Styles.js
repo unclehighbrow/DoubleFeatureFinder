@@ -7,28 +7,23 @@ var {
 } = React;
 
 module.exports = StyleSheet.create({
-  textContainer: {
+  titleContainer: {
     flex: 2
-  },
-  separator: {
-    height: 1,
-    backgroundColor: '#dddddd'
   },
   title: {
     fontSize: 20,
     color: '#656565'
   },
+  separator: {
+    height: 1,
+    backgroundColor: '#dddddd'
+  },
   rowContainer: {
     flexDirection: 'row',
     padding: 10
   },
-  sectionHeaderContainer: {
-    marginRight: 6,
-    marginLeft: 6,
-    paddingTop: 12,
-  },
-  sectionHeader: {
-    backgroundColor: 'white'
+  row: {
+    flexDirection: 'row'
   },
   searchInput: {
     height: 35,
@@ -47,69 +42,28 @@ module.exports = StyleSheet.create({
     height: 80,
     marginRight: 10
   },
-  showtimes: {
-    fontSize: 20,
-    color: 'dodgerblue',
-  },
-  theShowtime: {
-    fontSize: 20,
-    fontWeight: '500'
-  },
-  row: {
-    flexDirection: 'row'
-  },
-  timeLeft: {
-    flex: 1
-  },
-  titleRight: {
-    flex: 2
-  },
-  button: {
-    height: 40,
-    alignSelf: 'center',
-    width: 70,
-    backgroundColor: 'dodgerblue',
-    borderColor: 'dodgerblue',
-    borderWidth: 1,
-    borderRadius: 8,
-    marginLeft: 30,
-    marginRight: 30,
-    justifyContent: 'center',
-    flex: 1
-  },
-  buttonText: {
-    fontSize: 12,
-    color: 'white',
-    alignSelf: 'center'
-  },
-  notSelectedButton: {
-    backgroundColor: '#EEEEEE'
-  },
-  notSelectedText: {
-    color: 'dodgerblue'
-  },
-  left: {
-    flex: 1
-  },
-  center: {
-    flex: 3,
-    textAlign: 'center'
-  },
-  right: {
-    textAlign: 'right',
-    flex: 1
-  },
   dontCareContainer: {
     position: 'absolute',
-    bottom: 10,
+    bottom: 25,
     left: 0,
     right: 0,
     flex: 1,
   },
   dontCare: {
-    padding: 10,
+    paddingRight: 15,
+    paddingLeft: 15,
+    paddingTop: 8,
+    paddingBottom: 8,
     backgroundColor: 'goldenrod',
-    borderRadius: 5,
+    borderRadius: 20,
     alignSelf: 'center',
+  },
+  header: {
+    backgroundColor: 'dodgerblue',
+    padding: 20,
+  },
+  headerText: {
+    color:'white',
+    fontSize: 20,
   }
 });

@@ -60,8 +60,8 @@ class DoubleFeatures extends Component {
 
   renderHeader() {
     return (
-      <View style={{backgroundColor: 'dodgerblue', padding: 20}}>
-        <Text style={{color:'white', fontSize: 20}}>Here are your double features. Enjoy your day at the movies!</Text>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Here are your double features. Enjoy your day at the movies!</Text>
       </View>
     );
   }

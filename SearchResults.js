@@ -17,7 +17,6 @@ var {
   Alert,
 } = React;
 var Poster = require('./Poster');
-var Showtimes = require('./Showtimes');
 var styles = require('./Styles');
 var Global = require('./Global');
 var DoubleFeatures = require('./DoubleFeatures');
@@ -72,7 +71,7 @@ class SearchResults extends Component {
       }
       this.props.navigator.push({
         id: 'SearchResults',
-        title: 'Choose ' + (this.props.page == 2 ? 'Second ' : '') + 'Movie',
+        title: 'Choose ' + (this.props.page == 2 ? 'Another' : 'Movie'),
         component: SearchResults,
         passProps: {
           listings: this.props.listings,
@@ -98,7 +97,7 @@ class SearchResults extends Component {
     }
     this.props.navigator.push({
       id: 'DoubleFeatures',
-      title: 'DoubleFeatures',
+      title: 'Double Features',
       component: DoubleFeatures,
       passProps: {
         listings: this.props.listings,
@@ -148,7 +147,7 @@ class SearchResults extends Component {
         <View>
           <View style={styles.rowContainer}>
             {image}
-            <View style={styles.textContainer}>
+            <View style={styles.titleContainer}>
               <Text style={styles.title} numberOfLines={1}>{text}</Text>
             </View>
           </View>
@@ -185,14 +184,28 @@ class SearchResults extends Component {
     this.setState({ noResults: results.length <= 1 });
   }
 
-  render() {
-    var dataSource;
-    if (this.state.noResults) {
-      dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.guid !== r2.guid }).cloneWithRows(['', 'No results']);
-    } else if (this.movieMode()) {
-      dataSource = this.state.movieDataSource;
+  renderHeader() {
+    if (this.props.page == 1) {
+      var headerText = 'Pick a theater, or to get a list of all movies in your area, choose "Don\'t care"';
+    } else if (this.props.page == 2) {
+      var headerText = 'Now pick a movie!';
     } else {
-      dataSource = this.state.theatreDataSource;
+      var headerText = 'You can pick another one, or not, whatever.';
+    }    
+    return (
+      <View style={styles.header}>
+        <Text style={styles.headerText}>{headerText}</Text>
+      </View>
+    );
+  }
+
+  render() {
+    if (this.state.noResults) {
+      var dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.guid !== r2.guid }).cloneWithRows(['', 'No results']);
+    } else if (this.movieMode()) {
+      var dataSource = this.state.movieDataSource;
+    } else {
+      var dataSource = this.state.theatreDataSource;
     }
     return (
         <View style={{flex: 1, flexDirection: 'column'}}>
@@ -201,6 +214,7 @@ class SearchResults extends Component {
             keyboardShouldPersistTaps={true}
             renderRow={this.renderRow.bind(this)}
             enableEmptySections={true}
+            renderHeader={this.renderHeader.bind(this)}
           />
           <View style={styles.dontCareContainer}>
             <TouchableHighlight style={styles.dontCare} onPress={() => this.rowPressed(0)}>

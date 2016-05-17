@@ -12,7 +12,6 @@ var {
 } = React;
 var SearchPage = require('./SearchPage');
 var SearchResults = require('./SearchResults');
-var Showtimes = require('./Showtimes');
 var DoubleFeatures = require('./DoubleFeatures');
 var NavigationBarRouteMapper = {
   LeftButton: function(route, navigator, index, navState) {
@@ -62,15 +61,6 @@ class DoubleFeatureFinder extends React.Component {
         <DoubleFeatures
           navigator={navigator}
           showtime={route.passProps.showtime}
-          listings={route.passProps.listings}
-          movieId={route.passProps.movieId}
-          theatreId={route.passProps.theatreId}
-        />
-      );
-      case 'Showtimes': return (
-        <Showtimes
-          navigator={navigator}
-          showtimes={route.passProps.showtimes}
           listings={route.passProps.listings}
           movieId={route.passProps.movieId}
           theatreId={route.passProps.theatreId}
