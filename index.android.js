@@ -62,8 +62,10 @@ class DoubleFeatureFinder extends React.Component {
           navigator={navigator}
           showtime={route.passProps.showtime}
           listings={route.passProps.listings}
-          movieId={route.passProps.movieId}
           theatreId={route.passProps.theatreId}
+          firstMovieId={route.passProps.firstMovieId}
+          secondMovieId={route.passProps.secondMovieId}
+          dfs={route.passProps.dfs}
         />
       );
       case 'SearchResults': return (
@@ -73,7 +75,9 @@ class DoubleFeatureFinder extends React.Component {
           movies={route.passProps.movies}
           theatres={route.passProps.theatres}
           id={route.passProps.id}
-          movieMode={route.passProps.movieMode}
+          theatreId={route.passProps.theatreId}
+          movieId={route.passProps.movieId}
+          page={route.passProps.page}
         />
       );
       default: return (
