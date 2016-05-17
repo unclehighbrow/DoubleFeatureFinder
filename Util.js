@@ -25,27 +25,20 @@ var Util = React.createClass({
       }
       return '' + hours + ':' + minutes + ' ' + meridian;
     },
-    findDoubleFeatureMovieIdsInTheatre(movieId, theatreId, theatres) {
+    findDoubleFeatureMovieIdsInTheatre(theatreId, movieId, theatres) {
       var ret = new Set();
-      var movie = theatres[theatreId]['m'][movieId];
-      for (var showtime in movie) {
-        if (movie[showtime]['a']) {
-          for (let df of movie[showtime]['a']) {
-            ret.add(df[0]);
-          }
-        }
-        if (movie[showtime]['b']) {
-          for (let df of movie[showtime]['b']) {
-            ret.add(df[0]);
-          }
-        }
+      var dffs = Util.findDoubleFeatures(theatreId, movieId, 0, theatres);
+      for (let dff of dffs) {
+        ret.add(dff[1]);
+        ret.add(dff[3]);
       }
+      ret.delete(movieId);
       return ret;
     },
     findDoubleFeatureMovieIdsInAllTheatres(movieId, theatres) {
       var ret = new Set();
       for (var theatreId in theatres) {
-        var theatreSet = Util.findDoubleFeatureMovieIdsInTheatre(movieId, theatreId, theatres);
+        var theatreSet = Util.findDoubleFeatureMovieIdsInTheatre(theatreId, movieId, theatres);
         for (let movieId of theatreSet) {
           ret.add(movieId);
         }

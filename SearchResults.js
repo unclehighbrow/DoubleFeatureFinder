@@ -63,7 +63,7 @@ class SearchResults extends Component {
           if (this.props.theatreId == 0) {
             movieIds = Util.findDoubleFeatureMovieIdsInAllTheatres(id, this.props.theatres);
           } else {
-            movieIds = Util.findDoubleFeatureMovieIdsInTheatre(id, this.props.theatreId, this.props.theatres);
+            movieIds = Util.findDoubleFeatureMovieIdsInTheatre(this.props.theatreId, id, this.props.theatres);
           }
           for (let movieId of movieIds) {
             movies[movieId] = this.props.movies[movieId];
