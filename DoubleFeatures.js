@@ -13,49 +13,43 @@ var {
 
 var Util = require('./Util');
 var styles = require('./Styles');
+var Poster = require('./Poster');
+
 
 class DoubleFeatures extends Component {
   constructor(props) {
     super(props);
-    var all = [];
-    var movieId = this.props.movieId;
-    var theatreId = this.props.theatreId;
-    var showtime = this.props.showtime;
-    if (this.props.listings.theatres[theatreId].m[movieId][showtime]['b']) {
-      all = all.concat(this.props.listings.theatres[theatreId].m[movieId][showtime]['b']);
-    }
-    all.push([movieId,showtime]);
-    if (this.props.listings.theatres[theatreId].m[movieId][showtime]['a']) {
-      all = all.concat(this.props.listings.theatres[theatreId].m[movieId][showtime]['a']);
-    }
-    all = all.sort((a,b) => a[1] > b[1] ? 1 : -1);
     var dataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1.guid !== r2.guid
-    }).cloneWithRows(all);
+    }).cloneWithRows(this.props.dfs);
     this.state = {
       dataSource: dataSource
     }
   }
 
   renderRow(rowData, sectionId, rowId) {
-    var titleStyle = rowData[0] == this.props.movieId ? styles.theShowtime : styles.title;
     return (
       <TouchableHighlight
       underlayColor='#dddddd' backgroundColor='{backgroundColor}'>
         <View>
           <View style={styles.rowContainer}>
-            <View style={[styles.textContainer, styles.row]}>
-              <View style={[styles.left, {flexDirection: 'column'}]}>
-                <Text style={[titleStyle]} numberOfLines={1} >
-                  {Util.minsToTime(rowData[1])}
+            <View style={[styles.row, {flex:1}]}>
+              <Poster movieId={rowData[1]} style={{flex:1}} />
+              <View style={{flexDirection: 'column', alignItems:'center', flex: 2}}>
+                <Text style={{fontSize: 12, alignSelf:'flex-start'}}>
+                  {this.props.listings.movies[rowData[1]]['name']}
                 </Text>
-                <Text style={{color:'darkgrey'}}>
-                  to {Util.minsToTime(parseInt(rowData[1]) + parseInt(this.props.listings.movies[rowData[0]].duration, 10))}
+                <Text style={{fontSize: 12, alignSelf:'flex-start'}}>
+                  {Util.minsToTime(parseInt(rowData[2]))}
+                </Text>
+                <Text style={{fontSize: 12, alignSelf: 'flex-end'}}>
+                  {this.props.listings.movies[rowData[3]]['name']}
+                </Text>
+                <Text style={{fontSize: 12, alignSelf: 'flex-end'}}>
+                  {Util.minsToTime(parseInt(rowData[4]))}
                 </Text>
               </View>
-              <Text style={[titleStyle, styles.titleRight]} numberOfLines={1}>
-                {this.props.listings.movies[rowData[0]].name}
-              </Text>
+              <Poster movieId={rowData[3]} style={{flex:1}} />
             </View>
           </View>
           <View style={styles.separator} />
@@ -65,20 +59,11 @@ class DoubleFeatures extends Component {
   }
 
   renderHeader() {
-    if (!this.props.listings.theatres[this.props.theatreId].m[this.props.movieId][this.props.showtime]['a'] &&
-        !this.props.listings.theatres[this.props.theatreId].m[this.props.movieId][this.props.showtime]['b']) {
-      return (
-        <View style={{backgroundColor: 'orangered', padding: 20}}>
-          <Text style={{color:'white', fontSize: 20}}>Looks like there are no movies that will match up. Try a movie at a bigger theater!</Text>
-        </View>
-      );
-    } else {
-      return (
-        <View style={{backgroundColor: 'dodgerblue', padding: 20}}>
-          <Text style={{color:'white', fontSize: 20}}>Here are your double features. Enjoy your day at the movies!</Text>
-        </View>
-      );
-    }
+    return (
+      <View style={{backgroundColor: 'dodgerblue', padding: 20}}>
+        <Text style={{color:'white', fontSize: 20}}>Here are your double features. Enjoy your day at the movies!</Text>
+      </View>
+    );
   }
 
   render() {

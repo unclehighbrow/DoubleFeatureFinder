@@ -96,12 +96,13 @@ class SearchPage extends Component {
     this.setState({isLoading: false, message: catchphrase});
     this.props.navigator.push({
       id: 'SearchResults',
-      title: 'Results',
+      title: 'Choose Theater',
       component: SearchResults,
       passProps: {
         listings: response,
         movies: response.movies,
-        theatres: response.theatres
+        theatres: response.theatres,
+        page: 1,
       }
     });
   }

@@ -13,13 +13,15 @@ var {
   ScrollView,
   TextInput,
   Platform,
-  Dimensions
+  Dimensions,
+  Alert,
 } = React;
 var Poster = require('./Poster');
 var Showtimes = require('./Showtimes');
 var styles = require('./Styles');
 var Global = require('./Global');
-var ScrollableTabView = require('react-native-scrollable-tab-view');
+var DoubleFeatures = require('./DoubleFeatures');
+var Util = require('./Util');
 
 class SearchResults extends Component {
   constructor(props) {
@@ -43,65 +45,74 @@ class SearchResults extends Component {
   }
 
   rowPressed(id) {
-    if (this.props.id) {
-      var showtimes, movieId, theatreId;
-      if (!this.movieMode()) { // TODO: this seems like it should be opposite, but who am I to judge
-        showtimes = this.props.listings.theatres[id].m[this.props.id];
-        theatreId = id;
-        movieId = this.props.id;
-      } else {
-        showtimes = this.props.listings.theatres[this.props.id].m[id];
-        theatreId = this.props.id;
-        movieId = id;
-      }
-      this.props.navigator.push({
-        title: 'Showtimes',
-        id: 'Showtimes',
-        component: Showtimes,
-        passProps: {
-          showtimes: showtimes,
-          listings: this.props.listings,
-          movieId: movieId,
-          theatreId: theatreId
-        }
-      });
-    } else {
-      var theatres = {};
-      var movies = {};
-      if (this.movieMode()) {
-        for (var theatreId in this.props.theatres) {
-          if (this.props.theatres[theatreId].m[id]) {
-            theatres[theatreId] = this.props.theatres[theatreId];
+    var movies = {};
+    if (this.props.page < 3) {
+      if (this.props.page == 1)  { // choosing theater
+        if (id == 0) { // don't care
+          movies = this.props.movies;
+        } else {
+          for (var movieId in this.props.theatres[id].m) { // only movies in this theater
+            movies[movieId] = this.props.movies[movieId];
           }
         }
-        theatres = theatres;
-      } else {
-        for (var movieId in this.props.theatres[id].m) {
-          movies[movieId] = this.props.movies[movieId];
+      } else if (this.props.page == 2) { // choosing first movie
+        if (id == 0) { // dont care, skip to end screen
+          this.goToDoubleFeatures(0,0);
+        } else {
+          var movieIds;
+          if (this.props.theatreId == 0) {
+            movieIds = Util.findDoubleFeatureMovieIdsInAllTheatres(id, this.props.theatres);
+          } else {
+            movieIds = Util.findDoubleFeatureMovieIdsInTheatre(id, this.props.theatreId, this.props.theatres);
+          }
+          for (let movieId of movieIds) {
+            movies[movieId] = this.props.movies[movieId];
+          }
         }
-        movies = movies;
       }
       this.props.navigator.push({
         id: 'SearchResults',
-        title: 'Choose ' + (this.movieMode() ? 'Theater' : 'Movie'),
+        title: 'Choose ' + (this.props.page == 2 ? 'Second ' : '') + 'Movie',
         component: SearchResults,
         passProps: {
           listings: this.props.listings,
           movies: movies,
-          theatres: theatres,
+          theatres: this.props.theatres,
           id: id,
-          movieMode : !this.movieMode()
+          theatreId: (this.props.page == 1 ? id : this.props.theatreId),
+          movieId: id,
+          page: this.props.page + 1,
         }
       });
+    } else {
+      this.goToDoubleFeatures(this.props.movieId, id);
     }
   }
 
-  movieMode() {
-    if (this.props.movieMode === undefined) {
-      return this.state.selectedIndex == 0;
+  goToDoubleFeatures(movieId, secondMovieId) {
+    var dfs;
+    if (this.props.theatreId == 0) {
+      dfs = Util.findDoubleFeaturesInAllTheatres(movieId, secondMovieId, this.props.theatres);
     } else {
-      return this.props.movieMode;
+      dfs = Util.findDoubleFeatures(this.props.theatreId, movieId, secondMovieId, this.props.theatres);
     }
+    this.props.navigator.push({
+      id: 'DoubleFeatures',
+      title: 'DoubleFeatures',
+      component: DoubleFeatures,
+      passProps: {
+        listings: this.props.listings,
+        theatres: this.props.theatres,
+        theatreId: this.props.theatreId,
+        firstMovieId: this.props.movieId,
+        secondMovieId: secondMovieId,
+        dfs: dfs,
+      }
+    });
+  }
+
+  movieMode() {
+    return this.props.page != 1;
   }
 
   renderRow(rowData, sectionId, rowId) {
@@ -147,81 +158,6 @@ class SearchResults extends Component {
     );
   }
 
-  onSectionHeaderChange(event) {
-    var selectedIndex = event.nativeEvent.selectedSegmentIndex;
-    var searchText = this.movieMode() ? this.state.theatreSearchText : this.state.movieSearchText;
-    this.setState({
-      selectedIndex: selectedIndex,
-      searchText: searchText
-    });
-  }
-
-  onTabHeaderChange(event) {
-    var selectedIndex = event.i;
-    var searchText = this.movieMode() ? this.state.theatreSearchText : this.state.movieSearchText;
-    this.setState({
-      selectedIndex: selectedIndex,
-      searchText: searchText
-    });
-  }
-
-  // onSectionHeaderMovie(event) {
-  //   this.setState({
-  //     selectedIndex: 0
-  //   });
-  // }
-  // onSectionHeaderTheatre(event) {
-  //   this.setState({
-  //     selectedIndex: 1
-  //   });
-  // }
-
-  renderSectionHeader(rowData, sectionID, rowID, highlightRow) {
-    if (!this.props.id) {
-      if (Platform.OS === 'android') {
-        return (
-          <ScrollableTabView
-            onChangeTab={this.onTabHeaderChange.bind(this)}
-            tabBarBackgroundColor={'deepskyblue'}
-            tabBarActiveTextColor={'white'}
-            tabBarInactiveTextColor={'gainsboro'}
-            tabBarUnderlineColor={'lightblue'}
-            style={{paddingTop: 10, backgroundColor:'deepskyblue'}}
-            >
-            <View tabLabel="Movies" />
-            <View tabLabel="Theatres" />
-          </ScrollableTabView>
-          // <View style={[styles.sectionHeaderContainer, styles.rowContainer]}>
-          //   <TouchableHighlight style={[styles.button, !this.movieMode() ? styles.notSelectedButton : {}]}
-          //       onPress={this.onSectionHeaderMovie.bind(this)}
-          //       underlayColor='#666688'>
-          //     <Text style={[styles.buttonText, !this.movieMode() ? styles.notSelectedText : {} ]}>Movies</Text>
-          //   </TouchableHighlight>
-          //   <TouchableHighlight style={[styles.button, this.movieMode() ? styles.notSelectedButton : {}]}
-          //       onPress={this.onSectionHeaderTheatre.bind(this)}
-          //       underlayColor='#666688'>
-          //     <Text style={[styles.buttonText, this.movieMode() ? styles.notSelectedText : {} ]}>Theaters</Text>
-          //   </TouchableHighlight>
-          // </View>
-        );
-      } else {
-        return (
-          <View style={styles.sectionHeaderContainer}>
-            <SegmentedControlIOS
-              style={styles.sectionHeader}
-              values={['Movies', 'Theaters']}
-              selectedIndex={this.state.selectedIndex}
-              onChange={this.onSectionHeaderChange.bind(this)}
-            />
-          </View>
-        );
-      }
-
-    } else {
-      return <View/>;
-    }
-  }
-
   onSearchTextChanged(event) {
     var dataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1.guid !== r2.guid
@@ -259,13 +195,21 @@ class SearchResults extends Component {
       dataSource = this.state.theatreDataSource;
     }
     return (
-        <ListView
-          dataSource={dataSource}
-          keyboardShouldPersistTaps={true}
-          renderRow={this.renderRow.bind(this)}
-          renderSectionHeader={this.renderSectionHeader.bind(this)}
-          enableEmptySections={true}
-        />
+        <View style={{flex: 1, flexDirection: 'column'}}>
+          <ListView
+            dataSource={dataSource}
+            keyboardShouldPersistTaps={true}
+            renderRow={this.renderRow.bind(this)}
+            enableEmptySections={true}
+          />
+          <View style={styles.dontCareContainer}>
+            <TouchableHighlight style={styles.dontCare} onPress={() => this.rowPressed(0)}>
+              <Text style={[styles.title, {color: 'white'}]}>
+                Don't care
+              </Text>
+            </TouchableHighlight>
+          </View>
+        </View>
     );
   }
 }

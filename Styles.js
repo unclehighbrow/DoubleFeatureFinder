@@ -98,5 +98,18 @@ module.exports = StyleSheet.create({
   right: {
     textAlign: 'right',
     flex: 1
+  },
+  dontCareContainer: {
+    position: 'absolute',
+    bottom: 10,
+    left: 0,
+    right: 0,
+    flex: 1,
+  },
+  dontCare: {
+    padding: 10,
+    backgroundColor: 'goldenrod',
+    borderRadius: 5,
+    alignSelf: 'center',
   }
 });
