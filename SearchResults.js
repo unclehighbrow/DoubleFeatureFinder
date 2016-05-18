@@ -30,7 +30,7 @@ class SearchResults extends Component {
     }).cloneWithRows([''].concat(Object.keys(this.props.movies).sort((a,b) => this.props.movies[a].name.localeCompare(this.props.movies[b].name))));
     var theatreDataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1.guid !== r2.guid
-    }).cloneWithRows([''].concat(Object.keys(this.props.theatres).sort((a,b) => this.props.theatres[a].name.localeCompare(this.props.theatres[b].name))));
+    }).cloneWithRows([''].concat(Object.keys(this.props.theatres).sort((a,b) => this.props.theatres[a].ordinal > this.props.theatres[b].ordinal ? 1 : -1)));
     this.state = {
       selectedIndex: 0,
       movieDataSource: movieDataSource,
@@ -174,7 +174,7 @@ class SearchResults extends Component {
     } else {
       results = [''].concat(Object.keys(this.props.theatres).filter(
         id => this.props.theatres[id].name.toLowerCase().includes(event.nativeEvent.text.toLowerCase())
-      ).sort((a,b) => this.props.theatres[a].name.localeCompare(this.props.theatres[b].name)));
+      ).sort((a,b) => this.props.theatres[a].ordinal > this.props.theatres[b].ordinal ? 1 : -1));
       this.setState({
         theatreDataSource: dataSource.cloneWithRows(results),
         searchText: event.nativeEvent.text,

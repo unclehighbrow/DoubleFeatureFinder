@@ -33,7 +33,7 @@ class DoubleFeatures extends Component {
     for (var theatreId in data) {
       data[theatreId].sort((a,b) => a[2] > b[2] ? 1 : -1);
     }
-    sections.sort((a,b) => this.props.theatres[a]['name'] > this.props.theatres[b]['name'] ? 1 : -1);
+    sections.sort((a,b) => this.props.theatres[a].ordinal > this.props.theatres[b].ordinal ? 1 : -1);
 
     var dataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1.guid !== r2.guid,
