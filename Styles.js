@@ -67,6 +67,15 @@ module.exports = StyleSheet.create({
     color:'white',
     fontSize: 20,
   },
+  sectionHeader: {
+    backgroundColor: 'dodgerblue',
+    padding: 5,
+  },
+  sectionHeaderText: {
+    color:'white',
+    fontSize: 12,
+    textAlign: 'center',
+  },
   dfResultText: {
     fontSize: 12,
     flex: 1,

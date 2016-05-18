@@ -19,9 +19,26 @@ var Poster = require('./Poster');
 class DoubleFeatures extends Component {
   constructor(props) {
     super(props);
+    var data = {};
+    var sections = [];
+    this.props.dfs.map((df) => {
+      var section = df[0];
+      if (sections.indexOf(section) === -1) {
+        sections.push(section);
+        data[section] = [];
+      }
+      data[section].push(df);
+    });
+
+    for (var theatreId in data) {
+      data[theatreId].sort((a,b) => a[2] > b[2] ? 1 : -1);
+    }
+    sections.sort((a,b) => this.props.theatres[a]['name'] > this.props.theatres[b]['name'] ? 1 : -1);
+
     var dataSource = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1.guid !== r2.guid
-    }).cloneWithRows(this.props.dfs);
+      rowHasChanged: (r1, r2) => r1.guid !== r2.guid,
+      sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
+    }).cloneWithRowsAndSections(data, sections);
     this.state = {
       dataSource: dataSource
     }
@@ -70,12 +87,21 @@ class DoubleFeatures extends Component {
     );
   }
 
+  renderSectionHeader(sectionData, sectionID) {
+    return (
+      <View style={styles.sectionHeader}>
+          <Text style={styles.sectionHeaderText}>{this.props.listings.theatres[sectionID]['name']}</Text>
+      </View>
+    );
+  }
+
   render() {
     return (
       <ListView
         dataSource={this.state.dataSource}
         renderRow={this.renderRow.bind(this)}
         renderHeader={this.renderHeader.bind(this)}
+        renderSectionHeader={this.renderSectionHeader.bind(this)}
       />
     );
   }
