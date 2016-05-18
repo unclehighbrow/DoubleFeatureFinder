@@ -20,7 +20,7 @@ module.exports = StyleSheet.create({
   },
   rowContainer: {
     flexDirection: 'row',
-    padding: 10
+    padding: 10,
   },
   row: {
     flexDirection: 'row'
@@ -40,7 +40,8 @@ module.exports = StyleSheet.create({
   thumb: {
     width: 80,
     height: 80,
-    marginRight: 10
+    marginRight: 5,
+    marginLeft: 5
   },
   dontCareContainer: {
     position: 'absolute',
@@ -65,5 +66,9 @@ module.exports = StyleSheet.create({
   headerText: {
     color:'white',
     fontSize: 20,
-  }
+  },
+  dfResultText: {
+    fontSize: 12,
+    flex: 1,
+  },
 });

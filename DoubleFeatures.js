@@ -32,27 +32,31 @@ class DoubleFeatures extends Component {
       <TouchableHighlight
       underlayColor='#dddddd' backgroundColor='{backgroundColor}'>
         <View>
-          <View style={styles.rowContainer}>
-            <View style={[styles.row, {flex:1}]}>
+          <View style={{flex: 1, flexDirection:'column', padding:5}}>
+            <Text style={[styles.title, {paddingBottom: 5, marginLeft: 5}]}>{this.props.listings.movies[rowData[1]]['name']}</Text>
+            <View style={styles.row}>
               <Poster movieId={rowData[1]} style={{flex:1}} />
-              <View style={{flexDirection: 'column', alignItems:'center', flex: 2}}>
-                <Text style={{fontSize: 12, alignSelf:'flex-start'}}>
-                  {this.props.listings.movies[rowData[1]]['name']}
-                </Text>
-                <Text style={{fontSize: 12, alignSelf:'flex-start'}}>
-                  {Util.minsToTime(parseInt(rowData[2]))}
-                </Text>
-                <Text style={{fontSize: 12, alignSelf: 'flex-end'}}>
-                  {this.props.listings.movies[rowData[3]]['name']}
-                </Text>
-                <Text style={{fontSize: 12, alignSelf: 'flex-end'}}>
-                  {Util.minsToTime(parseInt(rowData[4]))}
-                </Text>
-              </View>
+                <View style={{flex:2, flexDirection:'row', alignItems:'center', alignSelf:'center'}}>
+                  <View style={{flexDirection: 'column', alignItems:'center', flex:1 }}>
+                    <Text style={styles.title}>{Util.minsToTime(parseInt(rowData[2]))}</Text>
+                    <Text>to</Text>
+                    <Text style={styles.title}>
+                      {Util.minsToTime(parseInt(rowData[2]) + parseInt(this.props.listings.movies[rowData[1]].duration))}
+                    </Text>
+                  </View>
+                  <View style={{flexDirection: 'column', alignItems:'center', flex:1}}>
+                    <Text style={styles.title}>{Util.minsToTime(parseInt(rowData[4]))}</Text>
+                    <Text>to</Text>
+                      <Text style={styles.title}>
+                        {Util.minsToTime(parseInt(rowData[4]) + parseInt(this.props.listings.movies[rowData[3]].duration))}
+                      </Text>
+                  </View>
+                </View>
               <Poster movieId={rowData[3]} style={{flex:1}} />
             </View>
+            <Text style={[styles.title, {textAlign:'right', marginRight: 5}]}>{this.props.listings.movies[rowData[3]]['name']}</Text>
           </View>
-          <View style={styles.separator} />
+          <View style={[styles.separator, {}]} />
         </View>
       </TouchableHighlight>
     );
