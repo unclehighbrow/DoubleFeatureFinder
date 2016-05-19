@@ -54,24 +54,24 @@ class DoubleFeatures extends Component {
             <View style={styles.row}>
               <Poster movieId={rowData[1]} style={{flex:1}} />
                 <View style={{flex:2, flexDirection:'row', alignItems:'center', alignSelf:'center'}}>
-                  <View style={{flexDirection: 'column', alignItems:'center', flex:1 }}>
-                    <Text style={styles.title}>{Util.minsToTime(parseInt(rowData[2]))}</Text>
-                    <Text>to</Text>
-                    <Text style={styles.title}>
+                  <View style={{flexDirection: 'column', alignItems:'flex-start', flex:1 }}>
+                    <Text style={styles.time}>{Util.minsToTime(parseInt(rowData[2]))}</Text>
+                    <Text style={styles.to}>to</Text>
+                    <Text style={styles.time}>
                       {Util.minsToTime(parseInt(rowData[2]) + parseInt(this.props.listings.movies[rowData[1]].duration))}
                     </Text>
                   </View>
-                  <View style={{flexDirection: 'column', alignItems:'center', flex:1}}>
-                    <Text style={styles.title}>{Util.minsToTime(parseInt(rowData[4]))}</Text>
-                    <Text>to</Text>
-                      <Text style={styles.title}>
+                  <View style={{flexDirection: 'column', alignItems:'flex-end', flex:1}}>
+                    <Text style={styles.time}>{Util.minsToTime(parseInt(rowData[4]))}</Text>
+                    <Text style={styles.to}>to</Text>
+                      <Text style={styles.time}>
                         {Util.minsToTime(parseInt(rowData[4]) + parseInt(this.props.listings.movies[rowData[3]].duration))}
                       </Text>
                   </View>
                 </View>
               <Poster movieId={rowData[3]} style={{flex:1}} />
             </View>
-            <Text style={[styles.title, {textAlign:'right', marginRight: 5}]}>{this.props.listings.movies[rowData[3]]['name']}</Text>
+            <Text style={[styles.title, {textAlign:'right', marginRight: 5, marginTop: 5}]}>{this.props.listings.movies[rowData[3]]['name']}</Text>
           </View>
           <View style={[styles.separator, {}]} />
         </View>

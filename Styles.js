@@ -38,8 +38,8 @@ module.exports = StyleSheet.create({
     backgroundColor: '#EEE',
   },
   thumb: {
-    width: 80,
-    height: 80,
+    width: 92,
+    height: 138,
     marginRight: 5,
     marginLeft: 5
   },
@@ -68,7 +68,7 @@ module.exports = StyleSheet.create({
     fontSize: 20,
   },
   sectionHeader: {
-    backgroundColor: 'dodgerblue',
+    backgroundColor: 'dimgray',
     padding: 5,
   },
   sectionHeaderText: {
@@ -80,4 +80,14 @@ module.exports = StyleSheet.create({
     fontSize: 12,
     flex: 1,
   },
+  time: {
+    fontSize: 16,
+    color: '#656565'
+  },
+  to: {
+    fontSize: 14,
+    color: '#656565',
+    marginRight: 10,
+    marginLeft: 10,
+  }
 });
