@@ -48,14 +48,14 @@ class Poster extends Component {
     if (images[this.props.movieId]) {
       return (
         <Image
-          style={styles.thumb}
+          style={[styles.thumb, this.props.style]}
           source={{ uri: images[this.props.movieId] }}
         />
       );
     } else {
       return (
         <View
-          style={styles.thumb}
+          style={[styles.thumb, this.props.style]}
         />
       );
     }

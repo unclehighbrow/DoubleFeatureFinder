@@ -25,6 +25,14 @@ var Util = React.createClass({
       }
       return '' + hours + ':' + minutes + ' ' + meridian;
     },
+    checkTheatre(theatreId, theatres) {
+      for (var movieId in theatres[theatreId]['m']) {
+        if (Util.findDoubleFeatureMovieIdsInTheatre(theatreId, movieId, theatres).size > 0) {
+          return true;
+        }
+      }
+      return false;
+    },
     findDoubleFeatureMovieIdsInTheatre(theatreId, movieId, theatres) {
       var ret = new Set();
       var dffs = Util.findDoubleFeatures(theatreId, movieId, 0, theatres);

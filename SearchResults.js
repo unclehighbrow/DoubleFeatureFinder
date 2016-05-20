@@ -44,6 +44,9 @@ class SearchResults extends Component {
   }
 
   rowPressed(id) {
+    if (id == -1) {
+      return this.alert();
+    }
     var movies = {};
     if (this.props.page < 3) {
       if (this.props.page == 1)  { // choosing theater
@@ -131,24 +134,31 @@ class SearchResults extends Component {
       );
     }
     var text, image;
+    var greyedOut = false;
     if (this.state.noResults) {
       text = rowData;
       image = (<View/>);
     } else if (this.movieMode()) {
       text = this.props.listings.movies[rowData].name;
       image = (<Poster movieId={rowData}></Poster>);
+      if (this.props.theatreId != 0) {
+        greyedOut = Util.findDoubleFeatureMovieIdsInTheatre(this.props.theatreId, rowData, this.props.listings.theatres).size == 0;
+      } else {
+        greyedOut = Util.findDoubleFeatureMovieIdsInAllTheatres(rowData, this.props.listings.theatres).size == 0;
+      }
     } else {
       text = this.props.listings.theatres[rowData].name;
       image = (<View/>);
+      greyedOut = !Util.checkTheatre(rowData, this.props.listings.theatres);
     }
     return (
-      <TouchableHighlight onPress={() => this.rowPressed(rowData)}
+      <TouchableHighlight onPress={() => this.rowPressed(greyedOut ? -1 : rowData)}
       underlayColor='#dddddd'>
         <View>
           <View style={styles.rowContainer}>
             {image}
             <View style={styles.titleContainer}>
-              <Text style={styles.title} numberOfLines={1}>{text}</Text>
+              <Text style={greyedOut ? styles.greyedOut : styles.title} numberOfLines={1}>{text}</Text>
             </View>
           </View>
           <View style={styles.separator} />
@@ -186,12 +196,17 @@ class SearchResults extends Component {
 
   renderHeader() {
     if (this.props.page == 1) {
-      var headerText = 'Pick a theater, or to get a list of all movies in your area, choose "Don\'t care"';
+      var headerText = 'Let\'s get started! First, pick a theater.';
     } else if (this.props.page == 2) {
-      var headerText = 'Now pick a movie!';
+      if (this.props.theatreId == 0) {
+        var headerText = 'Any theater, okay.';
+      } else {
+        var headerText = this.props.listings.theatres[this.props.theatreId].name + ', okay.';
+      }
+      headerText += ' Now pick a movie!';
     } else {
-      var headerText = 'You can pick another one, or not, whatever.';
-    }    
+      var headerText = this.props.listings.movies[this.props.movieId].name + ', nice.  You can pick another one. Or not, whatever.';
+    }
     return (
       <View style={styles.header}>
         <Text style={styles.headerText}>{headerText}</Text>
@@ -219,12 +234,16 @@ class SearchResults extends Component {
           <View style={styles.dontCareContainer}>
             <TouchableHighlight style={styles.dontCare} onPress={() => this.rowPressed(0)}>
               <Text style={[styles.title, {color: 'white'}]}>
-                Don't care
+                Any {this.props.page == 1 ? 'Theater' : (this.props.page == 3 ? 'Second ' : '') + 'Movie'}
               </Text>
             </TouchableHighlight>
           </View>
         </View>
     );
+  }
+
+  alert() {
+    Alert.alert("Try another one", "Some smaller theaters don't have enough screens to make a double feature happen. Them's the breaks.");
   }
 }
 

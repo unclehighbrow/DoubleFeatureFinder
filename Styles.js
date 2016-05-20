@@ -14,6 +14,10 @@ module.exports = StyleSheet.create({
     fontSize: 20,
     color: '#656565'
   },
+  greyedOut: {
+    fontSize: 20,
+    color: '#999999'
+  },
   separator: {
     height: 1,
     backgroundColor: '#dddddd'
@@ -81,7 +85,7 @@ module.exports = StyleSheet.create({
     flex: 1,
   },
   time: {
-    fontSize: 16,
+    fontSize: 14,
     color: '#656565'
   },
   to: {
