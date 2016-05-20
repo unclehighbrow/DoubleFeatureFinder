@@ -10,8 +10,9 @@ var {
 var Util = React.createClass({
   statics: {
     minsToTime: function(mins) {
+      mins = mins % 1440;
       var meridian = 'AM';
-      if (mins > 720) {
+      if (mins >= 720) {
         meridian = 'PM';
         mins -= 720;
       }
