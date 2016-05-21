@@ -158,7 +158,7 @@ class SearchResults extends Component {
           <View style={styles.rowContainer}>
             {image}
             <View style={styles.titleContainer}>
-              <Text style={greyedOut ? styles.greyedOut : styles.title} numberOfLines={1}>{text}</Text>
+              <Text style={greyedOut ? styles.greyedOut : styles.title} numberOfLines={this.props.page == 1 ? 1 : 3}>{text}</Text>
             </View>
           </View>
           <View style={styles.separator} />

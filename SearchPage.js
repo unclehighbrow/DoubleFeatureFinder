@@ -10,12 +10,8 @@ var {
   View,
   TouchableHighlight,
   ActivityIndicatorIOS,
-  Image,
   Component,
-  Platform,
   Picker,
-  PickerIOS,
-  Dimensions
 } = React;
 
 var catchphrase = (<Text>Never <Text style={{fontStyle: 'italic'}}>sneak</Text> into movies!</Text>);
@@ -41,7 +37,7 @@ class SearchPage extends Component {
         Global.manual = true;
         this.setState({
           isLocating: false,
-          message: "Okay, put it in yourself.",
+          message: "Okay, put in your location.",
         });
       },
       {enableHighAccuracy: false, timeout: 20000, maximumAge: 100000}
