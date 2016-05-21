@@ -55,10 +55,12 @@ class DoubleFeatures extends Component {
           <View style={{flex: 1, padding: 10, marginTop:25}}>
             <View style={{height: 90, flex:1}}>
               <Text style={[styles.time, {fontWeight:'bold'}]}>{Util.minsToTime(parseInt(rowData[2]))}</Text>
+              <Text style={[styles.time, {fontSize: 10, textAlign:'center'}]}>to</Text>
               <Text style={styles.time}>{Util.minsToTime(parseInt(rowData[2]) + parseInt(this.props.listings.movies[rowData[1]].duration))}</Text>
             </View>
             <View style={{height: 90, flex:1}}>
               <Text style={[styles.time, {fontWeight:'bold'}]}>{Util.minsToTime(parseInt(rowData[4]))}</Text>
+              <Text style={[styles.time, {fontSize: 10, textAlign:'center'}]}>to</Text>
               <Text style={styles.time}>{Util.minsToTime(parseInt(rowData[4]) + parseInt(this.props.listings.movies[rowData[3]].duration))}</Text>
             </View>
           </View>
