@@ -18,7 +18,7 @@ var Util = React.createClass({
       }
       var minutes = '' + (mins % 60);
       if (minutes.length == 1) {
-        minutes += '0';
+        minutes = '0' + minutes;
       }
       var hours = Math.floor(mins / 60);
       if (hours == 0) {

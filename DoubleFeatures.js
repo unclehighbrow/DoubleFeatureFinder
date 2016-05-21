@@ -31,7 +31,7 @@ class DoubleFeatures extends Component {
     });
 
     for (var theatreId in data) {
-      data[theatreId].sort((a,b) => a[2] > b[2] ? 1 : -1);
+      data[theatreId].sort((a,b) => parseInt(a[2]) > parseInt(b[2]) ? 1 : -1);
     }
     sections.sort((a,b) => this.props.theatres[a].ordinal > this.props.theatres[b].ordinal ? 1 : -1);
 
