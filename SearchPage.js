@@ -37,7 +37,7 @@ class SearchPage extends Component {
         Global.manual = true;
         this.setState({
           isLocating: false,
-          message: "Okay, put in your location.",
+          message: "Choose a location and date.",
         });
       },
       {enableHighAccuracy: false, timeout: 20000, maximumAge: 100000}
@@ -70,7 +70,7 @@ class SearchPage extends Component {
           Global.manual = true;
           this.setState({
             isLocating: false,
-            message: "Okay, put it in yourself.",
+            message: "Choose a location and date.",
           });
         } else {
           this.setState({
@@ -147,7 +147,11 @@ class SearchPage extends Component {
     var spinner = this.state.isLoading ? (<ActivityIndicatorIOS size='large' style={styles.spinner} />) : (<View/>);
     return (
       <View style={styles.container}>
-        <View style={{flexDirection: 'row', marginTop: 80, marginBottom: 30}}>
+        <View style={{marginTop:30}}>
+          <Text style={styles.message}>{this.state.message}</Text>
+          {spinner}
+        </View>
+        <View style={{flexDirection: 'row'}}>
   			  <TextInput
   				  style={styles.searchInput}
             value={this.state.zipcode}
@@ -167,24 +171,21 @@ class SearchPage extends Component {
             <Picker.Item label='France' value='FR' />
             <Picker.Item label='Italy' value='IT' />
             <Picker.Item label='Mexico' value='MX' />
-            <Picker.Item label='New Zealand' value='NZ' />
             <Picker.Item label='Portugal' value='PT' />
             <Picker.Item label='UK' value='UK' />
             <Picker.Item label='US' value='US' />
           </Picker>
+          <Picker style={styles.datePicker} selectedValue={this.state.date} onValueChange={(d) => this.setState({date: d})}>
+            <Picker.Item label='Today' value='0' />
+            <Picker.Item label='Tomorrow' value='1' />
+            <Picker.Item label='Next Day' value='2' />
+          </Picker>
         </View>
-        <Picker style={styles.datePicker} selectedValue={this.state.date} onValueChange={(d) => this.setState({date: d})}>
-          <Picker.Item label='Today' value='0' />
-          <Picker.Item label='Tomorrow' value='1' />
-          <Picker.Item label='The Next Day' value='2' />
-        </Picker>
         <TouchableHighlight style={styles.button}
             onPress={this.onSearchPressed.bind(this)}
 			      underlayColor='#666688'>
 			    <Text style={styles.buttonText}>Go</Text>
 			  </TouchableHighlight>
-        <Text style={styles.message}>{this.state.message}</Text>
-        {spinner}
       </View>
     );
   }
@@ -196,7 +197,7 @@ var styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 18,
     textAlign: 'center',
-    color: mainColor
+    color: mainColor,
   },
   container: {
     padding: 30,
@@ -212,37 +213,35 @@ var styles = StyleSheet.create({
 	  height: 40,
     alignSelf: 'center',
     width: 70,
-	  backgroundColor: mainColor,
-	  borderColor: mainColor,
+	  backgroundColor: 'dodgerblue',
+	  borderColor: 'dodgerblue',
 	  borderWidth: 1,
-	  borderRadius: 8,
+	  borderRadius: 12,
 	  justifyContent: 'center',
 	},
 	searchInput: {
-    height: 60,
-    fontSize: 30,
+    height: 38,
+    fontSize: 25,
 	  borderWidth: 1,
 	  borderColor: mainColor,
 	  borderRadius: 5,
 	  color: mainColor,
     textAlign: 'center',
     width: 100,
-    marginRight: 20,
-    flex: 4,
-    alignSelf: 'center'
+    marginRight: 10,
+    alignSelf:'center'
 	},
   countryPicker: {
-    flex: 1,
-    width: 140,
+    width: 120,
     height: 215,
   },
   datePicker: {
-    flex: 1,
-    width: 140,
-    height:100
+    width: 100,
+    height:10,
   },
   spinner: {
-    marginTop: 20
+    marginTop: 20,
+    alignSelf:'center'
   }
 });
 
