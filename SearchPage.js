@@ -106,7 +106,7 @@ class SearchPage extends Component {
   onSearchPressed() {
     if (!this.state.isLoading) {
       this.setState({ isLoading: true, message: 'Please wait...' });
-      fetch('http://dubfeatfind.appspot.com/?j=1&zipcode=' + this.state.zipcode + '&country=' + this.state.country)
+      fetch('http://dubfeatfind.appspot.com/?j=1&zipcode=' + this.state.zipcode + '&country=' + this.state.country + '&date=' + this.state.date)
         .then(response => response.json())
         .then(json => this.handleResponse(json))
         .catch(error => {
@@ -131,6 +131,7 @@ class SearchPage extends Component {
       message: catchphrase,
       isLocating: true,
       country: 'US',
+      date: 0,
     };
   }
 
@@ -154,7 +155,7 @@ class SearchPage extends Component {
             keyboardType='numbers-and-punctuation'
   				  placeholder='zip' />
           <Picker
-            style={styles.picker}
+            style={styles.countryPicker}
             selectedValue={this.state.country}
             onValueChange={(c) => this.setState({country: c})}>
             <Picker.Item label='Argentina' value='AR' />
@@ -172,6 +173,11 @@ class SearchPage extends Component {
             <Picker.Item label='US' value='US' />
           </Picker>
         </View>
+        <Picker style={styles.datePicker} selectedValue={this.state.date} onValueChange={(d) => this.setState({date: d})}>
+          <Picker.Item label='Today' value='0' />
+          <Picker.Item label='Tomorrow' value='1' />
+          <Picker.Item label='The Next Day' value='2' />
+        </Picker>
         <TouchableHighlight style={styles.button}
             onPress={this.onSearchPressed.bind(this)}
 			      underlayColor='#666688'>
@@ -225,10 +231,15 @@ var styles = StyleSheet.create({
     flex: 4,
     alignSelf: 'center'
 	},
-  picker: {
+  countryPicker: {
     flex: 1,
     width: 140,
     height: 215,
+  },
+  datePicker: {
+    flex: 1,
+    width: 140,
+    height:100
   },
   spinner: {
     marginTop: 20

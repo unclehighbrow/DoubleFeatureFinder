@@ -81,8 +81,12 @@ module.exports = StyleSheet.create({
     textAlign: 'center',
   },
   dfResultText: {
-    fontSize: 12,
-    flex: 1,
+    fontSize: 17,
+    color: '#656565'
+  },
+  hasLink: {
+    color: 'dodgerblue',
+    textDecorationLine: 'underline'
   },
   time: {
     fontSize: 14,

@@ -8,7 +8,8 @@ var {
   ActivityIndicatorIOS,
   Image,
   Component,
-  ListView
+  ListView,
+  Linking,
 } = React;
 
 var Util = require('./Util');
@@ -44,7 +45,17 @@ class DoubleFeatures extends Component {
     }
   }
 
+  rowPressed(link) {
+    console.log(link);
+    if (link != '') {
+      Linking.openURL(link);
+    }
+  }
+
+
   renderRow(rowData, sectionId, rowId) {
+    var firstLink = this.props.listings.theatres[sectionId]['m'][rowData[1]][rowData[2]]['l'];
+    var secondLink = this.props.listings.theatres[sectionId]['m'][rowData[3]][rowData[4]]['l'];
     return (
       <View style={{flexDirection:'row'}}>
         <View style={{flex: 1, padding:5, height: 180}}>
@@ -52,25 +63,33 @@ class DoubleFeatures extends Component {
           <Poster movieId={rowData[1]} style={{position:'absolute', top: 5, left: 5}} />
         </View>
         <View style={{flex: 2, flexDirection: 'row', height:180, alignItems:'center'}}>
-          <View style={{flex: 1, padding: 10, marginTop:25}}>
-            <View style={{height: 90, flex:1}}>
-              <Text style={[styles.time, {fontWeight:'bold'}]}>{Util.minsToTime(parseInt(rowData[2]))}</Text>
-              <Text style={[styles.time, {fontSize: 10, textAlign:'center'}]}>to</Text>
-              <Text style={styles.time}>{Util.minsToTime(parseInt(rowData[2]) + parseInt(this.props.listings.movies[rowData[1]].duration))}</Text>
-            </View>
-            <View style={{height: 90, flex:1}}>
-              <Text style={[styles.time, {fontWeight:'bold'}]}>{Util.minsToTime(parseInt(rowData[4]))}</Text>
-              <Text style={[styles.time, {fontSize: 10, textAlign:'center'}]}>to</Text>
-              <Text style={styles.time}>{Util.minsToTime(parseInt(rowData[4]) + parseInt(this.props.listings.movies[rowData[3]].duration))}</Text>
-            </View>
+          <View style={{flex: 1, padding: 5, marginTop:25, marginLeft:5}}>
+            <TouchableHighlight style={{height: 90, flex:1}} onPress={() => this.rowPressed(firstLink)} underlayColor='white'>
+              <View>
+                <Text style={[styles.time, {fontWeight:'bold'}, (firstLink != ''? styles.hasLink:{})]}>
+                  {Util.minsToTime(parseInt(rowData[2]))}
+                </Text>
+                <Text style={[styles.time, {fontSize: 10, textAlign:'center'}]}>to</Text>
+                <Text style={styles.time}>{Util.minsToTime(parseInt(rowData[2]) + parseInt(this.props.listings.movies[rowData[1]].duration))}</Text>
+              </View>
+            </TouchableHighlight>
+            <TouchableHighlight style={{height: 90, flex:1}} onPress={() => this.rowPressed(secondLink)} underlayColor='white'>
+              <View>
+                <Text style={[styles.time, {fontWeight:'bold'}, (firstLink != ''?styles.hasLink:{})]}>
+                  {Util.minsToTime(parseInt(rowData[4]))}
+                </Text>
+                <Text style={[styles.time, {fontSize: 10, textAlign:'center'}]}>to</Text>
+                <Text style={styles.time}>{Util.minsToTime(parseInt(rowData[4]) + parseInt(this.props.listings.movies[rowData[3]].duration))}</Text>
+              </View>
+            </TouchableHighlight>
           </View>
-          <View style={{flex: 2, flexDirection: 'column',padding: 10, marginTop:15}}>
-            <View style={{height:90}}>
-              <Text style={[styles.title, {}]} numberOfLines={3}>{this.props.listings.movies[rowData[1]]['name']}</Text>
-            </View>
-            <View style={{height:90}}>
-              <Text style={[styles.title, {}]} numberOfLines={3}>{this.props.listings.movies[rowData[3]]['name']}</Text>
-            </View>
+          <View style={{flex: 2, flexDirection: 'column',padding: 5, marginTop:20}}>
+            <TouchableHighlight style={{height:90}} onPress={() => this.rowPressed(firstLink)} underlayColor='white'>
+              <Text style={[styles.dfResultText, {}]} numberOfLines={3}>{this.props.listings.movies[rowData[1]]['name']}</Text>
+            </TouchableHighlight>
+            <TouchableHighlight style={{height:90}} onPress={() => this.rowPressed(secondLink)}  underlayColor='white'>
+              <Text style={[styles.dfResultText, {}]} numberOfLines={3}>{this.props.listings.movies[rowData[3]]['name']}</Text>
+            </TouchableHighlight>
           </View>
         </View>
       </View>
