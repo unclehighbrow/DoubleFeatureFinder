@@ -45,7 +45,13 @@ module.exports = StyleSheet.create({
     width: 92,
     height: 138,
     marginRight: 5,
-    marginLeft: 5
+    marginLeft: 5,
+  },
+  thumbSmall: {
+    width: 45,
+    height: 68,
+    marginRight: 5,
+    marginLeft: 5,
   },
   dontCareContainer: {
     position: 'absolute',
@@ -92,10 +98,8 @@ module.exports = StyleSheet.create({
     fontSize: 14,
     color: '#656565'
   },
-  to: {
-    fontSize: 14,
-    color: '#656565',
-    marginRight: 10,
-    marginLeft: 10,
-  }
+  timeSmall: {
+    fontSize: 13,
+    color: '#656565'
+  },
 });

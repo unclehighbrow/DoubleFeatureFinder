@@ -36,7 +36,7 @@ class Poster extends Component {
             this.setState({
               movieId: this.props.movieId
             });
-            images[this.props.movieId] = 'http://image.tmdb.org/t/p/w92' + poster_path;
+            images[this.props.movieId] = 'http://image.tmdb.org/t/p/' + (this.props.small ? 'w45' : 'w92') + poster_path;
           }
         }
       })
@@ -48,14 +48,14 @@ class Poster extends Component {
     if (images[this.props.movieId]) {
       return (
         <Image
-          style={[styles.thumb, this.props.style]}
+          style={[(this.props.small ? styles.thumbSmall : styles.thumb), this.props.style]}
           source={{ uri: images[this.props.movieId] }}
         />
       );
     } else {
       return (
         <View
-          style={[styles.thumb, this.props.style]}
+          style={[(this.props.small ? styles.thumbSmall : styles.thumb), this.props.style]}
         />
       );
     }
