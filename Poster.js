@@ -25,7 +25,8 @@ class Poster extends Component {
        return;
      }
     var api_key = 'b1339b127583d45241043e4a5d4d3d0a'
-    var url = 'https://api.themoviedb.org/3/find/' + this.props.movieId + '?external_source=imdb_id&api_key=' + api_key;
+
+    var url = 'https://api.themoviedb.org/3/find/' + this.props.movieId.replace('3D', '') + '?external_source=imdb_id&api_key=' + api_key;
     fetch(url)
       .then(response => response.json())
       .then(json => {
