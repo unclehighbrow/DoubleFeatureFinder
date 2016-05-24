@@ -227,7 +227,7 @@ var styles = StyleSheet.create({
 	  borderRadius: 5,
 	  color: mainColor,
     textAlign: 'center',
-    width: 100,
+    width: 80,
     marginRight: 10,
     alignSelf:'center'
 	},
