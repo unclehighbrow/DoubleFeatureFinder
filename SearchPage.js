@@ -156,12 +156,12 @@ class SearchPage extends Component {
         </View>
       );
     }
-    var spinner = this.state.isLoading ? (<ActivityIndicatorIOS size='large' style={styles.spinner} />) : (<View/>);
+    var spinner = this.state.isLoading ? (<ActivityIndicatorIOS size='large' style={styles.spinner} />) : (<View style={{height:56}} />);
     return (
+      <View style={{flex:1, backgroundColor:'whitesmoke'}}>
       <View style={styles.container}>
         <View style={{marginTop:30}}>
           <Text style={styles.message}>{this.state.message}</Text>
-          {spinner}
         </View>
         <View style={{flexDirection: 'row'}}>
   			  <TextInput
@@ -169,6 +169,7 @@ class SearchPage extends Component {
             value={this.state.zipcode}
             onChange={this.onSearchTextChanged.bind(this)}
             keyboardType='numbers-and-punctuation'
+            autoFocus={true}
   				  placeholder='zip' />
           <Picker
             style={styles.countryPicker}
@@ -198,7 +199,10 @@ class SearchPage extends Component {
 			      underlayColor='#666688'>
 			    <Text style={styles.buttonText}>Go</Text>
 			  </TouchableHighlight>
+        {spinner}
       </View>
+      <View style={styles.separator} />
+    </View>
     );
   }
 }
@@ -214,7 +218,7 @@ var styles = StyleSheet.create({
   container: {
     padding: 30,
     alignItems: 'center',
-    flex: 1
+    backgroundColor:'white'
   },
 	buttonText: {
 	  fontSize: 18,
@@ -254,7 +258,11 @@ var styles = StyleSheet.create({
   spinner: {
     marginTop: 20,
     alignSelf:'center'
-  }
+  },
+  separator: {
+    height: 1,
+    backgroundColor: '#dddddd'
+  },
 });
 
 module.exports = SearchPage;
