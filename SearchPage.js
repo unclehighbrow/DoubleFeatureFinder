@@ -16,6 +16,18 @@ var {
 
 var catchphrase = (<Text>Never <Text style={{fontStyle: 'italic'}}>sneak</Text> into movies!</Text>);
 var countries = ['AR', 'AU', 'CA', 'CL', 'DE', 'ES', 'FR', 'IT', 'MX', 'NZ', 'PT', 'UK', 'US'];
+// AR C1420 i
+// AU 2000 i
+// CA H3R 1K2 g
+// CL 872 0019 i
+// DE 10117 i
+// ES 08000 i
+// FR 97100 i
+// IT 00118 i
+// MX 22000 i
+// PT 1000 i
+// UK W11 2BD g
+// US 11201 g
 
 class SearchPage extends Component {
 
