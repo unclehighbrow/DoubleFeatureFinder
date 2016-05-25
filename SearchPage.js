@@ -169,7 +169,6 @@ class SearchPage extends Component {
             value={this.state.zipcode}
             onChange={this.onSearchTextChanged.bind(this)}
             keyboardType='numbers-and-punctuation'
-            autoFocus={true}
   				  placeholder='zip' />
           <Picker
             style={styles.countryPicker}
