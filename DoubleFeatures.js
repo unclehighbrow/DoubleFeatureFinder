@@ -46,7 +46,7 @@ class DoubleFeatures extends Component {
     this.state = {
       dataSource: dataSource,
       small: small,
-      imageHeight: small ? 180 : 100
+      imageHeight: small ? 140 : 180
     }
   }
 
