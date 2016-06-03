@@ -83,7 +83,7 @@ class DoubleFeatureFinder extends React.Component {
       default: return (
         <SearchPage
           navigator={navigator}
-          name='Search Options'
+          name='Search'
         />
       );
     }
