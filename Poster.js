@@ -9,6 +9,8 @@ var {
 } = React;
 
 var styles = require('./Styles');
+var emptyPoster = require('./emptyPoster.jpg');
+var emptyPosterSmall = require('./emptyPosterSmall.jpg');
 var images = {};
 
 class Poster extends Component {
@@ -55,8 +57,9 @@ class Poster extends Component {
       );
     } else {
       return (
-        <View
+        <Image
           style={[(this.props.small ? styles.thumbSmall : styles.thumb), this.props.style]}
+          source={this.props.small? emptyPosterSmall : emptyPoster}
         />
       );
     }
