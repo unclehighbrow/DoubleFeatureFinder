@@ -23,7 +23,7 @@ import ReactNative, {
 } from 'react-native';
 
 import fdn from '../components/foundation';
-var swatches = require('../components/swatches');
+import swatches from '../components/swatches';
 
 import { connect } from 'react-redux'
 import { fetchDoubleFeatures, fetchCurrentPosition, fetchLocationFromCountryZip } from '../actions'

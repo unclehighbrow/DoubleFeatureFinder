@@ -16,7 +16,9 @@ import ReactNative, {
 } from 'react-native';
 
 import fdn from '../components/foundation';
-var swatches = require('../components/swatches');
+import swatches from '../components/swatches';
+
+import Movies from './movies';
 
 import { connect } from 'react-redux'
 
@@ -28,24 +30,27 @@ class Theaters extends Component {
 
   constructor(props){
     super(props);
-
-    /* 
-    TODO: all this data is objects, you need to do the object id thing
-    */
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
+    this._getTheaterRowIdentities = this._getTheaterRowIdentities.bind(this);
+    var rowIdentities = this._getTheaterRowIdentities(props.theaters);
     this.state = {
-      theaterDataSource: this.ds.cloneWithRows(this.props.theaters),
+      theaterDataSource: this.ds.cloneWithRows(props.theaters, rowIdentities)
     }
   }
 
   componentDidMount() {
-    //this.props.fetchCurrentPosition();
   }
 
   componentWillReceiveProps(nextProps) {
+    var rowIdentities = this._getTheaterRowIdentities(nextProps.theaters);
     this.setState({
-      theaterDataSource: this.ds.cloneWithRows(nextProps.theaters)
+      theaterDataSource: this.ds.cloneWithRows(nextProps.theaters, rowIdentities)
     })
+  }
+
+  _getTheaterRowIdentities(theaters) {
+    var rowIdentities = Object.keys(theaters).sort((a,b) => theaters[a].ordinal > theaters[b].ordinal ? 1 : -1);
+    return rowIdentities;
   }
 
   render() {
@@ -69,11 +74,18 @@ class Theaters extends Component {
 
   _renderRow(rowData, sectionID, rowID){
     return(
-      <View style={fdn.listItem}>
+      <TouchableOpacity 
+        style={fdn.listItem}
+        onPress={()=>{
+          this.props.navigator.push({
+            component: Movies
+          })
+        }}
+        >
         <View style={fdn.chunk}>
-          <Text>Theater: {rowData.name}</Text>
+          <Text>{rowData.name}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   }
 }

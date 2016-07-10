@@ -10,6 +10,9 @@ const doubleFeatures = (state = {
   theaters: {},
   movies: {},
   date: 0,
+  selectedTheater: {},
+  selectedMovieA: {},
+  selectedMovieB: {}
 }, action) => {
   switch (action.type) {
     case types.RECEIVE_LOCATION:
@@ -20,6 +23,7 @@ const doubleFeatures = (state = {
         lat: action.lat,
         lon: action.lon
       };
+    case types.REQUEST_DOUBLE_FEATURES:
     case types.RECEIVE_DOUBLE_FEATURES:
       return { ...state, 
         theaters: action.theaters,

@@ -8,16 +8,17 @@ export const requestDoubleFeatures = (date, country, zip) => {
   return {
     type: REQUEST_DOUBLE_FEATURES,
     date, country, zip,
+    movies: {},
+    theaters: {}
   }
 }
 
 export const receiveDoubleFeatures = (date, country, zip, json) => {
-  console.log(json);
   return {
     type: RECEIVE_DOUBLE_FEATURES,
     date,
     movies: json.movies,
-    theaters: json.theaters,
+    theaters: json.theatres, // theatres, theaters
     receivedAt: Date.now()
   }
 }
@@ -28,6 +29,7 @@ export const fetchDoubleFeatures = (date, country, zip) => {
     return fetch(`http://dubfeatfind.appspot.com/?j=1&zipcode=${zip}&country=${country}&date=${date}`)
       .then(response => response.json() )
       .then(json => {
+        console.log('receive?');
         dispatch(receiveDoubleFeatures(date, country, zip, json))
       })
   }
@@ -141,4 +143,29 @@ export const fetchCurrentPosition = () => {
   }
 }
 
+// *** 
+// selections
+export const SELECT_THEATER = "SELECT_THEATER";
+export const SELECT_MOVIE_A = "SELECT_MOVIE_A";
+export const SELECT_MOVIE_B = "SELECT_MOVIE_B";
 
+export const selectTheater = (selectedTheater) => {
+  return {
+    type: SELECT_THEATER,
+    selectedTheater
+  }
+}
+
+export const selectMovieA = (selectedMovieA) => {
+  return {
+    type: SELECT_MOVIE_A,
+    selectedMovieA
+  }
+}
+
+export const selectMovieB = (selectedMovieB) => {
+  return {
+    type: SELECT_MOVIE_B,
+    selectedMovieB
+  }
+}
