@@ -1,31 +1,9 @@
 'use strict';
 
-var React = require('react-native');
-var {
-  Text,
-  NavigatorIOS,
-  AppRegistry
-} = React;
-var SearchPage = require('./SearchPage');
+import React, {
+  AppRegistry,
+} from 'react-native';
 
+import Root from './src/containers/root';
 
-class DoubleFeatureFinder extends React.Component {
-  render() {
-    return (
-      <NavigatorIOS
-        style={styles.container}
-        initialRoute={{
-          title: 'Search',
-          component: SearchPage,
-        }}/>
-    );
-  }
-}
-
-var styles = React.StyleSheet.create({
-  container: {
-    flex: 1
-  }
-});
-
-AppRegistry.registerComponent('DoubleFeatureFinder', () => DoubleFeatureFinder);
+AppRegistry.registerComponent('DoubleFeatureFinder', () => Root);

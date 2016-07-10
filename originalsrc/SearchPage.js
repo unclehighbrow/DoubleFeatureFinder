@@ -2,7 +2,7 @@
 
 var React = require('react-native');
 var SearchResults = require('./SearchResults');
-var Global = require('./Global');
+var Global = require('../Global');
 var {
   StyleSheet,
   Text,
