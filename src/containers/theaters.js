@@ -1,9 +1,3 @@
-/* 
-pick from list of theatres based on location
-location comes from location services
-or manual selection
-*/
-
 'use strict';
 
 import React, {
@@ -17,7 +11,6 @@ import ReactNative, {
   TouchableOpacity,
   Text,
   View,
-  Picker,
   TextInput,
   Animated,
 } from 'react-native';
@@ -30,7 +23,7 @@ import { connect } from 'react-redux'
 class Theaters extends Component {
 
   static defaultProps = {
-      theaters: []
+      theaters: {}
   }
 
   constructor(props){

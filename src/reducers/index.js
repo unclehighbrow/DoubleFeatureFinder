@@ -7,8 +7,8 @@ const doubleFeatures = (state = {
   country: '',
   city: '',
   zip: '',
-  theaters: [],
-  movies: [],
+  theaters: {},
+  movies: {},
   date: 0,
 }, action) => {
   switch (action.type) {
