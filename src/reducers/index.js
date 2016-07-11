@@ -28,8 +28,26 @@ const doubleFeatures = (state = {
       return { ...state, 
         theaters: action.theaters,
         movies: action.movies,
-        date: action.date
-      };  
+        date: action.date,
+        selectedTheater: action.selectedTheater,
+        selectedMovieA: action.selectedMovieA,
+        selectedMovieB: action.selectedMovieB,
+      };
+    case types.SELECT_THEATER:  
+      return { ...state, 
+          selectedTheater: action.selectedTheater,
+          selectedMovieA: action.selectedMovieA,
+          selectedMovieB: action.selectedMovieB,
+      }
+    case types.SELECT_MOVIE_A:  
+      return { ...state, 
+          selectedMovieA: action.selectedMovieA,
+          selectedMovieB: action.selectedMovieB,
+      }  
+    case types.SELECT_MOVIE_B:  
+      return { ...state, 
+          selectedMovieB: action.selectedMovieB,
+      } 
     default:
       return state;
   }

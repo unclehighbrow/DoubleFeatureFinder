@@ -9,7 +9,10 @@ export const requestDoubleFeatures = (date, country, zip) => {
     type: REQUEST_DOUBLE_FEATURES,
     date, country, zip,
     movies: {},
-    theaters: {}
+    theaters: {},
+    selectedTheater: {},
+    selectedMovieA: {},
+    selectedMovieB: {},
   }
 }
 
@@ -19,6 +22,9 @@ export const receiveDoubleFeatures = (date, country, zip, json) => {
     date,
     movies: json.movies,
     theaters: json.theatres, // theatres, theaters
+    selectedTheater: {},
+    selectedMovieA: {},
+    selectedMovieB: {},
     receivedAt: Date.now()
   }
 }
@@ -152,14 +158,17 @@ export const SELECT_MOVIE_B = "SELECT_MOVIE_B";
 export const selectTheater = (selectedTheater) => {
   return {
     type: SELECT_THEATER,
-    selectedTheater
+    selectedTheater,
+    selectedMovieA: {},
+    selectedMovieB: {},    
   }
 }
 
 export const selectMovieA = (selectedMovieA) => {
   return {
     type: SELECT_MOVIE_A,
-    selectedMovieA
+    selectedMovieA,
+    selectedMovieB: {},
   }
 }
 

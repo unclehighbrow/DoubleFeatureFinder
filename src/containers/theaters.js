@@ -18,9 +18,11 @@ import ReactNative, {
 import fdn from '../components/foundation';
 import swatches from '../components/swatches';
 
-import Movies from './movies';
+import MoviesA from './moviesA';
 
 import { connect } from 'react-redux'
+import { selectTheater } from '../actions'
+
 
 class Theaters extends Component {
 
@@ -36,9 +38,6 @@ class Theaters extends Component {
     this.state = {
       theaterDataSource: this.ds.cloneWithRows(props.theaters, rowIdentities)
     }
-  }
-
-  componentDidMount() {
   }
 
   componentWillReceiveProps(nextProps) {
@@ -77,13 +76,14 @@ class Theaters extends Component {
       <TouchableOpacity 
         style={fdn.listItem}
         onPress={()=>{
+          this.props.selectTheater(rowData);
           this.props.navigator.push({
-            component: Movies
+            component: MoviesA
           })
         }}
         >
         <View style={fdn.chunk}>
-          <Text>{rowData.name}</Text>
+          <Text style={[fdn.text]}>{rowData.name}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -98,8 +98,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-  //fetchLocationFromCountryZip,
-  //fetchCurrentPosition
+  selectTheater
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Theaters)
