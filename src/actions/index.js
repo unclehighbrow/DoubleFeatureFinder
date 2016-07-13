@@ -10,9 +10,9 @@ export const requestDoubleFeatures = (date, country, zip) => {
     date, country, zip,
     movies: {},
     theaters: {},
-    selectedTheater: {},
-    selectedMovieA: {},
-    selectedMovieB: {},
+    selectedTheaterId: null,
+    selectedMovieAId: null,
+    selectedMovieBId: null,
   }
 }
 
@@ -22,9 +22,9 @@ export const receiveDoubleFeatures = (date, country, zip, json) => {
     date,
     movies: json.movies,
     theaters: json.theatres, // theatres, theaters
-    selectedTheater: {},
-    selectedMovieA: {},
-    selectedMovieB: {},
+    selectedTheaterId: null,
+    selectedMovieAId: null,
+    selectedMovieBId: null,
     receivedAt: Date.now()
   }
 }
@@ -35,7 +35,6 @@ export const fetchDoubleFeatures = (date, country, zip) => {
     return fetch(`http://dubfeatfind.appspot.com/?j=1&zipcode=${zip}&country=${country}&date=${date}`)
       .then(response => response.json() )
       .then(json => {
-        console.log('receive?');
         dispatch(receiveDoubleFeatures(date, country, zip, json))
       })
   }
@@ -134,8 +133,7 @@ export const fetchCurrentPosition = () => {
     dispatch(requestCurrentPosition());
     return navigator.geolocation.getCurrentPosition(
       (position) => { 
-        console.log('got position');
-        dispatch(receiveCurrentPosition(position)) 
+          dispatch(receiveCurrentPosition(position)) 
       },
       (error) => { 
         // error.code 
@@ -155,26 +153,26 @@ export const SELECT_THEATER = "SELECT_THEATER";
 export const SELECT_MOVIE_A = "SELECT_MOVIE_A";
 export const SELECT_MOVIE_B = "SELECT_MOVIE_B";
 
-export const selectTheater = (selectedTheater) => {
+export const selectTheater = (selectedTheaterId) => {
   return {
     type: SELECT_THEATER,
-    selectedTheater,
-    selectedMovieA: {},
-    selectedMovieB: {},    
+    selectedTheaterId,
+    selectedMovieAId: null,
+    selectedMovieBId: null,    
   }
 }
 
-export const selectMovieA = (selectedMovieA) => {
+export const selectMovieA = (selectedMovieAId) => {
   return {
     type: SELECT_MOVIE_A,
-    selectedMovieA,
-    selectedMovieB: {},
+    selectedMovieAId,
+    selectedMovieBId: null,
   }
 }
 
-export const selectMovieB = (selectedMovieB) => {
+export const selectMovieB = (selectedMovieBId) => {
   return {
     type: SELECT_MOVIE_B,
-    selectedMovieB
+    selectedMovieBId
   }
 }

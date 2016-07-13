@@ -29,35 +29,23 @@ class Movies extends Component {
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
-    this._getMovieRowIdentitiesForTheater = this._getMovieRowIdentitiesForTheater.bind(this);
-    var rowIdentities = this._getMovieRowIdentitiesForTheater(props.movies, props.selectedTheater);
+    this._getMovieRowIdentities = this._getMovieRowIdentities.bind(this);
+    var rowIdentities = this._getMovieRowIdentities(props.availableMovieIds, props.movies);
     this.state = {
       movieDataSource: this.ds.cloneWithRows(props.movies, rowIdentities)
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    var rowIdentities = this._getMovieRowIdentitiesForTheater(nextProps.movies, nextProps.selectedTheater);
+    var rowIdentities = this._getMovieRowIdentities(nextProps.availableMovieIds, nextProps.movies);
     this.setState({
       movieDataSource: this.ds.cloneWithRows(nextProps.movies, rowIdentities)
     })
   }
 
-  _getMovieRowIdentitiesForTheater(allMovies, selectedTheater) {
-  	var movies = {};
-
-  	// filter movies
-  	if(!selectedTheater){
-  		movies = allMovies
-  	}
-  	else{
-		for (var movieId in selectedTheater.m) { // only movies in this theater
-			movies[movieId] = allMovies[movieId];
-		}
-  	}
-
+  _getMovieRowIdentities(availableMovieIds, movies) {
   	// sort movie ids
-    var rowIdentities = Object.keys(movies).sort((a,b) => movies[a].name.localeCompare(movies[b].name));
+    var rowIdentities = availableMovieIds.sort((a,b) => movies[a].name.localeCompare(movies[b].name));
     return rowIdentities;
   }
 
@@ -85,9 +73,9 @@ class Movies extends Component {
       <TouchableOpacity 
         style={fdn.listItem}
         onPress={()=>{
-        	this.props.selectMovieA(rowData);
+        	this.props.selectMovie(rowID);
         	this.props.navigator.push({
-        		component: moviesContainer
+        		component: this.props.nextScene
         	})
         }}
         >

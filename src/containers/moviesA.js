@@ -4,30 +4,25 @@ import { connect } from 'react-redux'
 import { selectMovieA } from '../actions'
 
 import Movies from '../components/movies';
+import MoviesB from './moviesB';
+import DoubleFeatures from './doubleFeatures';
+
+import Util from '../components/util';
 
 const mapStateToProps = state => {
-  var availableMovieIds = [];
-
   return {
     theaters: state.doubleFeatures.theaters,
     movies: state.doubleFeatures.movies,
     city: state.doubleFeatures.city,
-    selectedTheater: state.doubleFeatures.selectedTheater,
-    availableMovieIds
+    selectedTheaterId: state.doubleFeatures.selectedTheaterId,
+    selectedTheater: state.doubleFeatures.theaters[state.doubleFeatures.selectedTheaterId],
+    availableMovieIds: Object.keys(state.doubleFeatures.theaters[state.doubleFeatures.selectedTheaterId].m),
+    nextScene: MoviesB
   }
 }
 
-/*
-movieA, movieB progression
-double feature screen
-"don't care" option
-force location picking when none available
-location modal action
-loading indicator for theaters screen
-*/
-
 const mapDispatchToProps = {
-  selectMovieA,
+  selectMovie: selectMovieA,
 }
 
 const moviesContainer = connect(mapStateToProps, mapDispatchToProps)(Movies);

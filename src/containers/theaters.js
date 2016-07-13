@@ -76,7 +76,7 @@ class Theaters extends Component {
       <TouchableOpacity 
         style={fdn.listItem}
         onPress={()=>{
-          this.props.selectTheater(rowData);
+          this.props.selectTheater(rowID);
           this.props.navigator.push({
             component: MoviesA
           })

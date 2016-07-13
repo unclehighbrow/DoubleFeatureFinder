@@ -10,9 +10,9 @@ const doubleFeatures = (state = {
   theaters: {},
   movies: {},
   date: 0,
-  selectedTheater: {},
-  selectedMovieA: {},
-  selectedMovieB: {}
+  selectedTheaterId: null,
+  selectedMovieAId: null,
+  selectedMovieBId: null
 }, action) => {
   switch (action.type) {
     case types.RECEIVE_LOCATION:
@@ -29,24 +29,24 @@ const doubleFeatures = (state = {
         theaters: action.theaters,
         movies: action.movies,
         date: action.date,
-        selectedTheater: action.selectedTheater,
-        selectedMovieA: action.selectedMovieA,
-        selectedMovieB: action.selectedMovieB,
+        selectedTheaterId: action.selectedTheaterId,
+        selectedMovieAId: action.selectedMovieAId,
+        selectedMovieBId: action.selectedMovieBId,
       };
     case types.SELECT_THEATER:  
       return { ...state, 
-          selectedTheater: action.selectedTheater,
-          selectedMovieA: action.selectedMovieA,
-          selectedMovieB: action.selectedMovieB,
+          selectedTheaterId: action.selectedTheaterId,
+          selectedMovieAId: action.selectedMovieAId,
+          selectedMovieBId: action.selectedMovieBId,
       }
     case types.SELECT_MOVIE_A:  
       return { ...state, 
-          selectedMovieA: action.selectedMovieA,
-          selectedMovieB: action.selectedMovieB,
+          selectedMovieAId: action.selectedMovieAId,
+          selectedMovieBId: action.selectedMovieBId,
       }  
     case types.SELECT_MOVIE_B:  
       return { ...state, 
-          selectedMovieB: action.selectedMovieB,
+          selectedMovieBId: action.selectedMovieBId,
       } 
     default:
       return state;
