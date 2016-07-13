@@ -10,9 +10,9 @@ const doubleFeatures = (state = {
   theaters: {},
   movies: {},
   date: 0,
-  selectedTheaterId: null,
-  selectedMovieAId: null,
-  selectedMovieBId: null
+  selectedTheaterId: 0,
+  selectedMovieAId: 0,
+  selectedMovieBId: 0
 }, action) => {
   switch (action.type) {
     case types.RECEIVE_LOCATION:

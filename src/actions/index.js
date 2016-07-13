@@ -10,9 +10,9 @@ export const requestDoubleFeatures = (date, country, zip) => {
     date, country, zip,
     movies: {},
     theaters: {},
-    selectedTheaterId: null,
-    selectedMovieAId: null,
-    selectedMovieBId: null,
+    selectedTheaterId: 0,
+    selectedMovieAId: 0,
+    selectedMovieBId: 0,
   }
 }
 
@@ -22,9 +22,9 @@ export const receiveDoubleFeatures = (date, country, zip, json) => {
     date,
     movies: json.movies,
     theaters: json.theatres, // theatres, theaters
-    selectedTheaterId: null,
-    selectedMovieAId: null,
-    selectedMovieBId: null,
+    selectedTheaterId: 0,
+    selectedMovieAId: 0,
+    selectedMovieBId: 0,
     receivedAt: Date.now()
   }
 }
@@ -157,8 +157,8 @@ export const selectTheater = (selectedTheaterId) => {
   return {
     type: SELECT_THEATER,
     selectedTheaterId,
-    selectedMovieAId: null,
-    selectedMovieBId: null,    
+    selectedMovieAId: 0,
+    selectedMovieBId: 0,    
   }
 }
 
@@ -166,7 +166,7 @@ export const selectMovieA = (selectedMovieAId) => {
   return {
     type: SELECT_MOVIE_A,
     selectedMovieAId,
-    selectedMovieBId: null,
+    selectedMovieBId: 0,
   }
 }
 

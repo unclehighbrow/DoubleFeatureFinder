@@ -10,7 +10,6 @@ import Util from '../components/util';
 
 const mapStateToProps = state => {
 
-
   var availableMovieIds = Util.findDoubleFeatureMovieIds(state.doubleFeatures.selectedTheaterId, state.doubleFeatures.selectedMovieAId, state.doubleFeatures.theaters);
 
   return {
