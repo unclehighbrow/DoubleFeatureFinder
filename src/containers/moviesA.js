@@ -17,7 +17,8 @@ const mapStateToProps = state => {
     selectedTheaterId: state.doubleFeatures.selectedTheaterId,
     selectedTheater: state.doubleFeatures.theaters[state.doubleFeatures.selectedTheaterId],
     availableMovieIds: Object.keys(state.doubleFeatures.theaters[state.doubleFeatures.selectedTheaterId].m),
-    nextScene: MoviesB
+    nextScene: MoviesB,
+    isLoading: state.doubleFeatures.isLoading
   }
 }
 

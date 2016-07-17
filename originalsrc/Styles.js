@@ -44,14 +44,10 @@ module.exports = StyleSheet.create({
   thumb: {
     width: 92,
     height: 138,
-    marginRight: 5,
-    marginLeft: 5,
   },
   thumbSmall: {
     width: 45,
     height: 68,
-    marginRight: 5,
-    marginLeft: 5,
   },
   dontCareContainer: {
     position: 'absolute',

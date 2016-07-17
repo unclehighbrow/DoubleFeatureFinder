@@ -5,6 +5,7 @@ import React, {
 } from 'react';
 
 import ReactNative, {
+  ActivityIndicator,
   AppRegistry,
   StyleSheet,
   ListView,
@@ -17,6 +18,8 @@ import ReactNative, {
 
 import fdn from '../components/foundation';
 import swatches from '../components/swatches';
+
+var Poster = require('../../originalsrc/Poster');
 
 
 class Movies extends Component {
@@ -62,6 +65,8 @@ class Movies extends Component {
             dataSource={this.state.movieDataSource}
             renderRow={this._renderRow.bind(this)}
             enableEmptySections={true}
+            removeClippedSubviews={false}
+            contentContainerStyle={{ justifyContent: 'space-between', flexDirection: 'row', flexWrap: 'wrap'}}
             />
         </View>
       </View>
@@ -71,7 +76,7 @@ class Movies extends Component {
   _renderRow(rowData, sectionID, rowID){
     return(
       <TouchableOpacity 
-        style={fdn.listItem}
+        style={{width: 100, height: 200}}
         onPress={()=>{
         	this.props.selectMovie(rowID);
         	this.props.navigator.push({
@@ -80,7 +85,8 @@ class Movies extends Component {
         }}
         >
         <View style={fdn.chunk}>
-          <Text style={[fdn.text]}>{rowData.name}</Text>
+          <Poster movieId={rowID} />
+          <Text style={[fdn.text, fdn.textSmall]}>{rowData.name}</Text>
         </View>
       </TouchableOpacity>
     );

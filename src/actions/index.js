@@ -13,6 +13,7 @@ export const requestDoubleFeatures = (date, country, zip) => {
     selectedTheaterId: 0,
     selectedMovieAId: 0,
     selectedMovieBId: 0,
+    isLoading: true
   }
 }
 
@@ -25,7 +26,8 @@ export const receiveDoubleFeatures = (date, country, zip, json) => {
     selectedTheaterId: 0,
     selectedMovieAId: 0,
     selectedMovieBId: 0,
-    receivedAt: Date.now()
+    receivedAt: Date.now(),
+    isLoading: false
   }
 }
 

@@ -1,69 +1,79 @@
 'use strict';
 
-var React = require('react-native');
-var {
-  StyleSheet,
-  Image,
-  View,
-  Component,
-} = React;
+import React, {
+	Component,
+} from 'react';
 
+import ReactNative, {
+	AppRegistry,
+	StyleSheet,
+	ListView,
+	TouchableOpacity,
+	Image,
+	Text,
+	View,
+	TextInput,
+	Animated,
+	Linking,
+} from 'react-native';
 var styles = require('./Styles');
-var emptyPoster = require('./emptyPoster.jpg');
-var emptyPosterSmall = require('./emptyPosterSmall.jpg');
-var images = {};
+var images = {}; // global store for all images -- move to redux?
 
 class Poster extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      movieId: this.props.movieId
-    }
-    this.getImage();
-  }
+	constructor(props) {
+		super(props);
+		this.state = {
+			url: ''
+		}
+		this._getImage = this._getImage.bind(this);
+	}
 
-  getImage() {
-     if (images[this.props.movieId]) {
-       return;
-     }
-    var api_key = 'b1339b127583d45241043e4a5d4d3d0a'
+	componentDidMount() {
+		this._getImage();
+	}
 
-    var url = 'https://api.themoviedb.org/3/find/' + this.props.movieId.replace('3D', '') + '?external_source=imdb_id&api_key=' + api_key;
-    fetch(url)
-      .then(response => response.json())
-      .then(json => {
-        if (json.movie_results && json.movie_results.length > 0) {
-          var poster_path = json.movie_results[0].poster_path;
-          if (poster_path) {
-            // other sizes: "w154", "w185", "w342"
-            this.setState({
-              movieId: this.props.movieId
-            });
-            images[this.props.movieId] = 'http://image.tmdb.org/t/p/' + (this.props.small ? 'w45' : 'w92') + poster_path;
-          }
-        }
-      })
-      .catch(error => {});
-  }
+	_getImage() {
+		if (images[this.props.movieId]) {
+			this.setState({
+				url: images[this.props.movieId]
+			});
+			return;
+		}
+		var api_key = 'b1339b127583d45241043e4a5d4d3d0a'
+		var url = 'https://api.themoviedb.org/3/find/' + this.props.movieId.replace('3D', '') + '?external_source=imdb_id&api_key=' + api_key;
+		fetch(url)
+			.then(response => response.json())
+			.then(json => {
+				if (json.movie_results && json.movie_results.length > 0) {
+					var poster_path = json.movie_results[0].poster_path;
+					if (poster_path) {
+						// other sizes: "w154", "w185", "w342"
+						var url = 'http://image.tmdb.org/t/p/w154' + poster_path;
+						this.setState({
+							url
+						});
+						images[this.props.movieId] = url;
+					}
+				}
+			})
+			.catch(error => {});
+	}
 
-  render() {
-    this.getImage();
-    if (images[this.props.movieId]) {
-      return (
-        <Image
-          style={[(this.props.small ? styles.thumbSmall : styles.thumb), this.props.style]}
-          source={{ uri: images[this.props.movieId] }}
-        />
-      );
-    } else {
-      return (
-        <Image
-          style={[(this.props.small ? styles.thumbSmall : styles.thumb), this.props.style]}
-          source={this.props.small? emptyPosterSmall : emptyPoster}
-        />
-      );
-    }
-  }
+	render() {
+		var source = (this.state.url) ? {
+			uri: this.state.url
+		} : null;
+		return ( <Image style = {
+				[(this.props.small ? styles.thumbSmall : styles.thumb), {
+					backgroundColor: 'rgba(0,0,0,.1)'
+				}, this.props.style]
+			}
+			source = {
+				source
+			}
+			/>
+		);
+	}
 }
 
 module.exports = Poster;

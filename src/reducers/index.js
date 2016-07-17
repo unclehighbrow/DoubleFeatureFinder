@@ -12,7 +12,8 @@ const doubleFeatures = (state = {
   date: 0,
   selectedTheaterId: 0,
   selectedMovieAId: 0,
-  selectedMovieBId: 0
+  selectedMovieBId: 0,
+  isLoading: false
 }, action) => {
   switch (action.type) {
     case types.RECEIVE_LOCATION:
@@ -32,6 +33,7 @@ const doubleFeatures = (state = {
         selectedTheaterId: action.selectedTheaterId,
         selectedMovieAId: action.selectedMovieAId,
         selectedMovieBId: action.selectedMovieBId,
+        isLoading: action.isLoading
       };
     case types.SELECT_THEATER:  
       return { ...state, 

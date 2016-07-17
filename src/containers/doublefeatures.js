@@ -14,6 +14,7 @@ import ReactNative, {
   View,
   TextInput,
   Animated,
+  Linking,
 } from 'react-native';
 
 import fdn from '../components/foundation';
@@ -22,6 +23,8 @@ import swatches from '../components/swatches';
 import { connect } from 'react-redux'
 
 import Util from '../components/util';
+var Poster = require('../../originalsrc/Poster');
+
 
 class DoubleFeatures extends Component {
 
@@ -36,9 +39,11 @@ class DoubleFeatures extends Component {
     	sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
     });
 
+    // method binding
     this._getDoubleFeatureRowIdentities = this._getDoubleFeatureRowIdentities.bind(this);
     this._getDataAndSections = this._getDataAndSections.bind(this);
 
+    // data source
     var dataAndSections = this._getDataAndSections(this.props.doubleFeatures);
     var rowIdentities = this._getDoubleFeatureRowIdentities(this.props.theaters, dataAndSections.sections);
     this.state = {
@@ -91,6 +96,7 @@ class DoubleFeatures extends Component {
             style={fdn.list}
             dataSource={this.state.doubleFeatureDataSource}
             renderRow={this._renderRow.bind(this)}
+            renderSectionHeader={this._renderSectionHeader.bind(this)}
             enableEmptySections={true}
             />
         </View>
@@ -98,13 +104,33 @@ class DoubleFeatures extends Component {
     )
   }
 
+  _renderSectionHeader(sectionData, sectionID) {
+    return (
+      <View>
+          <Text>{this.props.theaters[sectionID]['name']}</Text>
+      </View>
+    );
+  }
+
   _renderRow(rowData, sectionID, rowID){
     return(
       <View
         style={fdn.listItem}
         >
-        <View style={fdn.chunk}>
-          <Text style={[fdn.text]}>stuff</Text>
+        <View style={[fdn.chunk, fdn.row]}>
+          <View style={[fdn.rowItemShrink, {width: 100}]}>
+            <Poster movieId={rowData[3]} small={true} style={{position:'absolute', top: 30, left: 30}} />
+            <Poster movieId={rowData[1]} small={true} style={{position:'absolute', top: 0, left: 0}} />
+          </View>
+          <View style={[fdn.rowItemGrow]}>
+            <Text>{Util.minsToTime(parseInt(rowData[2]))}</Text>
+
+            <Text>{this.props.movies[rowData[1]]['name']}</Text>
+            <Text>{this.props.movies[rowData[3]]['name']}</Text>
+
+            <Text>{Util.minsToTime(parseInt(rowData[4]))}</Text>
+
+          </View>
         </View>
       </View>
     );
@@ -123,6 +149,8 @@ const mapStateToProps = state => {
 	return {
 		doubleFeatures,
 		city: state.doubleFeatures.city,
+		theaters: state.doubleFeatures.theaters,
+    movies: state.doubleFeatures.movies
 	}
 }
 

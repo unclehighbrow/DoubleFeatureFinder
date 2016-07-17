@@ -5,6 +5,7 @@ import React, {
 } from 'react';
 
 import ReactNative, {
+  ActivityIndicator,
   AppRegistry,
   StyleSheet,
   ListView,
@@ -16,7 +17,7 @@ import ReactNative, {
 } from 'react-native';
 
 import fdn from '../components/foundation';
-import swatches from '../components/swatches';
+import swatches from '../components/swatches';  
 
 import MoviesA from './moviesA';
 
@@ -55,18 +56,27 @@ class Theaters extends Component {
   render() {
     return(
       <View style={[fdn.container]}>
-        <View style={[fdn.bounds]}>
-          <View>
-            <Text style={[fdn.text]}>Theaters near</Text>
-            <Text style={[fdn.text, fdn.textBold]}>{this.props.city}</Text>
-          </View>
-          <ListView
-            style={fdn.list}
-            dataSource={this.state.theaterDataSource}
-            renderRow={this._renderRow.bind(this)}
-            enableEmptySections={true}
-            />
-        </View>
+
+          { this.props.isLoading && 
+            <View style={{flex: 1, justifyContent: 'center'}}>
+              <ActivityIndicator size="large" />
+            </View>
+          }
+
+          { !this.props.isLoading &&  
+            <View style={[fdn.bounds]}>
+              <View>
+                <Text style={[fdn.text]}>Theaters near</Text>
+                <Text style={[fdn.text, fdn.textBold]}>{this.props.city}</Text>
+              </View>
+              <ListView
+                style={fdn.list}
+                dataSource={this.state.theaterDataSource}
+                renderRow={this._renderRow.bind(this)}
+                enableEmptySections={true}
+                />
+            </View>
+          }
       </View>
     )
   }
@@ -94,6 +104,7 @@ const mapStateToProps = state => {
   return {
     theaters: state.doubleFeatures.theaters,
     city: state.doubleFeatures.city,
+    isLoading: state.doubleFeatures.isLoading
   }
 }
 
