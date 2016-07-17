@@ -59,7 +59,11 @@ class Theaters extends Component {
 
           { this.props.isLoading && 
             <View style={{flex: 1, justifyContent: 'center'}}>
-              <ActivityIndicator size="large" />
+              <View>
+                <ActivityIndicator size="large" style={fdn.pseudoLine} />
+                <Text style={[fdn.text, fdn.textSecondary, fdn.textAlignCenter]}>Finding nearby theaters...</Text>
+              </View>
+
             </View>
           }
 
