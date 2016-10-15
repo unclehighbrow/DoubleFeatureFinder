@@ -1,12 +1,11 @@
 'use strict';
 
-var React = require('react-native');
-var {
+import React, { Component } from 'react';
+import {
   StyleSheet,
   Image,
   View,
-  Component,
-} = React;
+} from 'react-native';
 
 var styles = require('./Styles');
 var emptyPoster = require('./emptyPoster.jpg');
@@ -39,7 +38,7 @@ class Poster extends Component {
             this.setState({
               movieId: this.props.movieId
             });
-            images[this.props.movieId] = 'http://image.tmdb.org/t/p/' + (this.props.small ? 'w45' : 'w92') + poster_path;
+            images[this.props.movieId] = 'https://image.tmdb.org/t/p/' + (this.props.small ? 'w45' : 'w92') + poster_path;
           }
         }
       })

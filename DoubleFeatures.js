@@ -1,5 +1,7 @@
-var React = require('react-native');
-var {
+'use strict';
+
+import React, { Component } from 'react';
+import {
   StyleSheet,
   Text,
   TextInput,
@@ -7,11 +9,10 @@ var {
   TouchableHighlight,
   ActivityIndicatorIOS,
   Image,
-  Component,
   ListView,
   Linking,
   Dimensions,
-} = React;
+} from 'react-native';
 
 var Util = require('./Util');
 var styles = require('./Styles');

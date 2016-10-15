@@ -1,7 +1,7 @@
 'use strict';
 
-var React = require('react-native');
-var {
+import React, { Component } from 'react';
+import {
   Text,
   Navigator,
   AppRegistry,
@@ -9,7 +9,8 @@ var {
   TouchableOpacity,
   StyleSheet,
   Image
-} = React;
+} from 'react-native';
+
 var SearchPage = require('./SearchPage');
 var SearchResults = require('./SearchResults');
 var DoubleFeatures = require('./DoubleFeatures');

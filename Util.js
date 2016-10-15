@@ -1,11 +1,11 @@
 'use strict';
 
-var React = require('react-native');
-var {
+import React, { Component } from 'react';
+import {
   Text,
   NavigatorIOS,
   AppRegistry
-} = React;
+} from 'react-native';
 
 var Util = React.createClass({
   statics: {

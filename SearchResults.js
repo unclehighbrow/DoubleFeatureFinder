@@ -1,21 +1,21 @@
 'use strict';
 
-var React = require('react-native');
-var {
+import React, { Component } from 'react';
+import {
   StyleSheet,
   Image,
   View,
   TouchableHighlight,
   ListView,
   Text,
-  Component,
   SegmentedControlIOS,
   ScrollView,
   TextInput,
   Platform,
   Dimensions,
-  Alert,
-} = React;
+  Alert
+} from 'react-native';
+
 var Poster = require('./Poster');
 var styles = require('./Styles');
 var Global = require('./Global');

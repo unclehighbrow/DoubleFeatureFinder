@@ -1,18 +1,19 @@
 'use strict';
 
-var React = require('react-native');
-var SearchResults = require('./SearchResults');
-var Global = require('./Global');
-var {
+import React, { Component } from 'react';
+import {
   StyleSheet,
   Text,
   TextInput,
   View,
   TouchableHighlight,
   ActivityIndicatorIOS,
-  Component,
-  Picker,
-} = React;
+  Picker
+} from 'react-native';
+
+var SearchResults = require('./SearchResults');
+var Global = require('./Global');
+
 
 var catchphrase = (<Text>Never <Text style={{fontStyle: 'italic'}}>sneak</Text> into movies!</Text>);
 var countries = ['AR', 'AU', 'CA', 'CL', 'DE', 'ES', 'FR', 'IT', 'MX', 'NZ', 'PT', 'UK', 'US'];
@@ -118,7 +119,7 @@ class SearchPage extends Component {
   onSearchPressed() {
     if (!this.state.isLoading) {
       this.setState({ isLoading: true, message: 'Please wait...' });
-      fetch('http://dubfeatfind.appspot.com/?j=1&zipcode=' + this.state.zipcode + '&country=' + this.state.country + '&date=' + this.state.date)
+      fetch('https://dubfeatfind.appspot.com/?j=1&zipcode=' + this.state.zipcode + '&country=' + this.state.country + '&date=' + this.state.date)
         .then(response => response.json())
         .then(json => this.handleResponse(json))
         .catch(error => {

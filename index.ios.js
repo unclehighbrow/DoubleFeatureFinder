@@ -1,11 +1,13 @@
 'use strict';
 
-var React = require('react-native');
-var {
+import React, { Component } from 'react';
+import {
   Text,
   NavigatorIOS,
-  AppRegistry
-} = React;
+  AppRegistry,
+  StyleSheet
+} from 'react-native';
+
 var SearchPage = require('./SearchPage');
 
 
@@ -22,7 +24,7 @@ class DoubleFeatureFinder extends React.Component {
   }
 }
 
-var styles = React.StyleSheet.create({
+var styles = StyleSheet.create({
   container: {
     flex: 1
   }
