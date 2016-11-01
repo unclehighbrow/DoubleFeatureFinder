@@ -7,7 +7,7 @@ import {
   TextInput,
   View,
   TouchableHighlight,
-  ActivityIndicatorIOS,
+  ActivityIndicator,
   Picker
 } from 'react-native';
 
@@ -153,11 +153,11 @@ class SearchPage extends Component {
       return (
         <View style={[styles.container, {justifyContent: 'center'}]}>
           <Text style={[styles.message, {paddingTop: 40}]}>{this.state.message}</Text>
-          <ActivityIndicatorIOS size='large' style={[styles.spinner]} />
+          <ActivityIndicator size='large' style={[styles.spinner]} />
         </View>
       );
     }
-    var spinner = this.state.isLoading ? (<ActivityIndicatorIOS size='large' style={styles.spinner} />) : (<View style={{height:56}} />);
+    var spinner = this.state.isLoading ? (<ActivityIndicator size='large' style={styles.spinner} />) : (<View style={{height:56}} />);
     return (
       <View style={{flex:1, backgroundColor:'whitesmoke'}}>
       <View style={styles.container}>
