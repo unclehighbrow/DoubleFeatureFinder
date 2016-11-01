@@ -60,6 +60,7 @@ class SearchResults extends Component {
       } else if (this.props.page == 2) { // choosing first movie
         if (id == 0) { // dont care, skip to end screen
           this.goToDoubleFeatures(0,0);
+          return;
         } else {
           var movieIds;
           if (this.props.theatreId == 0) {
@@ -195,17 +196,18 @@ class SearchResults extends Component {
   }
 
   renderHeader() {
+    var headerText = '';
     if (this.props.page == 1) {
-      var headerText = 'Let\'s get started! First, pick a theater.';
+      headerText = 'Let\'s get started! First, pick a theater.';
     } else if (this.props.page == 2) {
       if (this.props.theatreId == 0) {
-        var headerText = 'Any theater, okay.';
+        headerText = 'Any theater, okay.';
       } else {
-        var headerText = this.props.listings.theatres[this.props.theatreId].name + ', okay.';
+        headerText = this.props.listings.theatres[this.props.theatreId].name + ', okay.';
       }
       headerText += ' Now pick a movie!';
-    } else {
-      var headerText = this.props.listings.movies[this.props.movieId].name + ', nice.  You can pick another one. Or not, whatever.';
+    } else if (this.props.listings.movies[this.props.movieId]) {
+      headerText = this.props.listings.movies[this.props.movieId].name + ', nice.  You can pick another one. Or not, whatever.';
     }
     return (
       <View style={styles.header}>

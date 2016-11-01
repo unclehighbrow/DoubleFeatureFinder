@@ -67,6 +67,7 @@ class DoubleFeatureFinder extends React.Component {
           theatreId={route.passProps.theatreId}
           firstMovieId={route.passProps.firstMovieId}
           secondMovieId={route.passProps.secondMovieId}
+          theatres={route.passProps.theatres}
           dfs={route.passProps.dfs}
         />
       );
