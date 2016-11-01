@@ -21,6 +21,7 @@ var styles = require('./Styles');
 var Global = require('./Global');
 var DoubleFeatures = require('./DoubleFeatures');
 var Util = require('./Util');
+var dismissKeyboard = require('react-native-dismiss-keyboard');
 
 class SearchResults extends Component {
   constructor(props) {
@@ -44,6 +45,7 @@ class SearchResults extends Component {
   }
 
   rowPressed(id) {
+    dismissKeyboard();
     if (id == -1) {
       return this.alert();
     }
