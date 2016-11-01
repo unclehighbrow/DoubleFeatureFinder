@@ -8,6 +8,7 @@ import {
   View,
   TouchableOpacity,
   StyleSheet,
+  BackAndroid,
   Image
 } from 'react-native';
 
@@ -47,7 +48,7 @@ var NavigationBarRouteMapper = {
 };
 
 var navigator;
-React.BackAndroid.addEventListener('hardwareBackPress', () => {
+BackAndroid.addEventListener('hardwareBackPress', () => {
     if (navigator && navigator.getCurrentRoutes().length > 1) {
         navigator.pop();
         return true;
@@ -128,7 +129,7 @@ class DoubleFeatureFinder extends React.Component {
 //   }
 // }
 
-var styles = React.StyleSheet.create({
+var styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 50,
