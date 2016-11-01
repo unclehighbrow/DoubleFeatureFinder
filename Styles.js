@@ -1,7 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 module.exports = StyleSheet.create({
   titleContainer: {
@@ -36,7 +36,7 @@ module.exports = StyleSheet.create({
     fontSize: 14,
     borderRadius: 5,
     color: '#656565',
-    backgroundColor: '#EEE',
+    backgroundColor: Platform.OS === 'ios' ? '#EEE' : '#FFF',
   },
   thumb: {
     width: 92,
