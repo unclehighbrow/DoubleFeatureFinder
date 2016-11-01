@@ -8,7 +8,8 @@ import {
   View,
   TouchableHighlight,
   ActivityIndicator,
-  Picker
+  Picker,
+  Platform
 } from 'react-native';
 
 var SearchResults = require('./SearchResults');
@@ -236,24 +237,24 @@ var styles = StyleSheet.create({
 	  justifyContent: 'center',
 	},
 	searchInput: {
-    height: 38,
+    height: Platform.OS === 'ios' ? 38 : 50,
     fontSize: 25,
-	  borderWidth: 1,
-	  borderColor: mainColor,
-	  borderRadius: 5,
 	  color: mainColor,
     textAlign: 'center',
     width: 80,
     marginRight: 10,
-    alignSelf:'center'
+    alignSelf:'center',
+    borderColor: mainColor,
+    borderWidth: Platform.OS === 'ios' ? 1 : 0,
+    borderRadius: Platform.OS === 'ios' ? 5 : 0
 	},
   countryPicker: {
     width: 120,
-    height: 215,
+    height: 215
   },
   datePicker: {
-    width: 100,
-    height:10,
+    width: Platform.OS === 'ios' ? 100 : 120,
+    height: Platform.OS === 'ios' ? 10 : 215,
   },
   spinner: {
     marginTop: 20,
