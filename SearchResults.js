@@ -230,10 +230,11 @@ class SearchResults extends Component {
         <View style={{flex: 1, flexDirection: 'column'}}>
           <ListView
             dataSource={dataSource}
-            keyboardShouldPersistTaps={true}
+            keyboardShouldPersistTaps={"always"}
             renderRow={this.renderRow.bind(this)}
             enableEmptySections={true}
             renderHeader={this.renderHeader.bind(this)}
+            automaticallyAdjustContentInsets={true}            
           />
           <View style={styles.dontCareContainer}>
             <TouchableHighlight style={styles.dontCare} onPress={() => this.rowPressed(0)}>

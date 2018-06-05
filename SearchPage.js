@@ -59,7 +59,7 @@ class SearchPage extends Component {
   }
 
   findZip(lat, lon) {
-    fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lon)
+    fetch('https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyCftnTZ8M0jwdS742d1BQV1F-zIeSNQHQg&latlng=' + lat + ',' + lon)
       .then(response => response.json())
       .then(json => {
         if (json && json.results && json.results[0].address_components) {
