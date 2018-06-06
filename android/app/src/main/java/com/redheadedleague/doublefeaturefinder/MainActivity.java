@@ -1,4 +1,4 @@
-package com.doublefeaturefinder;
+package com.redheadedleague.doublefeaturefinder;
 
 import com.facebook.react.ReactActivity;
 

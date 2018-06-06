@@ -94,15 +94,15 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
 
     defaultConfig {
-        applicationId "com.doublefeaturefinder"
+        applicationId "com.redheadedleague.doublefeaturefinder"
         minSdkVersion 16
-        targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 27
+        versionCode 3
+        versionName "1.1"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
