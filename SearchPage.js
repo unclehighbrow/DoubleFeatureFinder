@@ -37,7 +37,9 @@ class SearchPage extends Component {
     this.setState({
       isLoading: false,
       message: 'Getting your location...',
-      isLocating: true
+      isLocating: true,
+      lat: null,
+      lon: null,
     });
     this.findPosition();
   }
@@ -45,6 +47,7 @@ class SearchPage extends Component {
   findPosition() {
     navigator.geolocation.getCurrentPosition(
       (position) => {
+        this.setState({lat: position.coords.latitude, lon: position.coords.longitude});
         this.findZip(position.coords.latitude, position.coords.longitude);
       },
       (error) => {
@@ -120,7 +123,11 @@ class SearchPage extends Component {
   onSearchPressed() {
     if (!this.state.isLoading) {
       this.setState({ isLoading: true, message: 'Please wait...' });
-      fetch('https://dubfeatfind.appspot.com/?j=1&zipcode=' + this.state.zipcode + '&country=' + this.state.country + '&date=' + this.state.date)
+      fetch('https://dubfeatfind.appspot.com/?j=1&zipcode=' + this.state.zipcode +
+        '&country=' + this.state.country + 
+        '&date=' + this.state.date +
+        '&lat=' + this.state.lat + 
+        '&lon=' + this.state.lon)
         .then(response => response.json())
         .then(json => this.handleResponse(json))
         .catch(error => {
