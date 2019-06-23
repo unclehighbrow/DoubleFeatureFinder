@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import {
   View,
   TouchableHighlight,
-  ListView,
+  FlatList,
   Text,
   TextInput,
   Alert
@@ -26,23 +26,19 @@ class SearchResults extends Component {
   constructor(props) {
     super(props);
     const {navigation} = props;
-    this.movies = navigation.getParam('movies');
-    this.theatres = navigation.getParam('theatres');
     this.listings = navigation.getParam('listings');
     this.page = navigation.getParam('page');
     this.movieId = navigation.getParam('movieId');
     this.theatreId = navigation.getParam('theatreId');
+    this.movies = navigation.getParam('movies');
+    this.theatres = navigation.getParam('theatres');
 
-    var movieDataSource = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1.guid !== r2.guid
-    }).cloneWithRows([''].concat(Object.keys(this.movies).sort((a,b) => this.movies[a].name.localeCompare(this.movies[b].name))));
-    var theatreDataSource = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1.guid !== r2.guid
-    }).cloneWithRows([''].concat(Object.keys(this.theatres).sort((a,b) => this.theatres[a].ordinal > this.theatres[b].ordinal ? 1 : -1)));
+    this.renderRow = this.renderRow.bind(this);
+
     this.state = {
       selectedIndex: 0,
-      movieDataSource: movieDataSource,
-      theatreDataSource: theatreDataSource,
+      movies: Object.keys(this.movies).sort((a,b) => this.movies[a].name.localeCompare(this.movies[b].name)),
+      theatres: Object.keys(this.theatres).sort((a,b) => this.theatres[a].ordinal > this.theatres[b].ordinal ? 1 : -1),
       movieSearchText: '',
       theatreSearchText: '',
       searchText: '',
@@ -127,8 +123,8 @@ class SearchResults extends Component {
     return this.page != 1;
   }
 
-  renderRow(rowData, sectionId, rowId) {
-    if (rowId == 0) {
+  renderRow({item}) {
+    if (item == 0) {
       var placeholder = this.movieMode() ? 'Search Movies' : 'Search Theaters';
       return (
         <TextInput
@@ -146,23 +142,23 @@ class SearchResults extends Component {
     var text, image;
     var greyedOut = false;
     if (this.state.noResults) {
-      text = rowData;
+      text = item;
       image = (<View/>);
     } else if (this.movieMode()) {
-      text = this.listings.movies[rowData].name;
-      image = (<Poster movieId={rowData}></Poster>);
+      text = this.listings.movies[item].name;
+      image = (<Poster movieId={item}></Poster>);
       if (this.theatreId != 0) {
-        greyedOut = Util.findDoubleFeatureMovieIdsInTheatre(this.theatreId, rowData, this.listings.theatres).size == 0;
+        greyedOut = Util.findDoubleFeatureMovieIdsInTheatre(this.theatreId, item, this.listings.theatres).size == 0;
       } else {
-        greyedOut = Util.findDoubleFeatureMovieIdsInAllTheatres(rowData, this.listings.theatres).size == 0;
+        greyedOut = Util.findDoubleFeatureMovieIdsInAllTheatres(item, this.listings.theatres).size == 0;
       }
     } else {
-      text = this.listings.theatres[rowData].name;
+      text = this.listings.theatres[item].name;
       image = (<View/>);
-      greyedOut = !Util.checkTheatre(rowData, this.listings.theatres);
+      greyedOut = !Util.checkTheatre(item, this.listings.theatres);
     }
     return (
-      <TouchableHighlight onPress={() => this.rowPressed(greyedOut ? -1 : rowData)}
+      <TouchableHighlight onPress={() => this.rowPressed(greyedOut ? -1 : item)}
       underlayColor='#dddddd'>
         <View>
           <View style={styles.rowContainer}>
@@ -178,25 +174,22 @@ class SearchResults extends Component {
   }
 
   onSearchTextChanged(event) {
-    var dataSource = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1.guid !== r2.guid
-    });
     var results;
     if (this.movieMode()) {
-      results = [''].concat(Object.keys(this.movies).filter(
+      results = Object.keys(this.movies).filter(
         id => this.movies[id].name.toLowerCase().includes(event.nativeEvent.text.toLowerCase())
-      ).sort((a,b) => this.movies[a].name.localeCompare(this.movies[b].name)));
+      ).sort((a,b) => this.movies[a].name.localeCompare(this.movies[b].name));
       this.setState({
-        movieDataSource: dataSource.cloneWithRows(results),
+        movies:results,
         searchText: event.nativeEvent.text,
         movieSearchText: event.nativeEvent.text
       });
     } else {
-      results = [''].concat(Object.keys(this.theatres).filter(
+      results = Object.keys(this.theatres).filter(
         id => this.theatres[id].name.toLowerCase().includes(event.nativeEvent.text.toLowerCase())
-      ).sort((a,b) => this.theatres[a].ordinal > this.theatres[b].ordinal ? 1 : -1));
+      ).sort((a,b) => this.theatres[a].ordinal > this.theatres[b].ordinal ? 1 : -1);
       this.setState({
-        theatreDataSource: dataSource.cloneWithRows(results),
+        theatres: results,
         searchText: event.nativeEvent.text,
         theatreSearchText: event.nativeEvent.text
       });
@@ -227,22 +220,21 @@ class SearchResults extends Component {
 
   render() {
     if (this.state.noResults) {
-      var dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.guid !== r2.guid }).cloneWithRows(['', 'No results']);
+      dataSource = ['No results'];
     } else if (this.movieMode()) {
-      var dataSource = this.state.movieDataSource;
+      var dataSource = this.state.movies;
     } else {
-      var dataSource = this.state.theatreDataSource;
+      var dataSource = this.state.theatres;
     }
+    dataSource = [0, ...dataSource];
+    console.log(dataSource);
     return (
         <View style={{flex: 1, flexDirection: 'column'}}>
-          <ListView
-            dataSource={dataSource}
-            keyboardShouldPersistTaps={"always"}
-            renderRow={this.renderRow.bind(this)}
-            enableEmptySections={true}
-            renderHeader={this.renderHeader.bind(this)}
-            automaticallyAdjustContentInsets={true}            
-          />
+          <FlatList
+            data={dataSource}
+            keyExtractor={(item) => `${item}`}
+            renderItem={this.renderRow}
+          />  
           <View style={styles.dontCareContainer}>
             <TouchableHighlight style={styles.dontCare} onPress={() => this.rowPressed(0)}>
               <Text style={[styles.title, {color: 'white'}]}>
