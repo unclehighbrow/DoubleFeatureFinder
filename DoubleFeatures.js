@@ -2,13 +2,9 @@
 
 import React, { Component } from 'react';
 import {
-  StyleSheet,
   Text,
-  TextInput,
   View,
   TouchableHighlight,
-  ActivityIndicatorIOS,
-  Image,
   ListView,
   Linking,
   Dimensions,
@@ -21,9 +17,18 @@ var Poster = require('./Poster');
 class DoubleFeatures extends Component {
   constructor(props) {
     super(props);
+    const {navigation} = props;
+    this.movies = navigation.getParam('movies');
+    this.theatres = navigation.getParam('theatres');
+    this.listings = navigation.getParam('listings');
+    this.page = navigation.getParam('page');
+    this.movieId = navigation.getParam('movieId');
+    this.theatreId = navigation.getParam('theatreId');
+    this.dfs = navigation.getParam('dfs');
+
     var data = {};
     var sections = [];
-    this.props.dfs.map((df) => {
+    this.dfs.map((df) => {
       var section = df[0];
       if (sections.indexOf(section) === -1) {
         sections.push(section);
@@ -35,7 +40,7 @@ class DoubleFeatures extends Component {
     for (var theatreId in data) {
       data[theatreId].sort((a,b) => parseInt(a[2]) > parseInt(b[2]) ? 1 : -1);
     }
-    sections.sort((a,b) => this.props.theatres[a].ordinal > this.props.theatres[b].ordinal ? 1 : -1);
+    sections.sort((a,b) => this.theatres[a].ordinal > this.theatres[b].ordinal ? 1 : -1);
 
     var dataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1.guid !== r2.guid,
@@ -60,8 +65,8 @@ class DoubleFeatures extends Component {
 
 
   renderRow(rowData, sectionId, rowId) {
-    var firstLink = this.props.listings.theatres[sectionId]['m'][rowData[1]][rowData[2]]['l'];
-    var secondLink = this.props.listings.theatres[sectionId]['m'][rowData[3]][rowData[4]]['l'];
+    var firstLink = this.listings.theatres[sectionId]['m'][rowData[1]][rowData[2]]['l'];
+    var secondLink = this.listings.theatres[sectionId]['m'][rowData[3]][rowData[4]]['l'];
     var timeStyle = (this.state.small ? styles.timeSmall : styles.time);
     return (
       <View style={{flexDirection:'row'}}>
@@ -77,7 +82,7 @@ class DoubleFeatures extends Component {
                   {Util.minsToTime(parseInt(rowData[2]))}
                 </Text>
                 <Text style={[timeStyle, {fontSize: 10, textAlign:'center'}]}>to</Text>
-                <Text style={timeStyle}>{Util.minsToTime(parseInt(rowData[2]) + parseInt(this.props.listings.movies[rowData[1]].duration))}</Text>
+                <Text style={timeStyle}>{Util.minsToTime(parseInt(rowData[2]) + parseInt(this.listings.movies[rowData[1]].duration))}</Text>
               </View>
             </TouchableHighlight>
             <TouchableHighlight style={{height: (this.state.imageHeight/2), flex:1}} onPress={() => this.rowPressed(secondLink)} underlayColor='white'>
@@ -86,16 +91,16 @@ class DoubleFeatures extends Component {
                   {Util.minsToTime(parseInt(rowData[4]))}
                 </Text>
                 <Text style={[timeStyle, {fontSize: 10, textAlign:'center'}]}>to</Text>
-                <Text style={timeStyle}>{Util.minsToTime(parseInt(rowData[4]) + parseInt(this.props.listings.movies[rowData[3]].duration))}</Text>
+                <Text style={timeStyle}>{Util.minsToTime(parseInt(rowData[4]) + parseInt(this.listings.movies[rowData[3]].duration))}</Text>
               </View>
             </TouchableHighlight>
           </View>
           <View style={{flex: 2, flexDirection: 'column',padding: 5, marginTop:20}}>
             <TouchableHighlight style={{height:(this.state.imageHeight/2)}} onPress={() => this.rowPressed(firstLink)} underlayColor='white'>
-              <Text style={[styles.dfResultText, {}]} numberOfLines={3}>{this.props.listings.movies[rowData[1]]['name']}</Text>
+              <Text style={[styles.dfResultText, {}]} numberOfLines={3}>{this.listings.movies[rowData[1]]['name']}</Text>
             </TouchableHighlight>
             <TouchableHighlight style={{height:(this.state.imageHeight/2)}} onPress={() => this.rowPressed(secondLink)}  underlayColor='white'>
-              <Text style={[styles.dfResultText, {}]} numberOfLines={3}>{this.props.listings.movies[rowData[3]]['name']}</Text>
+              <Text style={[styles.dfResultText, {}]} numberOfLines={3}>{this.listings.movies[rowData[3]]['name']}</Text>
             </TouchableHighlight>
           </View>
         </View>
@@ -114,7 +119,7 @@ class DoubleFeatures extends Component {
   renderSectionHeader(sectionData, sectionID) {
     return (
       <View style={styles.sectionHeader}>
-          <Text style={styles.sectionHeaderText}>{this.props.listings.theatres[sectionID]['name']}</Text>
+          <Text style={styles.sectionHeaderText}>{this.listings.theatres[sectionID]['name']}</Text>
       </View>
     );
   }

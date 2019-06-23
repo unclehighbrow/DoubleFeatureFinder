@@ -15,7 +15,6 @@ import {
 var SearchResults = require('./SearchResults');
 var Global = require('./Global');
 
-
 var catchphrase = (<Text>Never <Text style={{fontStyle: 'italic'}}>sneak</Text> into movies!</Text>);
 var countries = ['AR', 'AU', 'CA', 'CL', 'DE', 'ES', 'FR', 'IT', 'MX', 'NZ', 'PT', 'UK', 'US'];
 // AR C1420 i
@@ -107,11 +106,10 @@ class SearchPage extends Component {
       return;
     }
     this.setState({isLoading: false, message: catchphrase});
-    this.props.navigator.push({
-      id: 'SearchResults',
-      title: 'Choose Theater',
-      component: SearchResults,
-      passProps: {
+    this.props.navigation.navigate({
+      routeName: 'SearchResults', 
+      params: {
+        title: 'Choose Theater',
         listings: response,
         movies: response.movies,
         theatres: response.theatres,

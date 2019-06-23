@@ -2,36 +2,38 @@
 
 import React, { Component } from 'react';
 import {
-  StyleSheet,
-  Image,
   View,
   TouchableHighlight,
   ListView,
   Text,
-  SegmentedControlIOS,
-  ScrollView,
   TextInput,
-  Platform,
-  Dimensions,
   Alert
 } from 'react-native';
 
 var Poster = require('./Poster');
 var styles = require('./Styles');
 var Global = require('./Global');
-var DoubleFeatures = require('./DoubleFeatures');
 var Util = require('./Util');
 var dismissKeyboard = require('react-native-dismiss-keyboard');
 
 class SearchResults extends Component {
   constructor(props) {
+    console
     super(props);
+    const {navigation} = props;
+    this.movies = navigation.getParam('movies');
+    this.theatres = navigation.getParam('theatres');
+    this.listings = navigation.getParam('listings');
+    this.page = navigation.getParam('page');
+    this.movieId = navigation.getParam('movieId');
+    this.theatreId = navigation.getParam('theatreId');
+
     var movieDataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1.guid !== r2.guid
-    }).cloneWithRows([''].concat(Object.keys(this.props.movies).sort((a,b) => this.props.movies[a].name.localeCompare(this.props.movies[b].name))));
+    }).cloneWithRows([''].concat(Object.keys(this.movies).sort((a,b) => this.movies[a].name.localeCompare(this.movies[b].name))));
     var theatreDataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1.guid !== r2.guid
-    }).cloneWithRows([''].concat(Object.keys(this.props.theatres).sort((a,b) => this.props.theatres[a].ordinal > this.props.theatres[b].ordinal ? 1 : -1)));
+    }).cloneWithRows([''].concat(Object.keys(this.theatres).sort((a,b) => this.theatres[a].ordinal > this.theatres[b].ordinal ? 1 : -1)));
     this.state = {
       selectedIndex: 0,
       movieDataSource: movieDataSource,
@@ -50,66 +52,66 @@ class SearchResults extends Component {
       return this.alert();
     }
     var movies = {};
-    if (this.props.page < 3) {
-      if (this.props.page == 1)  { // choosing theater
+    if (this.page < 3) {
+      if (this.page == 1)  { // choosing theater
         if (id == 0) { // don't care
-          movies = this.props.movies;
+          movies = this.movies;
         } else {
-          for (var movieId in this.props.theatres[id].m) { // only movies in this theater
-            movies[movieId] = this.props.movies[movieId];
+          for (var movieId in this.theatres[id].m) { // only movies in this theater
+            movies[movieId] = this.movies[movieId];
           }
         }
-      } else if (this.props.page == 2) { // choosing first movie
+      } else if (this.page == 2) { // choosing first movie
         if (id == 0) { // dont care, skip to end screen
           this.goToDoubleFeatures(0,0);
           return;
         } else {
           var movieIds;
-          if (this.props.theatreId == 0) {
-            movieIds = Util.findDoubleFeatureMovieIdsInAllTheatres(id, this.props.theatres);
+          if (this.theatreId == 0) {
+            movieIds = Util.findDoubleFeatureMovieIdsInAllTheatres(id, this.theatres);
           } else {
-            movieIds = Util.findDoubleFeatureMovieIdsInTheatre(this.props.theatreId, id, this.props.theatres);
+            movieIds = Util.findDoubleFeatureMovieIdsInTheatre(this.theatreId, id, this.theatres);
           }
           for (let movieId of movieIds) {
-            movies[movieId] = this.props.movies[movieId];
+            movies[movieId] = this.movies[movieId];
           }
         }
       }
-      this.props.navigator.push({
-        id: 'SearchResults',
-        title: 'Choose ' + (this.props.page == 2 ? 'Another' : 'Movie'),
-        component: SearchResults,
-        passProps: {
-          listings: this.props.listings,
+
+      this.props.navigation.navigate({
+        routeName: 'SearchResults',
+        params: {
+          title: 'Choose ' + (this.page == 2 ? 'Another' : 'Movie'),
+          listings: this.listings,
           movies: movies,
-          theatres: this.props.theatres,
+          theatres: this.theatres,
           id: id,
-          theatreId: (this.props.page == 1 ? id : this.props.theatreId),
+          theatreId: (this.page == 1 ? id : this.theatreId),
           movieId: id,
-          page: this.props.page + 1,
-        }
+          page: this.page + 1,
+        },
+        key: this.page + 1,
       });
     } else {
-      this.goToDoubleFeatures(this.props.movieId, id);
+      this.goToDoubleFeatures(this.movieId, id);
     }
   }
 
   goToDoubleFeatures(movieId, secondMovieId) {
     var dfs;
-    if (this.props.theatreId == 0) {
-      dfs = Util.findDoubleFeaturesInAllTheatres(movieId, secondMovieId, this.props.theatres);
+    if (this.theatreId == 0) {
+      dfs = Util.findDoubleFeaturesInAllTheatres(movieId, secondMovieId, this.theatres);
     } else {
-      dfs = Util.findDoubleFeatures(this.props.theatreId, movieId, secondMovieId, this.props.theatres);
+      dfs = Util.findDoubleFeatures(this.theatreId, movieId, secondMovieId, this.theatres);
     }
-    this.props.navigator.push({
-      id: 'DoubleFeatures',
-      title: 'Double Features',
-      component: DoubleFeatures,
-      passProps: {
-        listings: this.props.listings,
-        theatres: this.props.theatres,
-        theatreId: this.props.theatreId,
-        firstMovieId: this.props.movieId,
+    this.props.navigation.navigate({
+      routeName: 'DoubleFeatures', 
+      params: {
+        title: 'Double Features',
+        listings: this.listings,
+        theatres: this.theatres,
+        theatreId: this.theatreId,
+        firstMovieId: this.movieId,
         secondMovieId: secondMovieId,
         dfs: dfs,
       }
@@ -117,7 +119,7 @@ class SearchResults extends Component {
   }
 
   movieMode() {
-    return this.props.page != 1;
+    return this.page != 1;
   }
 
   renderRow(rowData, sectionId, rowId) {
@@ -142,17 +144,17 @@ class SearchResults extends Component {
       text = rowData;
       image = (<View/>);
     } else if (this.movieMode()) {
-      text = this.props.listings.movies[rowData].name;
+      text = this.listings.movies[rowData].name;
       image = (<Poster movieId={rowData}></Poster>);
-      if (this.props.theatreId != 0) {
-        greyedOut = Util.findDoubleFeatureMovieIdsInTheatre(this.props.theatreId, rowData, this.props.listings.theatres).size == 0;
+      if (this.theatreId != 0) {
+        greyedOut = Util.findDoubleFeatureMovieIdsInTheatre(this.theatreId, rowData, this.listings.theatres).size == 0;
       } else {
-        greyedOut = Util.findDoubleFeatureMovieIdsInAllTheatres(rowData, this.props.listings.theatres).size == 0;
+        greyedOut = Util.findDoubleFeatureMovieIdsInAllTheatres(rowData, this.listings.theatres).size == 0;
       }
     } else {
-      text = this.props.listings.theatres[rowData].name;
+      text = this.listings.theatres[rowData].name;
       image = (<View/>);
-      greyedOut = !Util.checkTheatre(rowData, this.props.listings.theatres);
+      greyedOut = !Util.checkTheatre(rowData, this.listings.theatres);
     }
     return (
       <TouchableHighlight onPress={() => this.rowPressed(greyedOut ? -1 : rowData)}
@@ -161,7 +163,7 @@ class SearchResults extends Component {
           <View style={styles.rowContainer}>
             {image}
             <View style={styles.titleContainer}>
-              <Text style={greyedOut ? styles.greyedOut : styles.title} numberOfLines={this.props.page == 1 ? 1 : 3}>{text}</Text>
+              <Text style={greyedOut ? styles.greyedOut : styles.title} numberOfLines={this.page == 1 ? 1 : 3}>{text}</Text>
             </View>
           </View>
           <View style={styles.separator} />
@@ -176,18 +178,18 @@ class SearchResults extends Component {
     });
     var results;
     if (this.movieMode()) {
-      results = [''].concat(Object.keys(this.props.movies).filter(
-        id => this.props.movies[id].name.toLowerCase().includes(event.nativeEvent.text.toLowerCase())
-      ).sort((a,b) => this.props.movies[a].name.localeCompare(this.props.movies[b].name)));
+      results = [''].concat(Object.keys(this.movies).filter(
+        id => this.movies[id].name.toLowerCase().includes(event.nativeEvent.text.toLowerCase())
+      ).sort((a,b) => this.movies[a].name.localeCompare(this.movies[b].name)));
       this.setState({
         movieDataSource: dataSource.cloneWithRows(results),
         searchText: event.nativeEvent.text,
         movieSearchText: event.nativeEvent.text
       });
     } else {
-      results = [''].concat(Object.keys(this.props.theatres).filter(
-        id => this.props.theatres[id].name.toLowerCase().includes(event.nativeEvent.text.toLowerCase())
-      ).sort((a,b) => this.props.theatres[a].ordinal > this.props.theatres[b].ordinal ? 1 : -1));
+      results = [''].concat(Object.keys(this.theatres).filter(
+        id => this.theatres[id].name.toLowerCase().includes(event.nativeEvent.text.toLowerCase())
+      ).sort((a,b) => this.theatres[a].ordinal > this.theatres[b].ordinal ? 1 : -1));
       this.setState({
         theatreDataSource: dataSource.cloneWithRows(results),
         searchText: event.nativeEvent.text,
@@ -199,17 +201,17 @@ class SearchResults extends Component {
 
   renderHeader() {
     var headerText = '';
-    if (this.props.page == 1) {
+    if (this.page == 1) {
       headerText = 'Let\'s get started! First, pick a theater.';
-    } else if (this.props.page == 2) {
-      if (this.props.theatreId == 0) {
+    } else if (this.page == 2) {
+      if (this.theatreId == 0) {
         headerText = 'Any theater, okay.';
       } else {
-        headerText = this.props.listings.theatres[this.props.theatreId].name + ', okay.';
+        headerText = this.listings.theatres[this.theatreId].name + ', okay.';
       }
       headerText += ' Now pick a movie!';
-    } else if (this.props.listings.movies[this.props.movieId]) {
-      headerText = this.props.listings.movies[this.props.movieId].name + ', nice.  You can pick another one. Or not, whatever.';
+    } else if (this.listings.movies[this.movieId]) {
+      headerText = this.listings.movies[this.movieId].name + ', nice.  You can pick another one. Or not, whatever.';
     }
     return (
       <View style={styles.header}>
@@ -239,7 +241,7 @@ class SearchResults extends Component {
           <View style={styles.dontCareContainer}>
             <TouchableHighlight style={styles.dontCare} onPress={() => this.rowPressed(0)}>
               <Text style={[styles.title, {color: 'white'}]}>
-                Any {this.props.page == 1 ? 'Theater' : (this.props.page == 3 ? 'Second ' : '') + 'Movie'}
+                Any {this.page == 1 ? 'Theater' : (this.page == 3 ? 'Second ' : '') + 'Movie'}
               </Text>
             </TouchableHighlight>
           </View>
