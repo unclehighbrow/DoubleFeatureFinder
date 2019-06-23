@@ -15,6 +15,10 @@ var styles = require('./Styles');
 var Poster = require('./Poster');
 
 class DoubleFeatures extends Component {
+  static navigationOptions = {
+    title: 'Double Features',
+  };
+
   constructor(props) {
     super(props);
     const {navigation} = props;

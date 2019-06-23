@@ -31,6 +31,9 @@ var countries = ['AR', 'AU', 'CA', 'CL', 'DE', 'ES', 'FR', 'IT', 'MX', 'NZ', 'PT
 // US 11201 g
 
 class SearchPage extends Component {
+  static navigationOptions = {
+    title: 'Search',
+  };
 
   componentDidMount() {
     this.setState({

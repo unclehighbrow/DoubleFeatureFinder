@@ -17,8 +17,13 @@ var Util = require('./Util');
 var dismissKeyboard = require('react-native-dismiss-keyboard');
 
 class SearchResults extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: navigation.getParam('title'),
+    };
+  };
+
   constructor(props) {
-    console
     super(props);
     const {navigation} = props;
     this.movies = navigation.getParam('movies');
