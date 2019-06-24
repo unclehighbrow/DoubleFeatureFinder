@@ -227,7 +227,6 @@ class SearchResults extends Component {
       var dataSource = this.state.theatres;
     }
     dataSource = [0, ...dataSource];
-    console.log(dataSource);
     return (
         <View style={{flex: 1, flexDirection: 'column'}}>
           <FlatList
