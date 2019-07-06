@@ -12,7 +12,6 @@ import {
 
 var Poster = require('./Poster');
 var styles = require('./Styles');
-var Global = require('./Global');
 var Util = require('./Util');
 var dismissKeyboard = require('react-native-dismiss-keyboard');
 
@@ -44,7 +43,9 @@ class SearchResults extends Component {
       searchText: '',
       noResults: false
     };
-    Global.manual = true;
+    if (this.props.navigation.state.params.setManual) {
+      this.props.navigation.state.params.setManual();
+    }
   }
 
   rowPressed(id) {

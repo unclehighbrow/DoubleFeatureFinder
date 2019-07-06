@@ -13,7 +13,6 @@ import {
 } from 'react-native';
 
 var SearchResults = require('./SearchResults');
-var Global = require('./Global');
 
 var catchphrase = (<Text>Never <Text style={{fontStyle: 'italic'}}>sneak</Text> into movies!</Text>);
 var countries = ['AR', 'AU', 'CA', 'CL', 'DE', 'ES', 'FR', 'IT', 'MX', 'NZ', 'PT', 'UK', 'US'];
@@ -42,6 +41,7 @@ class SearchPage extends Component {
       isLocating: true,
       lat: null,
       lon: null,
+      manual: false,
     });
     this.findPosition();
   }
@@ -53,10 +53,10 @@ class SearchPage extends Component {
         this.findZip(position.coords.latitude, position.coords.longitude);
       },
       (error) => {
-        Global.manual = true;
         this.setState({
           isLocating: false,
           message: "Choose a location and date.",
+          manual: true,
         });
       },
       {enableHighAccuracy: false, timeout: 20000, maximumAge: 100000}
@@ -86,10 +86,10 @@ class SearchPage extends Component {
           }
         }
         if (!this.state.country || !this.state.zipcode) {
-          Global.manual = true;
           this.setState({
             isLocating: false,
             message: "Choose a location and date.",
+            manual: true,
           });
         } else {
           this.setState({
@@ -102,10 +102,13 @@ class SearchPage extends Component {
       .catch(error => {});
   }
 
+  setManual() {
+    this.setState({manual: true});
+  }
+
   handleResponse(response) {
     if (Object.keys(response.movies).length < 1) {
-      Global.manual = true;
-      this.setState({isLoading: false, message: 'There was an error.'});
+      this.setState({isLoading: false, message: 'There was an error.', manual: true});
       return;
     }
     this.setState({isLoading: false, message: catchphrase});
@@ -117,6 +120,7 @@ class SearchPage extends Component {
         movies: response.movies,
         theatres: response.theatres,
         page: 1,
+        setManual: this.setManual.bind(this),
       }
     });
   }
@@ -133,9 +137,8 @@ class SearchPage extends Component {
         .then(json => this.handleResponse(json))
         .catch(error => {
           console.log('error:' + error);
-          Global.manual = true;
           this.setState({
-            isLoading: false, message: 'There was an error.'
+            isLoading: false, message: 'There was an error.', manual: true,
           })
         });
     }
@@ -158,7 +161,7 @@ class SearchPage extends Component {
   }
 
   render() {
-    if (!Global.manual) {
+    if (!this.state.manual) {
       return (
         <View style={[styles.container, {justifyContent: 'center'}]}>
           <Text style={[styles.message, {paddingTop: 40}]}>{this.state.message}</Text>
