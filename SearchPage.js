@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 
 var SearchResults = require('./SearchResults');
+var Api = require('./Api');
 
 var catchphrase = (<Text>Never <Text style={{fontStyle: 'italic'}}>sneak</Text> into movies!</Text>);
 var countries = ['AR', 'AU', 'CA', 'CL', 'DE', 'ES', 'FR', 'IT', 'MX', 'NZ', 'PT', 'UK', 'US'];
@@ -64,7 +65,7 @@ class SearchPage extends Component {
   }
 
   findZip(lat, lon) {
-    fetch('https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyCftnTZ8M0jwdS742d1BQV1F-zIeSNQHQg&latlng=' + lat + ',' + lon)
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?key=${Api.geocode}&latlng=${lat},${lon}`)
       .then(response => response.json())
       .then(json => {
         if (json && json.results && json.results[0].address_components) {
