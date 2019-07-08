@@ -105,9 +105,21 @@ android {
         applicationId "com.redheadedleague.doublefeaturefinder"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 20
+        versionName "1.2"
     }
+
+    signingConfigs {
+        release {
+            if (project.hasProperty('DFF_RELEASE_STORE_FILE')) {
+                storeFile file(DFF_RELEASE_STORE_FILE)
+                storePassword DFF_RELEASE_STORE_PASSWORD
+                keyAlias DFF_RELEASE_KEY_ALIAS
+                keyPassword DFF_RELEASE_KEY_PASSWORD
+            }
+        }
+    }
+
     splits {
         abi {
             reset()
@@ -120,6 +132,7 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
     // applicationVariants are e.g. debug, release

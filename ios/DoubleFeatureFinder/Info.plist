@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>10</string>
+	<string>11</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -37,6 +37,10 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Double Feature Finder needs your location to find your local theaters</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Double Feature Finder needs your location to find your local theaters</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Double Feature Finder needs your location to find your local theaters</string>
 	<key>UILaunchStoryboardName</key>
