@@ -229,20 +229,23 @@ class SearchResults extends Component {
     }
     dataSource = [0, ...dataSource];
     return (
-        <View style={{flex: 1, flexDirection: 'column'}}>
-          <FlatList
-            data={dataSource}
-            keyExtractor={(item) => `${item}`}
-            renderItem={this.renderRow}
-          />  
-          <View style={styles.dontCareContainer}>
-            <TouchableHighlight style={styles.dontCare} onPress={() => this.rowPressed(0)}>
-              <Text style={[styles.title, {color: 'white'}]}>
-                Any {this.page == 1 ? 'Theater' : (this.page == 3 ? 'Second ' : '') + 'Movie'}
-              </Text>
-            </TouchableHighlight>
+        <>
+          {this.renderHeader()}
+          <View style={{flex: 1, flexDirection: 'column'}}>
+            <FlatList
+              data={dataSource}
+              keyExtractor={(item) => `${item}`}
+              renderItem={this.renderRow}
+            />  
+            <View style={styles.dontCareContainer}>
+              <TouchableHighlight style={styles.dontCare} onPress={() => this.rowPressed(0)}>
+                <Text style={[styles.title, {color: 'white'}]}>
+                  Any {this.page == 1 ? 'Theater' : (this.page == 3 ? 'Second ' : '') + 'Movie'}
+                </Text>
+              </TouchableHighlight>
+            </View>
           </View>
-        </View>
+        </>
     );
   }
 

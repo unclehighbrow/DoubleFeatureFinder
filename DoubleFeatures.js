@@ -139,14 +139,17 @@ class DoubleFeatures extends Component {
 
   render() {
     return (
-      <SectionList
-        keyExtractor={(item) => {
-          return `${item[0]}-${item[1]}-${item[2]}-${item[3]}-${item[4]}`;
-        }}
-        renderItem={this.renderRow.bind(this)}
-        renderSectionHeader={this.renderSectionHeader.bind(this)}
-        sections={this.data}
-      />
+      <>
+        {this.renderHeader()}
+        <SectionList
+          keyExtractor={(item) => {
+            return `${item[0]}-${item[1]}-${item[2]}-${item[3]}-${item[4]}`;
+          }}
+          renderItem={this.renderRow.bind(this)}
+          renderSectionHeader={this.renderSectionHeader.bind(this)}
+          sections={this.data}
+        />
+      </>        
     );
   }
 }
