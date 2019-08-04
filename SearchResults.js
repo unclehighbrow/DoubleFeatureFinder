@@ -195,7 +195,7 @@ class SearchResults extends Component {
         theatreSearchText: event.nativeEvent.text
       });
     }
-    this.setState({ noResults: results.length <= 1 });
+    this.setState({ noResults: results.length < 1 });
   }
 
   renderHeader() {
