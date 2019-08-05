@@ -105,8 +105,8 @@ android {
         applicationId "com.redheadedleague.doublefeaturefinder"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 20
-        versionName "1.2"
+        versionCode 22
+        versionName "1.2.2"
     }
 
     signingConfigs {
