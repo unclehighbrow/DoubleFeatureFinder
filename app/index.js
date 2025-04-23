@@ -11,6 +11,7 @@ import {
   Platform,
 } from "react-native";
 import { useRouter } from "expo-router";
+import * as Location from "expo-location";
 
 import { geocode } from "@/constants/Api";
 
@@ -27,31 +28,21 @@ const SearchPage = () => {
   const [date, setDate] = React.useState(0);
 
   useEffect(() => {
-    findPosition();
-  }, []);
+    async function getCurrentLocation() {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setIsLocating(false);
+        setMessage("Choose a location and date.");
+        setManual(true);
+        return;
+      }
 
-  const findPosition = () => {
-    setIsLocating(true);
-    setMessage("Choose a location and date.");
-    setManual(true);
-    // navigator.geolocation.getCurrentPosition(
-    //   (position) => {
-    //     this.setState({
-    //       lat: position.coords.latitude,
-    //       lon: position.coords.longitude,
-    //     });
-    //     this.findZip(position.coords.latitude, position.coords.longitude);
-    //   },
-    //   (error) => {
-    //     this.setState({
-    //       isLocating: false,
-    //       message: "Choose a location and date.",
-    //       manual: true,
-    //     });
-    //   },
-    //   { enableHighAccuracy: false, timeout: 20000, maximumAge: 100000 }
-    // );
-  };
+      let location = await Location.getCurrentPositionAsync({});
+      findZip(location.coords.latitude, location.coords.longitude);
+    }
+
+    getCurrentLocation();
+  }, []);
 
   const findZip = (lat, lon) => {
     fetch(
@@ -59,22 +50,24 @@ const SearchPage = () => {
     )
       .then((response) => response.json())
       .then((json) => {
+        let localZipcode = "";
         if (json && json.results && json.results[0].address_components) {
           var addressComponents = json.results[0].address_components;
           for (var i = 0; i < addressComponents.length; i++) {
             if (addressComponents[i].types.includes("postal_code")) {
+              localZipcode = addressComponents[i].short_name;
               setZipcode(addressComponents[i].short_name);
             }
           }
         }
-        if (!zipcode) {
+        if (localZipcode.length > 0) {
+          setIsLocating(false);
+          setMessage(catchphrase);
+          onSearchPressed(localZipcode);
+        } else {
           setIsLocating(false);
           setMessage("Choose a location and date.");
           setManual(true);
-        } else {
-          setIsLocating(false);
-          setMessage(catchphrase);
-          onSearchPressed();
         }
       })
       .catch((error) => {});
@@ -103,13 +96,13 @@ const SearchPage = () => {
     });
   };
 
-  const onSearchPressed = () => {
+  const onSearchPressed = (localZipcode) => {
     if (!isLoading) {
       setIsLoading(true);
       setMessage("Please wait...");
       fetch(
         "https://dubfeatfind.appspot.com/?j=1&zipcode=" +
-          zipcode +
+          (localZipcode || zipcode) +
           "&date=" +
           date
       )
