@@ -1,6 +1,6 @@
 "use strict";
 
-import React, { Component, useEffect } from "react";
+import React, { Component, useContext, useEffect } from "react";
 import {
   View,
   TouchableHighlight,
@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 
+import { ListingsContext } from "@/constants/Context";
 import Util from "@/constants/Util";
 import styles from "@/constants/Styles";
 import Poster from "@/components/Poster";
@@ -18,17 +19,19 @@ import Poster from "@/components/Poster";
 
 const SearchResults = () => {
   const router = useRouter();
-  const { listings, page, movieId, theatreId, movies, theatres } =
-    useLocalSearchParams();
+  const { page, movieId } = useLocalSearchParams();
+
+  const { listings } = useContext(ListingsContext);
+  console.log("SearchResults listings", listings);
 
   const [moviesList, setMoviesList] = React.useState(
-    Object.keys(movies).sort((a, b) =>
-      movies[a].name.localeCompare(movies[b].name)
+    Object.keys(listings.movies).sort((a, b) =>
+      listings.movies[a].name.localeCompare(listings.movies[b].name)
     )
   );
   const [theatresList, setTheatresList] = React.useState(
-    Object.keys(theatres).sort((a, b) =>
-      theatres[a].ordinal > theatres[b].ordinal ? 1 : -1
+    Object.keys(listings.theatres).sort((a, b) =>
+      listings.theatres[a].ordinal > listings.theatres[b].ordinal ? 1 : -1
     )
   );
   const [movieSearchText, setMovieSearchText] = React.useState("");
@@ -263,9 +266,9 @@ const SearchResults = () => {
   if (noResults) {
     dataSource = ["No results"];
   } else if (movieMode()) {
-    var dataSource = movies;
+    var dataSource = moviesList;
   } else {
-    var dataSource = theatres;
+    var dataSource = theatresList;
   }
   dataSource = [0, ...dataSource];
 

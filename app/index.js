@@ -1,6 +1,6 @@
 "use strict";
 
-import React, { Component, useEffect } from "react";
+import React, { Component, useContext, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -14,11 +14,13 @@ import { useRouter } from "expo-router";
 import * as Location from "expo-location";
 
 import { geocode } from "@/constants/Api";
+import { ListingsContext } from "@/constants/Context";
 
 const catchphrase = "Never sneak into movies!";
 
 const SearchPage = () => {
   const router = useRouter();
+  const { listings, setListings } = useContext(ListingsContext);
 
   const [isLocating, setIsLocating] = React.useState(true);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -83,15 +85,11 @@ const SearchPage = () => {
     }
     setIsLoading(false);
     setMessage(catchphrase);
+    setListings(response);
     router.navigate({
       pathname: "SearchResults",
       params: {
-        title: "Choose Theater",
-        listings: response,
-        movies: response.movies,
-        theatres: response.theatres,
         page: 1,
-        //setManual: this.setManual.bind(this),
       },
     });
   };
