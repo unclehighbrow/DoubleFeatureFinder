@@ -18,7 +18,7 @@ import Poster from "@/components/Poster";
 
 const SearchResults = () => {
   const router = useRouter();
-  const { listings, page, movieId, theatreId, movies, theaters } =
+  const { listings, page, movieId, theatreId, movies, theatres } =
     useLocalSearchParams();
 
   const [moviesList, setMoviesList] = React.useState(
@@ -27,18 +27,14 @@ const SearchResults = () => {
     )
   );
   const [theatresList, setTheatresList] = React.useState(
-    Object.keys(theaters).sort((a, b) =>
-      theaters[a].ordinal > theaters[b].ordinal ? 1 : -1
+    Object.keys(theatres).sort((a, b) =>
+      theatres[a].ordinal > theatres[b].ordinal ? 1 : -1
     )
   );
   const [movieSearchText, setMovieSearchText] = React.useState("");
   const [theatreSearchText, setTheatreSearchText] = React.useState("");
   const [searchText, setSearchText] = React.useState("");
   const [noResults, setNoResults] = React.useState(false);
-
-  // if (this.props.navigation.state.params.setManual) {
-  //   this.props.navigation.state.params.setManual();
-  // }
 
   const rowPressed = (id) => {
     // TODO: dimiss keyboard
@@ -88,25 +84,25 @@ const SearchResults = () => {
       router.navigate({
         pathname: "SearchResults",
         params: {
-          title: "Choose " + (this.page == 2 ? "Another" : "Movie"),
-          listings: this.listings,
-          movies: movies,
-          theatres: this.theatres,
+          title: "Choose " + (page == 2 ? "Another" : "Movie"),
+          listings: listings,
+          movies: moviesList,
+          theatres: theatresList,
           id: id,
-          theatreId: this.page == 1 ? id : this.theatreId,
+          theatreId: page == 1 ? id : theatreId,
           movieId: id,
-          page: this.page + 1,
+          page: page + 1,
         },
-        key: this.page + 1,
+        key: page + 1,
       });
     } else {
-      goToDoubleFeatures(this.movieId, id);
+      goToDoubleFeatures(movieId, id);
     }
   };
 
   const goToDoubleFeatures = (localMovieId, secondMovieId) => {
     var dfs;
-    if (this.theatreId == 0) {
+    if (theatreId == 0) {
       dfs = Util.findDoubleFeaturesInAllTheatres(
         localMovieId,
         secondMovieId,
@@ -249,12 +245,12 @@ const SearchResults = () => {
       if (theatreId == 0) {
         headerText = "Any theater, okay.";
       } else {
-        headerText = listings.theatres[this.theatreId].name + ", okay.";
+        headerText = listings.theatres[theatreId].name + ", okay.";
       }
       headerText += " Now pick a movie!";
-    } else if (listings.movies[this.movieId]) {
+    } else if (listings.movies[movieId]) {
       headerText =
-        listings.movies[this.movieId].name +
+        listings.movies[movieId].name +
         ", nice.  You can pick another one. Or not, whatever.";
     }
     return (
