@@ -16,8 +16,7 @@ import styles from "@/constants/Styles";
 import Poster from "@/components/Poster";
 
 const DoubleFeatures = () => {
-  const { movies, theatres, listings, page, movieId, theatreId, dfs } =
-    useLocalSearchParams();
+  const { listings, dfs } = useLocalSearchParams();
   const [small, setSmall] = React.useState(false);
 
   useEffect(() => {
