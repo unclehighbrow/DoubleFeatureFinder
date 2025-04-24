@@ -180,25 +180,27 @@ const SearchResults = () => {
   const onSearchTextChanged = (event) => {
     var results;
     if (movieMode()) {
-      results = Object.keys(movieIdList)
+      results = Object.keys(listings.movies)
         .filter((id) =>
-          movieIdList[id].name
-            .toLowerCase()
-            .includes(event.nativeEvent.text.toLowerCase())
-        )
-        .sort((a, b) => movieIdList[a].name.localeCompare(movieIdList[b].name));
-      setMovieIdList(results);
-      setSearchText(event.nativeEvent.text);
-      setMovieSearchText(event.nativeEvent.text);
-    } else {
-      results = Object.keys(theatreIdList)
-        .filter((id) =>
-          theatreIdList[id].name
+          listings.movies[id].name
             .toLowerCase()
             .includes(event.nativeEvent.text.toLowerCase())
         )
         .sort((a, b) =>
-          theatreIdList[a].ordinal > theatreIdList[b].ordinal ? 1 : -1
+          listings.movies[a].name.localeCompare(listings.movies[b].name)
+        );
+      setMovieIdList(results);
+      setSearchText(event.nativeEvent.text);
+      setMovieSearchText(event.nativeEvent.text);
+    } else {
+      results = Object.keys(listings.theatres)
+        .filter((id) =>
+          listings.theatres[id].name
+            .toLowerCase()
+            .includes(event.nativeEvent.text.toLowerCase())
+        )
+        .sort((a, b) =>
+          listings.theatres[a].ordinal > listings.theatres[b].ordinal ? 1 : -1
         );
       setTheatreIdList(results);
       setSearchText(event.nativeEvent.text);
