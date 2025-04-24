@@ -18,34 +18,7 @@ class Poster extends Component {
   }
 
   getImage() {
-    if (images[this.props.movieId]) {
-      return;
-    }
-    var api_key = "b1339b127583d45241043e4a5d4d3d0a";
-
-    var url =
-      "https://api.themoviedb.org/3/find/" +
-      this.props.movieId.replace("3D", "") +
-      "?external_source=imdb_id&api_key=" +
-      api_key;
-    fetch(url)
-      .then((response) => response.json())
-      .then((json) => {
-        if (json.movie_results && json.movie_results.length > 0) {
-          var poster_path = json.movie_results[0].poster_path;
-          if (poster_path) {
-            // other sizes: "w154", "w185", "w342"
-            this.setState({
-              movieId: this.props.movieId,
-            });
-            images[this.props.movieId] =
-              "https://image.tmdb.org/t/p/" +
-              (this.props.small ? "w45" : "w92") +
-              poster_path;
-          }
-        }
-      })
-      .catch((error) => {});
+    return;
   }
 
   render() {

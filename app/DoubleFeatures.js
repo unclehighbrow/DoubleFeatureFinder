@@ -1,6 +1,6 @@
 "use strict";
 
-import React, { Component, useEffect } from "react";
+import React, { Component, useEffect, useContext } from "react";
 import {
   Text,
   View,
@@ -14,9 +14,12 @@ import { useLocalSearchParams } from "expo-router";
 import Util from "@/constants/Util";
 import styles from "@/constants/Styles";
 import Poster from "@/components/Poster";
+import { ListingsContext } from "@/constants/Context";
 
 const DoubleFeatures = () => {
-  const { listings, dfs } = useLocalSearchParams();
+  const { theatreId, firstMovieId, secondMovieId } = useLocalSearchParams();
+  const { listings } = useContext(ListingsContext);
+
   const [small, setSmall] = React.useState(false);
 
   useEffect(() => {
@@ -27,6 +30,21 @@ const DoubleFeatures = () => {
 
   const data = []; // [{data: [[theatreId, movieId1, time1, movieId2, time2]], key: theatreId}]
   const sections = []; // [theatreId]
+  var dfs;
+  if (theatreId == 0) {
+    dfs = Util.findDoubleFeaturesInAllTheatres(
+      firstMovieId,
+      secondMovieId,
+      listings.theatres
+    );
+  } else {
+    dfs = Util.findDoubleFeatures(
+      theatreId,
+      firstMovieId,
+      secondMovieId,
+      listings.theatres
+    );
+  }
   dfs.map((df) => {
     const section = df[0];
     if (sections.indexOf(section) === -1) {
@@ -55,7 +73,7 @@ const DoubleFeatures = () => {
   });
 
   data.sort((a, b) =>
-    this.theatres[a.key].ordinal > this.theatres[b.key].ordinal ? 1 : -1
+    listings.theatres[a.key].ordinal > listings.theatres[b.key].ordinal ? 1 : -1
   );
 
   data.forEach((theatre) => {
@@ -150,7 +168,7 @@ const DoubleFeatures = () => {
                 <Text style={timeStyle}>
                   {Util.minsToTime(
                     parseInt(rowData[4]) +
-                      parseInt(this.listings.movies[rowData[3]].duration)
+                      parseInt(listings.movies[rowData[3]].duration)
                   )}
                 </Text>
               </View>

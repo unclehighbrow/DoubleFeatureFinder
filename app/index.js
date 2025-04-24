@@ -76,7 +76,6 @@ const SearchPage = () => {
   };
 
   const handleResponse = (response) => {
-    console.log(response.movies);
     if (Object.keys(response.movies).length < 1) {
       setIsLoading(false);
       setMessage("There was an error retreiving showtimes.");

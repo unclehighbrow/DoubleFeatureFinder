@@ -19,17 +19,17 @@ import Poster from "@/components/Poster";
 
 const SearchResults = () => {
   const router = useRouter();
-  const { page, movieId } = useLocalSearchParams();
+  const { page, movieId, theatreId } = useLocalSearchParams();
+  const pageNum = parseInt(page);
 
   const { listings } = useContext(ListingsContext);
-  console.log("SearchResults listings", listings);
 
-  const [moviesList, setMoviesList] = React.useState(
+  const [movieIdList, setMovieIdList] = React.useState(
     Object.keys(listings.movies).sort((a, b) =>
       listings.movies[a].name.localeCompare(listings.movies[b].name)
     )
   );
-  const [theatresList, setTheatresList] = React.useState(
+  const [theatreIdList, setTheatreIdList] = React.useState(
     Object.keys(listings.theatres).sort((a, b) =>
       listings.theatres[a].ordinal > listings.theatres[b].ordinal ? 1 : -1
     )
@@ -39,96 +39,60 @@ const SearchResults = () => {
   const [searchText, setSearchText] = React.useState("");
   const [noResults, setNoResults] = React.useState(false);
 
+  useEffect(() => {
+    if (pageNum === 2) {
+      if (theatreId != 0) {
+        setMovieIdList(Object.keys(listings.theatres[theatreId].m));
+      }
+    } else if (pageNum === 3) {
+      let newMovieIdList;
+      if (theatreId == 0) {
+        newMovieIdList = Util.findDoubleFeatureMovieIdsInAllTheatres(
+          id,
+          listings.theatres
+        );
+      } else {
+        newMovieIdList = Util.findDoubleFeatureMovieIdsInTheatre(
+          theatreId,
+          movieId,
+          listings.theatres
+        );
+      }
+      setMovieIdList(newMovieIdList);
+    }
+  }, [pageNum, theatreId]);
+
   const rowPressed = (id) => {
     // TODO: dimiss keyboard
     // dismissKeyboard();
     if (id == -1) {
       return alert();
     }
-    var localMovies = {};
-    if (page < 3) {
-      if (page == 1) {
-        // choosing theater
-        if (id == 0) {
-          // don't care
-          localMovies = moviesList;
-        } else {
-          for (var movieId in theatresList[id].m) {
-            // only movies in this theater
-            localMovies[movieId] = moviesList[movieId];
-          }
-        }
-      } else if (page == 2) {
-        // choosing first movie
-        if (id == 0) {
-          // dont care, skip to end screen
-          goToDoubleFeatures(0, 0);
-          return;
-        } else {
-          var movieIds;
-          if (theatreId == 0) {
-            movieIds = Util.findDoubleFeatureMovieIdsInAllTheatres(
-              id,
-              theatresList
-            );
-          } else {
-            movieIds = Util.findDoubleFeatureMovieIdsInTheatre(
-              theatreId,
-              id,
-              theatresList
-            );
-          }
-          for (let movieId of movieIds) {
-            localMovies[movieId] = moviesList[movieId];
-          }
-        }
-      }
-
+    if (pageNum === 3 || (pageNum === 2 && id == 0)) {
+      goToDoubleFeatures(movieId, id);
+    } else {
       router.navigate({
         pathname: "SearchResults",
         params: {
-          title: "Choose " + (page == 2 ? "Another" : "Movie"),
           listings: listings,
-          movies: moviesList,
-          theatres: theatresList,
-          id: id,
-          theatreId: page == 1 ? id : theatreId,
-          movieId: id,
-          page: page + 1,
+          theatreId: pageNum == 1 ? id : theatreId,
+          movieId: pageNum == 2 ? id : movieId,
+          page: pageNum + 1,
         },
-        key: page + 1,
+        key: pageNum + 1,
       });
-    } else {
-      goToDoubleFeatures(movieId, id);
     }
   };
 
-  const goToDoubleFeatures = (localMovieId, secondMovieId) => {
-    var dfs;
-    if (theatreId == 0) {
-      dfs = Util.findDoubleFeaturesInAllTheatres(
-        localMovieId,
-        secondMovieId,
-        theatresList
-      );
-    } else {
-      dfs = Util.findDoubleFeatures(
-        theatreId,
-        localMovieId,
-        secondMovieId,
-        theatresList
-      );
-    }
+  const goToDoubleFeatures = (firstMovieId, secondMovieId) => {
     router.navigate({
       pathname: "DoubleFeatures",
       params: {
         title: "Double Features",
-        listings: listings,
-        theatres: theatresList,
-        theatreId: theatreId,
-        firstMovieId: movieId,
-        secondMovieId: secondMovieId,
-        dfs: dfs,
+        listings,
+        theatreId,
+        firstMovieId,
+        secondMovieId,
       },
     });
   };
@@ -145,7 +109,7 @@ const SearchResults = () => {
   };
 
   const renderRow = ({ item }) => {
-    if (item == 0) {
+    if (item === 0) {
       var placeholder = movieMode() ? "Search Movies" : "Search Theaters";
       return (
         <TextInput
@@ -213,27 +177,27 @@ const SearchResults = () => {
   const onSearchTextChanged = (event) => {
     var results;
     if (movieMode()) {
-      results = Object.keys(moviesList)
+      results = Object.keys(movieIdList)
         .filter((id) =>
-          moviesList[id].name
+          movieIdList[id].name
             .toLowerCase()
             .includes(event.nativeEvent.text.toLowerCase())
         )
-        .sort((a, b) => moviesList[a].name.localeCompare(moviesList[b].name));
-      setMoviesList(results);
+        .sort((a, b) => movieIdList[a].name.localeCompare(movieIdList[b].name));
+      setMovieIdList(results);
       setSearchText(event.nativeEvent.text);
       setMovieSearchText(event.nativeEvent.text);
     } else {
-      results = Object.keys(theatresList)
+      results = Object.keys(theatreIdList)
         .filter((id) =>
-          theatresList[id].name
+          theatreIdList[id].name
             .toLowerCase()
             .includes(event.nativeEvent.text.toLowerCase())
         )
         .sort((a, b) =>
-          theatresList[a].ordinal > theatresList[b].ordinal ? 1 : -1
+          theatreIdList[a].ordinal > theatreIdList[b].ordinal ? 1 : -1
         );
-      setTheatresList(results);
+      setTheatreIdList(results);
       setSearchText(event.nativeEvent.text);
       setTheatreSearchText(event.nativeEvent.text);
     }
@@ -255,6 +219,8 @@ const SearchResults = () => {
       headerText =
         listings.movies[movieId].name +
         ", nice.  You can pick another one. Or not, whatever.";
+    } else {
+      headerText = `Page: ${page}`;
     }
     return (
       <View style={styles.header}>
@@ -266,9 +232,9 @@ const SearchResults = () => {
   if (noResults) {
     dataSource = ["No results"];
   } else if (movieMode()) {
-    var dataSource = moviesList;
+    var dataSource = movieIdList;
   } else {
-    var dataSource = theatresList;
+    var dataSource = theatreIdList;
   }
   dataSource = [0, ...dataSource];
 
