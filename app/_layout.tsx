@@ -37,9 +37,24 @@ export default function RootLayout() {
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <ListingsContext.Provider value={{ listings, setListings }}>
         <Stack>
-          <Stack.Screen name="index" />
-          <Stack.Screen name="SearchResults" />
-          <Stack.Screen name="DoubleFeatures" />
+          <Stack.Screen
+            name="index"
+            options={{
+              title: "Search",
+            }}
+          />
+          <Stack.Screen
+            name="SearchResults"
+            options={{
+              title: "Search Results",
+            }}
+          />
+          <Stack.Screen
+            name="DoubleFeatures"
+            options={{
+              title: "Double Features",
+            }}
+          />
         </Stack>
         <StatusBar style="auto" />
       </ListingsContext.Provider>
