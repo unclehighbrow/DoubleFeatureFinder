@@ -10,6 +10,7 @@ import {
   ActivityIndicator,
   Platform,
 } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 import { useRouter } from "expo-router";
 import * as Location from "expo-location";
 
@@ -127,13 +128,18 @@ const SearchPage = () => {
   ) : (
     <View style={{ height: 56 }} />
   );
+
   return (
-    <View style={{ flex: 1, backgroundColor: "whitesmoke" }}>
+    <View style={{ flex: 1, backgroundColor: "whitesmoke", height: "100%" }}>
       <View style={styles.container}>
         <View style={{ marginTop: 30 }}>
           <Text style={styles.message}>{message}</Text>
         </View>
-        <View style={{ flexDirection: "row" }}>
+        <View
+          style={{
+            flexDirection: "row",
+          }}
+        >
           <TextInput
             style={styles.searchInput}
             value={zipcode}
@@ -141,15 +147,16 @@ const SearchPage = () => {
             keyboardType="numbers-and-punctuation"
             placeholder="zip"
           />
-          {/* <Picker
-              style={styles.datePicker}
-              selectedValue={this.state.date}
-              onValueChange={(d) => this.setState({ date: d })}
-            >
-              <Picker.Item label="Today" value="0" />
-              <Picker.Item label="Tomorrow" value="1" />
-              <Picker.Item label="Next Day" value="2" />
-            </Picker> */}
+          <Picker
+            style={styles.datePicker}
+            selectedValue={date}
+            onValueChange={setDate}
+            itemStyle={{ fontSize: 14, height: 100 }}
+          >
+            <Picker.Item label="Today" value="0" />
+            <Picker.Item label="Tomorrow" value="1" />
+            <Picker.Item label="Next Day" value="2" />
+          </Picker>
         </View>
         <TouchableHighlight
           style={styles.button}
@@ -174,9 +181,11 @@ var styles = StyleSheet.create({
     color: mainColor,
   },
   container: {
-    padding: 30,
+    padding: 60,
     alignItems: "center",
     backgroundColor: "white",
+    flex: 1,
+    height: "100%",
   },
   buttonText: {
     fontSize: 18,
@@ -205,13 +214,9 @@ var styles = StyleSheet.create({
     borderWidth: Platform.OS === "ios" ? 1 : 0,
     borderRadius: Platform.OS === "ios" ? 5 : 0,
   },
-  countryPicker: {
-    width: 120,
-    height: 215,
-  },
   datePicker: {
-    width: Platform.OS === "ios" ? 100 : 120,
-    height: Platform.OS === "ios" ? 10 : 215,
+    width: Platform.OS === "ios" ? 200 : 520,
+    height: Platform.OS === "ios" ? 100 : 215,
   },
   spinner: {
     marginTop: 20,
