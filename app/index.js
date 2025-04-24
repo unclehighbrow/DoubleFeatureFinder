@@ -99,7 +99,7 @@ const SearchPage = () => {
       setMessage("Please wait...");
       fetch(
         "https://dubfeatfind.appspot.com/?j=1&zipcode=" +
-          (localZipcode || zipcode) +
+          localZipcode +
           "&date=" +
           date
       )
@@ -153,7 +153,7 @@ const SearchPage = () => {
         </View>
         <TouchableHighlight
           style={styles.button}
-          onPress={onSearchPressed}
+          onPress={() => onSearchPressed(zipcode)}
           underlayColor="#666688"
         >
           <Text style={styles.buttonText}>Go</Text>
