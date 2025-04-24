@@ -9,7 +9,7 @@ import {
   TextInput,
   Alert,
 } from "react-native";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter, useNavigation } from "expo-router";
 
 import { ListingsContext, ManualContext } from "@/constants/Context";
 import Util from "@/constants/Util";
@@ -19,6 +19,7 @@ import Poster from "@/components/Poster";
 
 const SearchResults = () => {
   const router = useRouter();
+  const navigation = useNavigation();
   const { page, movieId, theatreId } = useLocalSearchParams();
   const pageNum = parseInt(page);
 
@@ -76,15 +77,12 @@ const SearchResults = () => {
     if (pageNum === 3 || (pageNum === 2 && id == 0)) {
       goToDoubleFeatures(movieId, id);
     } else {
-      router.navigate({
-        pathname: "SearchResults",
-        params: {
-          listings: listings,
-          theatreId: pageNum == 1 ? id : theatreId,
-          movieId: pageNum == 2 ? id : movieId,
-          page: pageNum + 1,
-        },
-        key: pageNum + 1,
+      navigation.push("SearchResults", {
+        listings: listings,
+        theatreId: pageNum == 1 ? id : theatreId,
+        movieId: pageNum == 2 ? id : movieId,
+        page: pageNum + 1,
+        key: "SearchResults" + (pageNum + 1),
       });
     }
   };
