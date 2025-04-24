@@ -77,8 +77,10 @@ const SearchResults = () => {
     if (id == -1) {
       return alert();
     }
-    if (pageNum === 3 || (pageNum === 2 && id == 0)) {
+    if (pageNum === 3) {
       goToDoubleFeatures(movieId, id);
+    } else if (pageNum == 2 && id == 0) {
+      goToDoubleFeatures(0, 0);
     } else {
       navigation.push("SearchResults", {
         listings: listings,
