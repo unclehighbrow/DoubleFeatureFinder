@@ -1,50 +1,21 @@
 "use strict";
 
-import React, { Component } from "react";
+import React, { Component, useContext } from "react";
 import { StyleSheet, Image, View } from "react-native";
+import { ListingsContext } from "@/constants/Context";
 
 import styles from "@/constants/Styles";
 const emptyPoster = require("@/assets/images/emptyPoster.jpg");
-const emptyPosterSmall = require("@/assets/images/emptyPosterSmall.jpg");
-var images = {};
 
-class Poster extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      movieId: this.props.movieId,
-    };
-    this.getImage();
-  }
+const Poster = ({ movieId, small, style }) => {
+  const { listings } = useContext(ListingsContext);
+  const image = { uri: listings.movies[movieId].image } || emptyPoster;
+  return (
+    <Image
+      style={[small ? styles.thumbSmall : styles.thumb, style]}
+      source={image}
+    />
+  );
+};
 
-  getImage() {
-    return;
-  }
-
-  render() {
-    this.getImage();
-    if (images[this.props.movieId]) {
-      return (
-        <Image
-          style={[
-            this.props.small ? styles.thumbSmall : styles.thumb,
-            this.props.style,
-          ]}
-          source={{ uri: images[this.props.movieId] }}
-        />
-      );
-    } else {
-      return (
-        <Image
-          style={[
-            this.props.small ? styles.thumbSmall : styles.thumb,
-            this.props.style,
-          ]}
-          source={this.props.small ? emptyPosterSmall : emptyPoster}
-        />
-      );
-    }
-  }
-}
-
-module.exports = Poster;
+export default Poster;
