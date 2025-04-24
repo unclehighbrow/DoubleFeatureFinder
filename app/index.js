@@ -14,19 +14,19 @@ import { useRouter } from "expo-router";
 import * as Location from "expo-location";
 
 import { geocode } from "@/constants/Api";
-import { ListingsContext } from "@/constants/Context";
+import { ListingsContext, ManualContext } from "@/constants/Context";
 
 const catchphrase = "Never sneak into movies!";
 
 const SearchPage = () => {
   const router = useRouter();
-  const { listings, setListings } = useContext(ListingsContext);
+  const { setListings } = useContext(ListingsContext);
+  const { manual, setManual } = useContext(ManualContext);
 
   const [isLocating, setIsLocating] = React.useState(true);
   const [isLoading, setIsLoading] = React.useState(false);
   const [message, setMessage] = React.useState("Getting your location...");
   const [zipcode, setZipcode] = React.useState("");
-  const [manual, setManual] = React.useState(false);
   const [date, setDate] = React.useState(0);
 
   useEffect(() => {

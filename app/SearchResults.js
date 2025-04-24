@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 
-import { ListingsContext } from "@/constants/Context";
+import { ListingsContext, ManualContext } from "@/constants/Context";
 import Util from "@/constants/Util";
 import styles from "@/constants/Styles";
 import Poster from "@/components/Poster";
@@ -23,6 +23,7 @@ const SearchResults = () => {
   const pageNum = parseInt(page);
 
   const { listings } = useContext(ListingsContext);
+  const { setManual } = useContext(ManualContext);
 
   const [movieIdList, setMovieIdList] = React.useState(
     Object.keys(listings.movies).sort((a, b) =>
@@ -38,6 +39,10 @@ const SearchResults = () => {
   const [theatreSearchText, setTheatreSearchText] = React.useState("");
   const [searchText, setSearchText] = React.useState("");
   const [noResults, setNoResults] = React.useState(false);
+
+  useEffect(() => {
+    setManual(true);
+  }, []);
 
   useEffect(() => {
     if (pageNum === 2) {

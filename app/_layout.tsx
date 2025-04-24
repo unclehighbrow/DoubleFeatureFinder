@@ -11,13 +11,14 @@ import { useEffect, useState } from "react";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { ListingsContext } from "@/constants/Context";
+import { ListingsContext, ManualContext } from "@/constants/Context";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [listings, setListings] = useState(null);
+  const [manual, setManual] = useState(false);
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
@@ -35,29 +36,31 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <ListingsContext.Provider value={{ listings, setListings }}>
-        <Stack>
-          <Stack.Screen
-            name="index"
-            options={{
-              title: "Search",
-            }}
-          />
-          <Stack.Screen
-            name="SearchResults"
-            options={{
-              title: "Search Results",
-            }}
-          />
-          <Stack.Screen
-            name="DoubleFeatures"
-            options={{
-              title: "Double Features",
-            }}
-          />
-        </Stack>
-        <StatusBar style="auto" />
-      </ListingsContext.Provider>
+      <ManualContext.Provider value={{ manual, setManual }}>
+        <ListingsContext.Provider value={{ listings, setListings }}>
+          <Stack>
+            <Stack.Screen
+              name="index"
+              options={{
+                title: "Search",
+              }}
+            />
+            <Stack.Screen
+              name="SearchResults"
+              options={{
+                title: "Search Results",
+              }}
+            />
+            <Stack.Screen
+              name="DoubleFeatures"
+              options={{
+                title: "Double Features",
+              }}
+            />
+          </Stack>
+          <StatusBar style="auto" />
+        </ListingsContext.Provider>
+      </ManualContext.Provider>
     </ThemeProvider>
   );
 }
