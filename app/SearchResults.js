@@ -48,7 +48,7 @@ const SearchResults = () => {
       let newMovieIdList;
       if (theatreId == 0) {
         newMovieIdList = Util.findDoubleFeatureMovieIdsInAllTheatres(
-          id,
+          movieId,
           listings.theatres
         );
       } else {
