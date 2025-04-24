@@ -15,7 +15,6 @@ import { ListingsContext, ManualContext } from "@/constants/Context";
 import Util from "@/constants/Util";
 import styles from "@/constants/Styles";
 import Poster from "@/components/Poster";
-// var dismissKeyboard = require("react-native-dismiss-keyboard");
 
 const SearchResults = () => {
   const router = useRouter();
@@ -72,8 +71,6 @@ const SearchResults = () => {
     if (id === "No results") {
       return;
     }
-    // TODO: dimiss keyboard
-    // dismissKeyboard();
     if (id == -1) {
       return alert();
     }
