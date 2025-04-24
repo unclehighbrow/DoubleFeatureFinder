@@ -1,30 +1,30 @@
-'use strict';
+"use strict";
 
-import React, { Component } from 'react';
-import { StyleSheet, Platform } from 'react-native';
+import React, { Component } from "react";
+import { StyleSheet, Platform } from "react-native";
 
 module.exports = StyleSheet.create({
   titleContainer: {
-    flex: 2
+    flex: 2,
   },
   title: {
     fontSize: 20,
-    color: '#656565'
+    color: "#656565",
   },
   greyedOut: {
     fontSize: 20,
-    color: '#999999'
+    color: "#999999",
   },
   separator: {
     height: 1,
-    backgroundColor: '#dddddd'
+    backgroundColor: "#dddddd",
   },
   rowContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     padding: 10,
   },
   row: {
-    flexDirection: 'row'
+    flexDirection: "row",
   },
   searchInput: {
     height: 35,
@@ -35,8 +35,8 @@ module.exports = StyleSheet.create({
     marginTop: 10,
     fontSize: 14,
     borderRadius: 5,
-    color: '#656565',
-    backgroundColor: Platform.OS === 'ios' ? '#EEE' : '#FFF',
+    color: "#656565",
+    backgroundColor: Platform.OS === "ios" ? "#EEE" : "#FFF",
   },
   thumb: {
     width: 92,
@@ -51,7 +51,7 @@ module.exports = StyleSheet.create({
     marginLeft: 5,
   },
   dontCareContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 25,
     left: 0,
     right: 0,
@@ -62,41 +62,43 @@ module.exports = StyleSheet.create({
     paddingLeft: 15,
     paddingTop: 8,
     paddingBottom: 8,
-    backgroundColor: 'goldenrod',
+    backgroundColor: "goldenrod",
     borderRadius: 20,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   header: {
-    backgroundColor: 'dodgerblue',
+    backgroundColor: "dodgerblue",
     padding: 20,
   },
   headerText: {
-    color:'white',
+    color: "white",
     fontSize: 20,
   },
   sectionHeader: {
-    backgroundColor: 'dimgray',
+    backgroundColor: "dimgray",
     padding: 5,
   },
   sectionHeaderText: {
-    color:'white',
+    color: "white",
     fontSize: 12,
-    textAlign: 'center',
+    textAlign: "center",
   },
   dfResultText: {
     fontSize: 17,
-    color: '#656565'
+    color: "#656565",
   },
   hasLink: {
-    color: 'dodgerblue',
-    textDecorationLine: 'underline'
+    color: "dodgerblue",
+    textDecorationLine: "underline",
   },
   time: {
     fontSize: 14,
-    color: '#656565'
+    color: "#656565",
+    textAlign: "center",
   },
   timeSmall: {
     fontSize: 13,
-    color: '#656565'
+    color: "#656565",
+    textAlign: "center",
   },
 });
