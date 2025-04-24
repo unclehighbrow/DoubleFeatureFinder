@@ -69,6 +69,9 @@ const SearchResults = () => {
   }, [pageNum, theatreId]);
 
   const rowPressed = (id) => {
+    if (id === "No results") {
+      return;
+    }
     // TODO: dimiss keyboard
     // dismissKeyboard();
     if (id == -1) {
