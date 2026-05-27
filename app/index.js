@@ -33,16 +33,22 @@ const SearchPage = () => {
 
   useEffect(() => {
     async function getCurrentLocation() {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
+      try {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+          setIsLocating(false);
+          setMessage("Choose a location and date.");
+          setManual(true);
+          return;
+        }
+
+        let location = await Location.getCurrentPositionAsync({});
+        findZip(location.coords.latitude, location.coords.longitude);
+      } catch {
         setIsLocating(false);
         setMessage("Choose a location and date.");
         setManual(true);
-        return;
       }
-
-      let location = await Location.getCurrentPositionAsync({});
-      findZip(location.coords.latitude, location.coords.longitude);
     }
 
     getCurrentLocation();
@@ -136,11 +142,7 @@ const SearchPage = () => {
         <View style={{ marginTop: 30 }}>
           <Text style={styles.message}>{message}</Text>
         </View>
-        <View
-          style={{
-            flexDirection: "row",
-          }}
-        >
+        <View style={styles.row}>
           <TextInput
             style={styles.searchInput}
             value={zipcode}
@@ -148,16 +150,19 @@ const SearchPage = () => {
             keyboardType="numbers-and-punctuation"
             placeholder="zip"
           />
-          <Picker
-            style={styles.datePicker}
-            selectedValue={date}
-            onValueChange={setDate}
-            itemStyle={{ fontSize: 14, height: 100 }}
-          >
-            <Picker.Item label="Today" value="0" />
-            <Picker.Item label="Tomorrow" value="1" />
-            <Picker.Item label="Next Day" value="2" />
-          </Picker>
+          <View style={styles.pickerWrap}>
+            <Picker
+              style={styles.datePicker}
+              selectedValue={date}
+              onValueChange={setDate}
+              itemStyle={{ fontSize: 14, height: 100 }}
+              mode="dropdown"
+            >
+              <Picker.Item label="Today" value="0" />
+              <Picker.Item label="Tomorrow" value="1" />
+              <Picker.Item label="Next Day" value="2" />
+            </Picker>
+          </View>
         </View>
         <TouchableHighlight
           style={styles.button}
@@ -197,6 +202,7 @@ var styles = StyleSheet.create({
     height: 40,
     alignSelf: "center",
     width: 70,
+    marginTop: 20,
     backgroundColor: "dodgerblue",
     borderColor: "dodgerblue",
     borderWidth: 1,
@@ -204,20 +210,35 @@ var styles = StyleSheet.create({
     justifyContent: "center",
   },
   searchInput: {
-    height: Platform.OS === "ios" ? 38 : 50,
+    height: Platform.OS === "ios" ? 38 : 60,
     fontSize: 25,
     color: mainColor,
     textAlign: "center",
-    width: 80,
+    width: Platform.OS === "ios" ? 80 : 110,
     marginRight: 10,
     alignSelf: "center",
     borderColor: mainColor,
-    borderWidth: Platform.OS === "ios" ? 1 : 0,
-    borderRadius: Platform.OS === "ios" ? 5 : 0,
+    borderWidth: 1,
+    borderRadius: 5,
   },
   datePicker: {
-    width: Platform.OS === "ios" ? 200 : 520,
-    height: Platform.OS === "ios" ? 100 : 215,
+    width: Platform.OS === "ios" ? 200 : 160,
+    height: Platform.OS === "ios" ? 100 : 60,
+  },
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 10,
+  },
+  pickerWrap: {
+    ...(Platform.OS === "android" && {
+      borderColor: mainColor,
+      borderWidth: 1,
+      borderRadius: 5,
+      overflow: "hidden",
+      justifyContent: "center",
+      height: 60,
+    }),
   },
   spinner: {
     marginTop: 20,
