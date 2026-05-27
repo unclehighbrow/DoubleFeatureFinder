@@ -14,8 +14,9 @@ import { Picker } from "@react-native-picker/picker";
 import { useRouter } from "expo-router";
 import * as Location from "expo-location";
 
-import { geocode } from "@/constants/Api";
 import { ListingsContext, ManualContext } from "@/constants/Context";
+
+const geocode = process.env.EXPO_PUBLIC_GEOCODE_KEY;
 
 const catchphrase = "Never sneak into movies!";
 
