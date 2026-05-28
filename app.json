@@ -13,7 +13,7 @@
       "bundleIdentifier": "com.redheadedleague.doublefeaturefinder"
     },
     "android": {
-      "package": "com.redeadedleague.dff",
+      "package": "com.redheadedleague.dff",
       "versionCode": 2,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
